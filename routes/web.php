@@ -61,7 +61,7 @@ Route::get('/', function () {
 });
 
 Route::prefix('student_admin')->middleware(['auth','can:isAllowedStudent,"student:"'])->group(function () {
-Route::get('/', function () { dd("student hu me");})->name('student-home');
+Route::get('/', function () { dd("student dashboard");})->name('student-home');
 Route::get('/student', function () {
     dd("student dashboard");
 });
