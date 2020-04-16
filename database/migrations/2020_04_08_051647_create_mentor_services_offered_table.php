@@ -17,6 +17,8 @@ class CreateMentorServicesOfferedTable extends Migration
             $table->id();
             $table->unsignedBigInteger('mentor_id')->nullable();
             $table->unsignedBigInteger('service_id')->nullable();
+            $table->foreign('mentor_id')->references('id')->on('mentors')->onDelete('set null');
+            $table->foreign('service_id')->references('id')->on('master_service')->onDelete('set null');
             $table->timestamps();
         });
     }

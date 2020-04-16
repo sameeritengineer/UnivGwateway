@@ -19,13 +19,16 @@ class CreateStudentWorkExperienceTable extends Migration
             $table->string('company_name')->nullable();
             $table->string('job_title')->nullable();
             $table->string('city')->nullable();
-            $table->integer('region_id')->nullable();
-            $table->integer('country_id')->nullable();
+            $table->unsignedBigInteger('region_id')->nullable();
+            $table->unsignedBigInteger('country_id')->nullable();
             $table->date('job_start_date')->nullable();
             $table->date('job_end_date')->nullable();
             $table->text('outcome_description')->nullable();
             $table->string('created_by')->nullable();
             $table->string('updated_by')->nullable();
+            $table->foreign('student_id')->references('id')->on('student')->onDelete('set null');
+            $table->foreign('region_id')->references('id')->on('master_region')->onDelete('set null');
+            $table->foreign('country_id')->references('id')->on('master_country')->onDelete('set null');
             $table->timestamps();
         });
     }

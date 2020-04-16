@@ -25,6 +25,7 @@ class CreateMasterInstituteTable extends Migration
             $table->boolean('status')->default(0);
             $table->string('created_by')->nullable();
             $table->string('updated_by')->nullable();
+            $table->foreign('university_id')->references('id')->on('master_university')->onDelete('set null');
             $table->timestamps();
         });
     }

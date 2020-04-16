@@ -18,10 +18,10 @@ class CreateMentorsTable extends Migration
             $table->string('first_name')->nullable();
             $table->string('last_name')->nullable();
             $table->string('email')->nullable();
-            $table->integer('mobile')->nullable();
-            $table->integer('university_attended_id')->nullable();
+            $table->bigInteger('mobile')->nullable();
+            $table->unsignedBigInteger('university_attended_id')->nullable();
             $table->date('year_of_graduation')->nullable();
-            $table->string('degree_program_id')->nullable();
+            $table->unsignedBigInteger('degree_program_id')->nullable();
             $table->string('major_specialization')->nullable();
             $table->boolean('is_employed')->default(0);
             $table->string('employer_name')->nullable();
@@ -35,6 +35,8 @@ class CreateMentorsTable extends Migration
             $table->boolean('status')->default(0);
             $table->string('created_by')->nullable();
             $table->string('updated_by')->nullable();
+            $table->foreign('university_attended_id')->references('id')->on('master_university')->onDelete('set null');
+            $table->foreign('degree_program_id')->references('id')->on('master_degree')->onDelete('set null');
             $table->timestamps();
         });
     }

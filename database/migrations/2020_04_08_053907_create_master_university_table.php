@@ -25,6 +25,7 @@ class CreateMasterUniversityTable extends Migration
             $table->boolean('status')->default(0);
             $table->string('created_by')->nullable();
             $table->string('updated_by')->nullable();
+            $table->foreign('region_id')->references('id')->on('master_region')->onDelete('set null');
             $table->timestamps();
         });
     }

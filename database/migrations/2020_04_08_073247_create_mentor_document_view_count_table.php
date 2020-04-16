@@ -19,6 +19,7 @@ class CreateMentorDocumentViewCountTable extends Migration
             $table->date('first_view_date')->nullable();
             $table->date('last_view_date')->nullable();
             $table->integer('view_count')->nullable();
+            $table->foreign('mentor_id')->references('id')->on('mentors')->onDelete('set null');
             $table->timestamps();
         });
     }

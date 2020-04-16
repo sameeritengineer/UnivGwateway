@@ -24,6 +24,9 @@ class CreateStudentTaskTable extends Migration
             $table->text('details')->nullable();
             $table->string('created_by')->nullable();
             $table->string('updated_by')->nullable();
+            $table->foreign('task_id')->references('id')->on('master_task')->onDelete('set null');
+            $table->foreign('student_id')->references('id')->on('student')->onDelete('set null');
+            $table->foreign('mentor_id')->references('id')->on('mentors')->onDelete('set null');
             $table->timestamps();
         });
     }

@@ -17,6 +17,8 @@ class CreatePackageToServiceTable extends Migration
             $table->id();
             $table->unsignedBigInteger('package_id')->nullable();
             $table->unsignedBigInteger('service_id')->nullable();
+            $table->foreign('package_id')->references('id')->on('master_package')->onDelete('set null');
+            $table->foreign('service_id')->references('id')->on('master_service')->onDelete('set null');
             $table->timestamps();
         });
     }

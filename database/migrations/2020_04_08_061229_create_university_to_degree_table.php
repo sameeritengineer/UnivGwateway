@@ -17,6 +17,8 @@ class CreateUniversityToDegreeTable extends Migration
             $table->id();
             $table->unsignedBigInteger('university_id')->nullable();
             $table->unsignedBigInteger('degree_id')->nullable();
+            $table->foreign('university_id')->references('id')->on('master_university')->onDelete('set null');
+            $table->foreign('degree_id')->references('id')->on('master_degree')->onDelete('set null');
             $table->timestamps();
         });
     }

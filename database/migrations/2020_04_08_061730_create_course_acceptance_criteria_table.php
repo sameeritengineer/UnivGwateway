@@ -21,6 +21,8 @@ class CreateCourseAcceptanceCriteriaTable extends Migration
             $table->integer('max_score')->nullable();
             $table->date('start_date')->nullable();
             $table->date('end_date')->nullable();
+            $table->foreign('course_id')->references('id')->on('master_course')->onDelete('set null');
+            $table->foreign('test_id')->references('id')->on('master_test')->onDelete('set null');
             $table->timestamps();
         });
     }

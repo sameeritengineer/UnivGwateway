@@ -18,6 +18,7 @@ class CreateMasterRegionTable extends Migration
             $table->unsignedBigInteger('country_id')->nullable();
             $table->string('name');
             $table->boolean('status')->default(1);
+            $table->foreign('country_id')->references('id')->on('master_country')->onDelete('set null');
             $table->timestamps();
         });
     }

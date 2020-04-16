@@ -20,7 +20,8 @@ class CreateUsersTable extends Migration
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password');
             $table->rememberToken();
-            $table->unsignedBigInteger('reference_id')->nullable(); 
+            $table->unsignedBigInteger('reference_id')->nullable();
+            $table->integer('role_id')->nullable(); 
             $table->date('last_login_date')->nullable();
             $table->string('last_login_ip')->nullable();
             $table->string('facebook_token')->nullable();

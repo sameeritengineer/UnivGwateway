@@ -21,6 +21,8 @@ class CreateStudentContentTable extends Migration
             $table->date('last_view_date')->nullable();
             $table->integer('view_count')->nullable();
             $table->integer('download_count')->nullable();
+            $table->foreign('student_id')->references('id')->on('student')->onDelete('set null');
+            $table->foreign('content_id')->references('id')->on('master_content')->onDelete('set null');
             $table->timestamps();
         });
     }

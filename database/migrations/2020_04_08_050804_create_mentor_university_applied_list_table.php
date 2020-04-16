@@ -22,6 +22,9 @@ class CreateMentorUniversityAppliedListTable extends Migration
             $table->boolean('application_status')->default(0);
             $table->string('created_by')->nullable();
             $table->string('updated_by')->nullable();
+            $table->foreign('mentor_id')->references('id')->on('mentors')->onDelete('set null');
+            $table->foreign('university_id')->references('id')->on('master_university')->onDelete('set null');
+            $table->foreign('course_id')->references('id')->on('master_course')->onDelete('set null');
             $table->timestamps();
         });
     }

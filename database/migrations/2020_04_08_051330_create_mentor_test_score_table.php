@@ -22,6 +22,8 @@ class CreateMentorTestScoreTable extends Migration
             $table->integer('max_score')->nullable();
             $table->string('created_by')->nullable();
             $table->string('updated_by')->nullable();
+            $table->foreign('mentor_id')->references('id')->on('mentors')->onDelete('set null');
+            $table->foreign('test_id')->references('id')->on('master_test')->onDelete('set null');
             $table->timestamps();
         });
     }

@@ -21,6 +21,8 @@ class CreateStudentQueryResponseTable extends Migration
             $table->string('image')->nullable();
             $table->string('created_by')->nullable();
             $table->string('updated_by')->nullable();
+            $table->foreign('query_id')->references('id')->on('student_query')->onDelete('set null');
+            $table->foreign('responder_id')->references('id')->on('users')->onDelete('set null');
             $table->timestamps();
         });
     }

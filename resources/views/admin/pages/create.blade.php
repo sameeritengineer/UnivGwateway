@@ -1,6 +1,7 @@
 @extends('admin.layouts.index')
 @section('title','Category')
 @section('content')
+
     <!-- BEGIN: Content-->
     <div class="app-content content">
         <div class="content-overlay"></div>
@@ -42,78 +43,88 @@
                                     <div class="card-body">
                                         <form class="form form-horizontal">
                                             <div class="form-body">
-                                                <h4 class="form-section"><i class="fa fa-eye"></i> About Page Info</h4>
+                                                <h4 class="form-section"><i class="fa fa-tag"></i> Meta Tag Content </h4>
+
                                                 <div class="row">
                                                     <div class="col-md-6">
                                                         <div class="form-group row">
-                                                            <label class="col-md-3 label-control" for="userinput1">Fist Name</label>
+                                                            <label class="col-md-3 label-control" for="userinput5">Meta: Title</label>
                                                             <div class="col-md-9">
-                                                                <input type="text" id="userinput1" class="form-control border-primary" placeholder="First Name" name="firstname">
+                                                                <input class="form-control border-primary" type="text" placeholder="Meta Title" id="userinput5">
+                                                            </div>
+                                                        </div>
+
+                                                        <div class="form-group row">
+                                                            <label class="col-md-3 label-control" for="userinput6">Meta: Keywords</label>
+                                                            <div class="col-md-9">
+                                                                <input class="form-control border-primary" type="text" placeholder="Meta Keywords" id="userinput6">
                                                             </div>
                                                         </div>
                                                     </div>
                                                     <div class="col-md-6">
                                                         <div class="form-group row">
-                                                            <label class="col-md-3 label-control" for="userinput2">Last Name</label>
+                                                            <label class="col-md-3 label-control" for="userinput8">Meta: Description</label>
                                                             <div class="col-md-9">
-                                                                <input type="text" id="userinput2" class="form-control border-primary" placeholder="Last Name" name="lastname">
+                                                                <textarea id="userinput8" rows="6" class="form-control border-primary" name="bio" placeholder="Meta Description"></textarea>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <h4 class="form-section"><i class="fa fa-info-circle" aria-hidden="true"></i> About Page Info</h4>
+                                                <div class="row">
+                                                    <div class="col-md-6">
+                                                        <div class="form-group row">
+                                                            <label class="col-md-3 label-control" for="userinput1">Title</label>
+                                                            <div class="col-md-9">
+                                                                <input type="text" id="userinput1" class="form-control border-primary" placeholder="Enter Title" name="title">
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-md-6">
+                                                        <div class="form-group row">
+                                                            <label class="col-md-3 label-control" for="userinput2">Status</label>
+                                                            <div class="col-md-9">
+                                                            <div class="d-inline-block custom-control custom-radio mr-1">
+                                                               <input type="radio" class="custom-control-input" name="status" id="radio2" checked="" value="1">
+                                                               <label class="custom-control-label" for="radio2">Enable</label>
+                                                            </div>    
+                                                            <div class="d-inline-block custom-control custom-radio mr-1">
+                                                               <input type="radio" class="custom-control-input" name="status" id="radio1" value="0">
+                                                               <label class="custom-control-label" for="radio1">Disable</label>
+                                                            </div>
                                                             </div>
                                                         </div>
                                                     </div>
                                                 </div>
                                                 <div class="row">
-                                                    <div class="col-md-6">
+                                                    <div class="col-md-9">
                                                         <div class="form-group row">
-                                                            <label class="col-md-3 label-control" for="userinput3">Username</label>
-                                                            <div class="col-md-9">
-                                                                <input type="text" id="userinput3" class="form-control border-primary" placeholder="Username" name="username">
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                    <div class="col-md-6">
-                                                        <div class="form-group row">
-                                                            <label class="col-md-3 label-control" for="userinput4">Nick Name</label>
-                                                            <div class="col-md-9">
-                                                                <input type="text" id="userinput4" class="form-control border-primary" placeholder="Nick Name" name="nickname">
+                                                            <label class="col-md-2 label-control" for="userinput3">Description</label>
+                                                            <div class="col-md-10">
+                                                                <textarea id="userinput8" rows="6" class="form-control border-primary" name="bio" placeholder="Enter Description"></textarea>
                                                             </div>
                                                         </div>
                                                     </div>
                                                 </div>
-
-                                                <h4 class="form-section"><i class="feather icon-mail"></i> Contact Info & Bio</h4>
-
+                                                <h4 class="form-section"><i class="fa fa-image"></i></i> Image </h4>
                                                 <div class="row">
                                                     <div class="col-md-6">
                                                         <div class="form-group row">
-                                                            <label class="col-md-3 label-control" for="userinput5">Email</label>
+                                                            <label class="col-md-3 label-control" for="userinput8">Feature Image</label>
                                                             <div class="col-md-9">
-                                                                <input class="form-control border-primary" type="email" placeholder="email" id="userinput5">
-                                                            </div>
-                                                        </div>
-
-                                                        <div class="form-group row">
-                                                            <label class="col-md-3 label-control" for="userinput6">Website</label>
-                                                            <div class="col-md-9">
-                                                                <input class="form-control border-primary" type="url" placeholder="http://" id="userinput6">
-                                                            </div>
-                                                        </div>
-
-                                                        <div class="form-group row">
-                                                            <label class="col-md-3 label-control">Contact Number</label>
-                                                            <div class="col-md-9">
-                                                                <input class="form-control border-primary" type="tel" placeholder="Contact Number" id="userinput7">
+                                                                <label id="projectinput8" class="file center-block">
+                                                                    <input type="file" id="file" onchange="loadFile(event)">
+                                                                    <span class="file-custom"></span>
+                                                                </label>
                                                             </div>
                                                         </div>
                                                     </div>
                                                     <div class="col-md-6">
                                                         <div class="form-group row">
-                                                            <label class="col-md-3 label-control" for="userinput8">Bio</label>
-                                                            <div class="col-md-9">
-                                                                <textarea id="userinput8" rows="6" class="form-control border-primary" name="bio" placeholder="Bio"></textarea>
-                                                            </div>
+                                                            <img id="output"/>
                                                         </div>
                                                     </div>
-                                                </div>
+                                                </div>    
                                             </div>
 
                                             <div class="form-actions right">
@@ -138,4 +149,10 @@
         </div>
     </div>
     <!-- END: Content-->
+<script>
+var loadFile = function(event) {
+    var output = document.getElementById('output');
+    output.src = URL.createObjectURL(event.target.files[0]);
+};
+</script>    
 @endsection

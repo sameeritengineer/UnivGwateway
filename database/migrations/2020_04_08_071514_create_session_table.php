@@ -29,6 +29,8 @@ class CreateSessionTable extends Migration
             $table->string('mentor_feedback')->nullable();
             $table->string('created_by')->nullable();
             $table->string('updated_by')->nullable();
+            $table->foreign('student_id')->references('id')->on('student')->onDelete('set null');
+            $table->foreign('mentor_id')->references('id')->on('mentors')->onDelete('set null');
             $table->timestamps();
         });
     }

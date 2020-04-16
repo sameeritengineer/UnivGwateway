@@ -18,6 +18,8 @@ class CreateStudentSkillTable extends Migration
             $table->unsignedBigInteger('student_id')->nullable();
             $table->unsignedBigInteger('skill_id')->nullable();
             $table->string('skill_value')->nullable();
+            $table->foreign('student_id')->references('id')->on('student')->onDelete('set null');
+            $table->foreign('skill_id')->references('id')->on('master_skill')->onDelete('set null');
             $table->timestamps();
         });
     }

@@ -4,10 +4,6 @@
     </footer>
     <!-- END: Footer-->
 
-    <!-- BEGIN: Vendor JS-->
-    <script src="{{asset('admin/app-assets/vendors/js/vendors.min.js')}}"></script>
-    <!-- BEGIN Vendor JS-->
-
     <!-- BEGIN: Page Vendor JS-->
     <script src="{{asset('admin/app-assets/vendors/js/charts/raphael-min.js')}}"></script>
     <script src="{{asset('admin/app-assets/vendors/js/charts/morris.min.js')}}"></script>

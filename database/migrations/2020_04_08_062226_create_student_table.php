@@ -19,13 +19,13 @@ class CreateStudentTable extends Migration
             $table->string('last_name')->nullable();
             $table->string('email')->nullable();
             $table->integer('mobile')->nullable();
-            $table->integer('status_id')->nullable();
+            $table->unsignedBigInteger('status_id')->nullable();
             $table->string('current_education_status')->nullable();
             $table->string('current_specialization')->nullable();
             $table->date('planned_admit_date')->nullable();
-            $table->integer('planned_degree_program_id')->nullable();
+            $table->unsignedBigInteger('planned_degree_program_id')->nullable();
             $table->string('planned_specialization')->nullable();
-            $table->integer('package_id')->nullable();
+            $table->unsignedBigInteger('package_id')->nullable();
             $table->string('image')->nullable();
             $table->string('facebook_url')->nullable();
             $table->string('linkedin_url')->nullable();
@@ -33,6 +33,9 @@ class CreateStudentTable extends Migration
             $table->string('portfolio_url')->nullable();
             $table->string('created_by')->nullable();
             $table->string('updated_by')->nullable();
+            $table->foreign('status_id')->references('id')->on('master_student_status')->onDelete('set null');
+            $table->foreign('planned_degree_program_id')->references('id')->on('master_degree')->onDelete('set null');
+            $table->foreign('package_id')->references('id')->on('master_package')->onDelete('set null');
             $table->timestamps();
         });
     }

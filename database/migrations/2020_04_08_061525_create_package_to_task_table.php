@@ -17,6 +17,8 @@ class CreatePackageToTaskTable extends Migration
             $table->id();
             $table->unsignedBigInteger('package_id')->nullable();
             $table->unsignedBigInteger('task_id')->nullable();
+            $table->foreign('package_id')->references('id')->on('master_package')->onDelete('set null');
+            $table->foreign('task_id')->references('id')->on('master_task')->onDelete('set null');
             $table->timestamps();
         });
     }

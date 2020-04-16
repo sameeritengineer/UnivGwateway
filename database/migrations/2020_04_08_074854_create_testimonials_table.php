@@ -21,7 +21,7 @@ class CreateTestimonialsTable extends Migration
             $table->boolean('status')->default(0);
             $table->string('created_by')->nullable();
             $table->string('updated_by')->nullable();
-            $table->foreign('student_id')->references('id')->on('student');
+            $table->foreign('student_id')->references('id')->on('student')->onDelete('set null');
             $table->timestamps();
         });
     }

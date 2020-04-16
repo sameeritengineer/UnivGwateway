@@ -19,7 +19,7 @@ class CreateAdminUserTable extends Migration
             $table->string('last_name');
             $table->string('email')->unique();
             $table->integer('mobile');
-            $table->string('role');
+            $table->integer('role_id')->nullable();
             $table->date('last_login_date');
             $table->string('last_login_ip');
             $table->boolean('status')->default(1);

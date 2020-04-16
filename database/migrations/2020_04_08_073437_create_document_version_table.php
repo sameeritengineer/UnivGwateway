@@ -22,6 +22,7 @@ class CreateDocumentVersionTable extends Migration
             $table->string('url')->nullable();
             $table->string('status')->nullable();
             $table->date('backup_date')->nullable();
+            $table->foreign('document_id')->references('id')->on('master_document')->onDelete('set null');
             $table->timestamps();
         });
     }

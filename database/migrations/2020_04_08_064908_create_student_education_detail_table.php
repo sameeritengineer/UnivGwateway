@@ -18,7 +18,7 @@ class CreateStudentEducationDetailTable extends Migration
             $table->unsignedBigInteger('student_id')->nullable();
             $table->unsignedBigInteger('institute_id')->nullable();
             $table->string('highest_grade_studied')->nullable();
-            $table->integer('degree_id')->nullable();
+            $table->unsignedBigInteger('degree_id')->nullable();
             $table->string('degree_specialization')->nullable();
             $table->date('program_start_date')->nullable();
             $table->date('program_end_date')->nullable();
@@ -27,6 +27,9 @@ class CreateStudentEducationDetailTable extends Migration
             $table->string('program_score_format')->nullable();
             $table->string('created_by')->nullable();
             $table->string('updated_by')->nullable();
+            $table->foreign('student_id')->references('id')->on('student')->onDelete('set null');
+            $table->foreign('institute_id')->references('id')->on('master_institute')->onDelete('set null');
+            $table->foreign('degree_id')->references('id')->on('master_degree')->onDelete('set null');
             $table->timestamps();
         });
     }

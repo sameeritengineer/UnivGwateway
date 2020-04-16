@@ -38,9 +38,16 @@
     <!-- END: Page CSS-->
 
     <!-- BEGIN: Custom CSS-->
+    <link rel="stylesheet" type="text/css" href="{{asset('admin/assets/css/rcrop.css')}}">
     <link rel="stylesheet" type="text/css" href="{{asset('admin/assets/css/style.css')}}">
+    <link href="https://unpkg.com/gijgo@1.9.13/css/gijgo.min.css" rel="stylesheet" type="text/css"></link>
     <!-- END: Custom CSS-->
 
+    <!-- BEGIN: Vendor JS-->
+    <script src="{{asset('admin/app-assets/vendors/js/vendors.min.js')}}"></script>
+    <script src="https://unpkg.com/gijgo@1.9.13/js/gijgo.min.js" type="text/javascript"></script>
+    <script src="{{asset('admin/assets/js/rcrop.min.js')}}"></script>
+    <!-- BEGIN Vendor JS-->
 </head>
 <!-- END: Head-->
 

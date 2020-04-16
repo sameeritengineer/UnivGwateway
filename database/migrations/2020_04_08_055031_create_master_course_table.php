@@ -17,7 +17,7 @@ class CreateMasterCourseTable extends Migration
             $table->id();
             $table->unsignedBigInteger('university_id')->nullable();
             $table->unsignedBigInteger('institute_id')->nullable();
-            $table->integer('degree_id')->nullable();
+            $table->unsignedBigInteger('degree_id')->nullable();
             $table->string('name')->nullable();
             $table->text('description')->nullable();
             $table->integer('rank')->default(0);
@@ -29,6 +29,9 @@ class CreateMasterCourseTable extends Migration
             $table->integer('average_salary')->nullable();
             $table->string('created_by')->nullable();
             $table->string('updated_by')->nullable();
+            $table->foreign('university_id')->references('id')->on('master_university')->onDelete('set null');
+            $table->foreign('institute_id')->references('id')->on('master_institute')->onDelete('set null');
+            $table->foreign('degree_id')->references('id')->on('master_degree')->onDelete('set null');
             $table->timestamps();
         });
     }
