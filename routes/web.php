@@ -54,7 +54,7 @@ Route::group([
 Route::prefix('mentor_admin')->middleware(['auth','can:isAllowed,"mentor:"'])->group(function () {
 
 Route::get('/', function () {
-    dd("aa gaya mentor");
+    dd("mentor dashboard");
 })->name('mentor-home');
 
 
@@ -63,7 +63,7 @@ Route::get('/', function () {
 Route::prefix('student_admin')->middleware(['auth','can:isAllowedStudent,"student:"'])->group(function () {
 Route::get('/', function () { dd("student hu me");})->name('student-home');
 Route::get('/student', function () {
-    dd("student hu me phir student");
+    dd("student dashboard");
 });
 
 
