@@ -29,7 +29,7 @@
                         <li><a href="#">Team</a></li>
                         <li class="about-menu"><a href="#">Services <i class="fa fa-angle-down"></i></a>
                             <ul class="sub-ul">
-                                <li><a href="{{route('mentor_register')}}">My Mentor</a></li>
+                                <!-- <li><a href="{{route('mentor_register')}}">My Mentor</a></li> -->
                                 <li><a href="#">Services 2</a></li>
                                 <li><a href="#">Services 3</a></li>
                                 <li><a href="#">Services 4</a></li>
