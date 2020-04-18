@@ -48,6 +48,15 @@ $('document').ready(function (){
         $('.education_model').show('100');
         $('.popup-bg-img').show();
     });
+    $(document).on("click", ".edit_education_btn" , function() {    
+        $('.education_form-class').hide();
+        var formId = $(this).attr('data-education');
+        $("#education_form-"+formId).show();
+        $("html").animate({ scrollTop: 0 });
+        $('.education_model-edit').show('100');
+        $('.popup-bg-img').show();
+    });
+    
 
     $('.add_doctorate_btn').click(function (){
         $("html").animate({ scrollTop: 0 });
@@ -90,12 +99,23 @@ $('document').ready(function (){
         $('.Desired-Career-Profile').show('100');
         $('.popup-bg-img').show();
     });
+    $(document).on("click", ".edit-profile-iocn" , function() {
+         $("html").animate({ scrollTop: 0 });
+        $('.Personal_details').show('100');
+        $('.popup-bg-img').show();
+        });
+    // $('.edit-profile-iocn').click(function (){
+    //     $("html").animate({ scrollTop: 0 });
+    //     $('.Personal_details').show('100');
+    //     $('.popup-bg-img').show();
+    // });
 
     $('.crossLayer').click(function (){
         $('.heading-model').hide('100');
         $('.key-skills-model').hide('100');
         $('.employment-model').hide('100');
         $('.education_model').hide('100');
+        $('.education_model-edit').hide('100');
         $('.add_doctorate').hide('100');
         $('.add_Masters').hide('100');
         $('.add_twelfth').hide('100');
@@ -103,7 +123,26 @@ $('document').ready(function (){
         $('.extra-skills-model').hide('100');
         $('.profile-summery-model').hide('100');
         $('.Desired-Career-Profile').hide('100');
+        $('.Personal_details').hide('100');
         $('.popup-bg-img').hide();
+    });
+    $('#scroll_resume_upload').click(function (){
+     $('html, body').animate({ scrollTop: $("#Resume_Upload").offset().top}, 1000);
+    });
+    $('#scroll_dersired_profile').click(function (){
+     $('html, body').animate({ scrollTop: $("#Desired-Career-Profile-output").offset().top}, 1000);
+    });
+    $('#scroll_profile_summary').click(function (){
+     $('html, body').animate({ scrollTop: $("#Profile_summary").offset().top}, 1000);
+    });
+    $('#scroll_education').click(function (){
+     $('html, body').animate({ scrollTop: $("#education").offset().top}, 1000);
+    });
+    $('#scroll_skills').click(function (){
+     $('html, body').animate({ scrollTop: $("#key-skills").offset().top}, 1000);
+    });
+    $('#scroll_resume_headline').click(function (){
+     $('html, body').animate({ scrollTop: $("#resume-heading").offset().top}, 1000);
     });
 
      /*$('.resume-edit-icon').click(function (){

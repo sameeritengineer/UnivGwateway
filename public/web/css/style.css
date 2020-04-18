@@ -9,20 +9,20 @@ body{
 } */
 
 .top-banner{
-	padding:0px !important;
-	height:auto;
-	/* position:absolute;
+    padding:0px !important;
+    height:auto;
+    /* position:absolute;
     z-index:11; */
 }
 
 .header-menu{
-	padding-top: 15px;
+    padding-top: 15px;
     padding-bottom: 15px;
     border-bottom: 1px #442d7b solid;
 }
 
 .menu-nav{
-	padding:0px !important;
+    padding:0px !important;
     display: flex;
     align-items: center;
 }
@@ -40,7 +40,7 @@ body{
 }
 
 .menu > ul{
-	padding-left: 0px !important;
+    padding-left: 0px !important;
     display: flex;
     justify-content: flex-end;
     margin-bottom: 0;
@@ -71,9 +71,9 @@ body{
 }
 
 .menu > ul > li{
-	list-style:none;
-	float:left;
-	padding-left: 10px;
+    list-style:none;
+    float:left;
+    padding-left: 10px;
     padding-right: 10px;
     color: #442d7b;
     text-align: center !important;
@@ -88,7 +88,7 @@ body{
 }
 
 .menu > ul > li > a{
-	color: #442d7b;
+    color: #442d7b;
     font-size: 18px;
     text-transform: capitalize;
     font-weight: 600;
@@ -481,14 +481,14 @@ body{
 }
 
 .phone-cell{
-	height:60px;
-	padding:0px !important;
-	padding-top:42px !important;
+    height:60px;
+    padding:0px !important;
+    padding-top:42px !important;
     text-align: center;
 }
 
 .phone-icon{
-	font-size: 16px !important;
+    font-size: 16px !important;
     color: #013d7b;
 }
 
@@ -504,7 +504,7 @@ body{
 }
 
 .phone-no{
-	color: #000;
+    color: #000;
     font-size: 13px;
     text-transform: uppercase;
     font-weight: 600;
@@ -564,7 +564,7 @@ body{
 /*services*/
 .services{
     height:auto;
-	padding-top:40px;
+    padding-top:40px;
     background-position: center;
     background-repeat: no-repeat;
     text-align: center;
@@ -572,7 +572,7 @@ body{
 }
 
 .services h2{
-	color: #333;
+    color: #333;
     font-size: 40px;
     padding-top: 0px;
     margin-bottom: 45px;
@@ -742,21 +742,21 @@ body{
 }
 
 .services-inner{
-	min-height:550px;
-	padding:0px !important;
-	padding-bottom:30px !important;
-	text-align:center;
+    min-height:550px;
+    padding:0px !important;
+    padding-bottom:30px !important;
+    text-align:center;
     
 }
 
 .services-inner h3 a{
     font-size:20px;
-	color:#ffffff;
-	font-weight:bold;
+    color:#ffffff;
+    font-weight:bold;
     text-decoration: none;
     outline: inherit;
-	text-align:center;
-	
+    text-align:center;
+    
 }
 
 /* //services */
@@ -813,26 +813,26 @@ body{
 
 
 .love-food{
-	padding:0px !important;
-	height:auto;
+    padding:0px !important;
+    height:auto;
 }
 
 .contact-box{
-	height:650px;
+    height:650px;
     padding: 0px !important;
-	background-image:url(../images/contact.jpg);
-	background-position:center;
-	background-repeat:no-repeat;
+    background-image:url(../images/contact.jpg);
+    background-position:center;
+    background-repeat:no-repeat;
 }
 
 .contact-inner{
-	height:auto;
+    height:auto;
 }
 
 .contact-form{
-	height:425px;
-	background:#37825e;
-	margin-top:100px;
+    height:425px;
+    background:#37825e;
+    margin-top:100px;
 }
 
 .party-contact-form{
@@ -842,48 +842,48 @@ body{
 }
 
 .contact-text{
-	width:100%;
-	height:64px;
-	font-weight:normal;
-	text-align:center;
+    width:100%;
+    height:64px;
+    font-weight:normal;
+    text-align:center;
     color: #ffc30c;
-	font-size:35px;
-	color:#ffc30c;
-	padding-top:10px;
-	
+    font-size:35px;
+    color:#ffc30c;
+    padding-top:10px;
+    
 }
 
 .form-feild{
-	height:34px !important;
-	margin-top:10px;
-	font-family:'Lato', sans-serif;
-	color:#000000 !important;
-	width:100%;
+    height:34px !important;
+    margin-top:10px;
+    font-family:'Lato', sans-serif;
+    color:#000000 !important;
+    width:100%;
     background: rgb(255,255,255,0.5);
-	border:1px rgb(55,130,94, 0.2) solid;
-	padding-left:20px;
+    border:1px rgb(55,130,94, 0.2) solid;
+    padding-left:20px;
     border-radius: 20px;
 }
 
 .sub-btn{
-	background:#ffc30c;
-	height:45px;
-	width:40%;
-	margin-left:30%;
-	margin-top:30px;
-	border:0px;
-	font-weight:900;
-	color:#37825e;
-	font-size:15px;
+    background:#ffc30c;
+    height:45px;
+    width:40%;
+    margin-left:30%;
+    margin-top:30px;
+    border:0px;
+    font-weight:900;
+    color:#37825e;
+    font-size:15px;
 }
 
 .footer-2{
-	background-color: #482d7a;
-	min-height:300px;
+    background-color: #482d7a;
+    min-height:300px;
     padding: 0px;
-	background-position:center;
-	padding-top:50px;
-	background-repeat:no-repeat;
+    background-position:center;
+    padding-top:50px;
+    background-repeat:no-repeat;
 }
 
 .ft-logo p{
@@ -1178,7 +1178,7 @@ span.social-icon {
 
 
 .bottom-logo{
-	margin-bottom:25px;
+    margin-bottom:25px;
 }
 
 
@@ -1925,7 +1925,7 @@ span.social-icon {
 }
 
 .padding-top-10 {
-	padding-top: 10px;
+    padding-top: 10px;
 }
 
 .home-icon-close{
@@ -2525,7 +2525,6 @@ input[type=number] {
 
 .skills-strenth{
     background-color: #48b4db;
-    width: 80%;
     height: 12px;
 }
 
@@ -2589,8 +2588,8 @@ input[type=number] {
 
 .upload-resume-input {
     width: 200px;
-    height: 50px;
-    background: #48b4db;
+    /*height: 50px;
+    background: #48b4db;*/
 }
 
 .upload-btn {
@@ -2601,6 +2600,8 @@ input[type=number] {
     font-size: 17px;
     letter-spacing: 0.5px;
     cursor: pointer;
+    position: relative;
+    top: 28px;
 }
 
 .popup-bg-img{
@@ -2681,6 +2682,9 @@ input[type=number] {
 .education_model{
     display: none;
 }
+.education_model-edit{
+    display: none;
+}
 
 .add_doctorate{
     display: none;
@@ -2707,6 +2711,10 @@ input[type=number] {
 }
 
 .Desired-Career-Profile{
+    display: none;
+}
+
+.Personal_details{
     display: none;
 }
 
@@ -2787,9 +2795,9 @@ input[type=number] {
 }
 
 @media screen and (min-width:991px) and (max-width:1367px){
-	.menu-nav{
-		width:100% !important;
-	}
+    .menu-nav{
+        width:100% !important;
+    }
 
     .menu-nav{
         margin-left: 0;
@@ -3552,7 +3560,7 @@ input[type=number] {
 }
 
 @media screen and (max-width:767px){
-	
+    
 }
 
 .wrap1 {
@@ -3566,8 +3574,8 @@ input[type=number] {
 
 .wrap1 img {
     width: 340px;
-	display: flex;
-	margin: auto;
+    display: flex;
+    margin: auto;
 }
 
 .news-ltr {
@@ -3578,7 +3586,6 @@ input[type=number] {
     color: #ae272e;
     font-size: 17px;
 }
-
 /* sameer css */
 .key_skill_container .chosen-container.chosen-container-multi {
     width: 531px !important;
@@ -3597,3 +3604,17 @@ input[type=number] {
     top: 14px !important;
 }
 #more {display: none;}
+img.user-img {
+    width: 139px;
+    height: 141px;
+    border-radius: 86px;
+    border: 6px solid #442d7b;
+}
+.education_inner {
+    border-bottom: 1px solid #ccc;
+    margin-bottom: 12px;
+    width: 50%;
+}
+.education_form-class{
+    display: none;
+}

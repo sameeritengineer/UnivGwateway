@@ -116,16 +116,16 @@ class RegistrationController extends BaseController
             'email' => 'required|email|unique:users|max:255',
         ]);
       $params = $request->input();   
-      if(isset($params['g-recaptcha-response'])){
-          $captcha=$params['g-recaptcha-response'];
-          $secretKey = "6LdPGOkUAAAAAEf9Q9LTfkjbo-n3v1r1IU6b76En";
-          $ip = $_SERVER['REMOTE_ADDR'];
-          // post request to server
-          $url = 'https://www.google.com/recaptcha/api/siteverify?secret=' . urlencode($secretKey) .  '&response=' . urlencode($captcha);
-          $response = file_get_contents($url);
-          $responseKeys = json_decode($response,true);
+      // if(isset($params['g-recaptcha-response'])){
+      //     $captcha=$params['g-recaptcha-response'];
+      //     $secretKey = "6LdPGOkUAAAAAEf9Q9LTfkjbo-n3v1r1IU6b76En";
+      //     $ip = $_SERVER['REMOTE_ADDR'];
+      //     // post request to server
+      //     $url = 'https://www.google.com/recaptcha/api/siteverify?secret=' . urlencode($secretKey) .  '&response=' . urlencode($captcha);
+      //     $response = file_get_contents($url);
+      //     $responseKeys = json_decode($response,true);
           // should return JSON with success as true
-          if($responseKeys["success"]) {
+          // if($responseKeys["success"]) {
 
           Session::put('firstname', $request->f_name);
           Session::put('lasttname', $request->l_name);
@@ -161,12 +161,12 @@ class RegistrationController extends BaseController
           $response = curl_exec($ch);
           curl_close($ch);
           return redirect('/verifyotp');
-          }else {
-           return redirect()->back()->with('error', 'You are spammer !');
-          }
-          }else{
-            return redirect()->back()->with('error', 'Please check the the captcha form.');
-          }
+          // }else {
+          //  return redirect()->back()->with('error', 'You are spammer !');
+          // }
+          // }else{
+          //   return redirect()->back()->with('error', 'Please check the the captcha form.');
+          // }
   
 //   // Process your response here
 //   echo $response;

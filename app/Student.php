@@ -8,5 +8,5 @@ class Student extends Model
 {
     //
     protected $table = 'student';
-    protected $fillable = ['first_name','last_name','email','mobile'];
+    protected $fillable = ['first_name','last_name','email','mobile','image','resume_upload','current_specialization','country_id','city'];
 }

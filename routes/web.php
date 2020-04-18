@@ -44,6 +44,12 @@ Route::group([
    Route::post('student-profile-summary', 'StudentController@profile_summary')->name('student-profile-summary');
    Route::post('student-skills', 'StudentController@skills')->name('student-skills');
    Route::post('student-aspiration', 'StudentController@aspiration')->name('student-aspiration');
+   Route::post('student-personal', 'StudentController@personal')->name('student-personal');
+   Route::post('student-education', 'StudentController@education')->name('student-education');
+   Route::post('student-education-edit', 'StudentController@education_edit')->name('student-education-edit');
+   Route::post('get-institute', 'StudentController@institute')->name('get-institute');
+   Route::post('get-course', 'StudentController@course')->name('get-course');
+   Route::post('upload-resume', 'StudentController@upload_resume')->name('upload-resume');
    // Route::post('student-employment', 'StudentController@student_employment')->name('student-employment');
 
 
@@ -61,10 +67,10 @@ Route::get('/', function () {
 });
 
 Route::prefix('student_admin')->middleware(['auth','can:isAllowedStudent,"student:"'])->group(function () {
-Route::get('/', function () { dd("student dashboard");})->name('student-home');
-Route::get('/student', function () {
-    dd("student dashboard");
-});
+Route::get('/', function () { return view('web.student.dashboard.dashboard'); })->name('student-home');
+// Route::get('/student', function () {
+//     dd("student dashboard");
+// });
 
 
 });

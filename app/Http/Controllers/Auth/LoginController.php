@@ -47,7 +47,7 @@ class LoginController extends Controller
             $user = DB::table('users')->where('email',$request->email)->first();
             $role = DB::table('user_roles')->where('id',$user->role_id)->first();
             if($role->id == 1 && $role->status == 1){
-                return redirect('/student_admin');
+                return redirect('/student-profile');
             }if($role->id == 2 && $role->status == 1){
                 return redirect('/mentor_admin');
             }else{

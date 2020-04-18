@@ -7,12 +7,15 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use App\Student;
 use App\MasterDegree;
+use App\MasterUniversity;
 use App\MasterInstitute;
 use App\MasterCountry;
 use App\StudentWorkExperience;
 use App\MasterSkill;
 use App\StudentSkill;
 use App\Aspiration;
+use App\MasterCourse;
+use App\StudentEducationDetail;
 use Response;
 
 class StudentController extends Controller
@@ -31,9 +34,10 @@ class StudentController extends Controller
     {
         $email = Auth::user()->email;
         $data = []; 
-        $student = Student::select('id','first_name','last_name','email','mobile','resume_headline','profile_summary')->first();
+        $student = Student::select('id','first_name','last_name','email','mobile','image','resume_headline','profile_summary','resume_upload','current_specialization','country_id','city','updated_at')->where('email',$email)->first();
         $master_degree = MasterDegree::select('id','name')->where('status',1)->get();
         $master_institute = MasterInstitute::select('id','name')->where('status',1)->get();
+        $master_university = MasterUniversity::select('id','name')->where('status',1)->get();
         $master_country = MasterCountry::select('id','name')->where('status',1)->get();
         $master_skills = MasterSkill::select('id','name')->where('status',1)->get();
         $student_skill = StudentSkill::select('skill_id')->where('student_id',$student->id)->pluck('skill_id')->toArray();
@@ -43,14 +47,55 @@ class StudentController extends Controller
          $skill->name = $get_skill_name->name;
         }
         $aspiration = Aspiration::where('student_id',$student->id)->first();
+        $studentEducationDetail = StudentEducationDetail::where('student_id',$student->id)->get();
+        $country_Get =MasterCountry::where('id',$student->country_id)->first();
+        if(!empty($country_Get)){
+            $country_Name = $country_Get->name;
+        }else{
+            $country_Name = '';
+        }
+/* find student Profile Strenth */
+$count_student_summary = Student::where('id', $student->id)->where('profile_summary','<>',NULL)->count();
+$count_student_resume = Student::where('id', $student->id)->where('resume_upload','<>',NULL)->count();
+$count_student_skill = StudentSkill::where('student_id', $student->id)->count();
+$count_student_edu   = StudentEducationDetail::where('student_id', $student->id)->count();
+$count_student_aspiration   = Aspiration::where('student_id', $student->id)->count();
+$strenth_1 = 0;
+$strenth_2 = 0;
+$strenth_3 = 0;
+$strenth_4 = 0;
+$strenth_5 = 0;
+if($count_student_summary >0 ){
+    $strenth_1 = 20;
+}
+if($count_student_skill >0 ){
+    $strenth_2 = 20;
+}
+if($count_student_edu >0 ){
+    $strenth_3 = 20;
+}
+if($count_student_aspiration >0 ){
+    $strenth_4 = 20;
+}
+if($count_student_resume >0 ){
+    $strenth_5 = 20;
+}
+$totalStrenth = $strenth_1+$strenth_2+$strenth_3+$strenth_4+$strenth_5;
+//dd($total);
+
+
         $data['student'] = $student;
         $data['master_degree'] = $master_degree;
         $data['master_institute'] = $master_institute;
+        $data['master_university'] = $master_university;
         $data['master_country'] = $master_country;
         $data['master_skills'] = $master_skills;
         $data['student_skill'] = $student_skill;
         $data['skills'] = $skills;
         $data['aspiration'] = $aspiration;
+        $data['studentEducationDetail'] = $studentEducationDetail;
+        $data['totalStrenth'] = $totalStrenth;
+        $data['country_Name'] = $country_Name;
         return view('web.student.profile',$data);
     }
 
@@ -184,9 +229,275 @@ class StudentController extends Controller
                     'higher_education'=>$higher_education
                 ]);
        }
-      // $aspiration = Aspiration::updateOrCreate(['student_id' => $student_id,'countries' => $countries]);
+        $aspiration  = Aspiration::where('student_id',$student_id)->first();
+        $degree_name = MasterDegree::where('id',$aspiration->degree_id)->first();
+        $array_mentor_help = array("Determining target schools","Creating a schedule for college / MBA applications (from Test prep to Admissions)","Building your (or your child's) profile","Choosing Recommenders","Brainstorming for essays","Something else");
+        $explode_help = explode(',',$aspiration->mentors_to_help);
+        $help_output = '';
+        foreach($explode_help as $help){
+          $help_output .= '<p>'.$array_mentor_help[$help].'</p>';
+        }
+        $education_plans = array("I want to change careers, and need help with making my application stand out.","I am confused about programs being offered by the institutes and the career choices afterwards. I need some guidance.","I have a very simple background story to tell. How should I tell it effectively? Basically, I need to make my profile & career work sound impressive.","I am running late on my application plans and need help managing the workload efficiently.","With no captivating extracurriculars, how do I stand out from the crowd?","Something else");
+        $higher_education = array('Spring 2021','Fall 2021','Spring 2022','Fall 2022','2023 & later');
+                        
+        $output = '';
+
+        $output .= '<div class="user-show-data margin-bottom-15 width-47-per">
+                        <h3 class="text-color-second font-size-16 font-weight-600 margin-bottom-none margin-top-none">What Degree Program do you want to apply for</h3>
+                        <p>'.$degree_name->name.'</p>
+                    </div>';
+        $output .= '<div class="user-show-data margin-bottom-15 width-47-per margin-left-5-per">
+                        <h3 class="text-color-second font-size-16 font-weight-600 margin-bottom-none margin-top-none">What is your preferred list of countries for study</h3>
+                        <p>'.$aspiration->countries.'</p>
+                    </div>';
+        $output .= '<div class="user-show-data margin-bottom-15 width-47-per">
+                        <h3 class="text-color-second font-size-16 font-weight-600 margin-bottom-none margin-top-none">What programs are courses are you considering presently</h3>
+                        <p>'.$aspiration->program_courses.'</p>
+                    </div>'; 
+        $output .= '<div class="user-show-data margin-bottom-15 width-47-per margin-left-5-per">
+                        <h3 class="text-color-second font-size-16 font-weight-600 margin-bottom-none margin-top-none">Where do you want UnivGateway mentors to help?</h3>
+                              '.$help_output.'
+                    </div>';
+        $output .= '<div class="user-show-data margin-bottom-15 width-47-per">
+                        <h3 class="text-color-second font-size-16 font-weight-600 margin-bottom-none margin-top-none">What are key questions/concerns/worries about your education plans</h3>
+                        <p>'.$education_plans[$aspiration->education_plans].'</p>
+                    </div>';
+        $output .= '<div class="user-show-data margin-bottom-15 width-47-per margin-left-5-per">
+                        <h3 class="text-color-second font-size-16 font-weight-600 margin-bottom-none margin-top-none">Which semester &amp; year do you intend to go for higher education</h3>
+                        <p>'.$higher_education[$aspiration->higher_education].'</p>
+                    </div>';                                                           
+     
+        return Response::json(['aspiration' => $output]);           
 
     }
+    public function personal(Request $request){   
+       //return $request->all();
+       $student_id =  $request->student_id;
+       $first_name = $request->first_name;
+       $last_name = $request->last_name;
+       $mobile = $request->mobile;
+       $Pursuing_edu = $request->Pursuing_edu;
+       $select_country = $request->select_country;
+       $cityname = $request->cityname;
+
+       $studentToBeUpdated = Student::find($student_id);
+            if ($request->hasFile('profile_image'))
+              {
+                    $file      = $request->file('profile_image');
+                    $filename  = $file->getClientOriginalName();
+                    $extension = $file->getClientOriginalExtension();
+                    $picture   = date('His').'-'.$filename;
+                    $uploadSuccess = $file->move(public_path('uploads/student'), $picture);
+              }else{
+                    $picture = $studentToBeUpdated->image;
+              }
+              $updateFields = [
+                'first_name' => $first_name,
+                'last_name' => $last_name,
+                'mobile'=> $request->mobile,
+                'image'=>  $picture,
+                'current_specialization'=>  $Pursuing_edu,
+                'country_id'=>  $select_country,
+                'city'=>  $cityname,
+                    ];
+             $studentToBeUpdated->update($updateFields);
+             $student = Student::select('id','first_name','last_name','email','mobile','image','current_specialization','country_id','city')->where('id',$student_id)->first();
+             $country_Get =MasterCountry::where('id',$student->country_id)->first();
+                if(!empty($country_Get)){
+                    $country_Name = $country_Get->name;
+                }else{
+                    $country_Name = '';
+                }
+             $image = asset('uploads/student/'.$student->image);
+             $editIcon = asset('web/images/Editiconcommon3.png');
+             $output = '';
+
+             $output .= '<div class="col-md-12 col-sm-12 col-xs-12 user-profile-img-section text-center padding-top-50 padding-bottom-15"><div class="container"><div class="row">
+                            <div class="user-profile-img center-block">
+                                <div class="col-md-12 col-sm-12 col-xs-12">
+                                    <img class="user-img" src="'.$image.'" alt="" />
+                                </div>
+
+                                <div class="user-name-row col-md-12 col-sm-12 col-xs-12">
+                                    <h3 class="text-color-theme font-size-30 font-weight-600">'.$student->first_name.' '.$student->last_name.'</h3>
+                                    <img class="edit-profile-iocn" src="'.$editIcon.'" alt="" />
+                                </div>
+                                <div class="col-md-12 col-sm-12 col-xs-12">
+                                    <h3 class="text-color-second font-weight-600 font-size-20 margin-top-none">Profile Last Updated - Today</h3>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>';
+             $output .= '<div class="col-md-12 col-sm-12 col-xs-12 profile-complte-section">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12 col-sm-12 col-xs-12 user-profile-row">
+                <div class="col-md-12 col-sm-12 col-xs-12 user-data-row">
+                    <div class="display-grid space-between">
+                        <div class="right-data display-grid display-grid-center mob-margin-bottom-15">
+                            <img class="margin-right-30" src="'.asset('web/images/stduentprof_expicon.png').'" alt="" />
+                            <h3 class="text-white font-size-20 margin-top-none margin-bottom-none">Pursuing '.$student->current_specialization.'</h3>
+                        </div>
+
+                        <div class="left-date display-grid display-grid-center mob-margin-bottom-15">
+                            <img class="margin-right-30" src="'.asset('web/images/phoneiconcommon.png').'" alt="" />
+                            <h3 class="text-white font-size-20 margin-bottom-none margin-top-none">'.$student->mobile.'</h3>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-md-12 col-sm-12 col-xs-12 user-data-row">
+                    <div class="display-grid space-between">
+                        <div class="right-data display-grid display-grid-center mob-margin-bottom-15">
+                            <img class="margin-right-30" src="'.asset('web/images/LOcation-icon.png').'" alt="" />
+                            <h3 class="text-white font-size-20 margin-top-none margin-bottom-none">'.$student->city.' '.$country_Name.'</h3>
+                        </div>
+
+                        <div class="left-date display-grid display-grid-center mob-margin-bottom-15">
+                            <img class="margin-right-30" src="'.asset('web/images/MAilicon.png').'" alt="" />
+                            <h3 class="text-white font-size-20 margin-bottom-none margin-top-none">'.$student->email.'</h3>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-md-12 col-sm-12 col-xs-12 user-data-row">
+                    <div class="display-grid space-between">
+                        <div class="right-data display-grid display-grid-center">
+                            <h3 class="text-white font-size-20 margin-top-none margin-bottom-none">Student Profile Strenth</h3>
+                        </div>
+
+                        <div class="right-data display-grid display-grid-center">
+                            <h3 class="text-white font-size-20 margin-top-none margin-bottom-none">80%</h3>
+                        </div>
+                    </div>
+                    <div class="strenth-container">
+                        <div class="skills-strenth"></div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>';
+                return Response::json(['personal' => $output]); 
+
+    
+       // return $image = $request->file('profile_image');
+    } 
+public function institute(Request $request){
+      $uni_id = $request->uni_id;
+      $institutes = MasterInstitute::select('id','name')->where('university_id',$uni_id)->where('status',1)->get();
+      $output = '';
+      $output = '<option value="">Select Institute</option>';
+      foreach($institutes as $institute){
+       $output .='<option value="'.$institute->id.'">'.$institute->name.'</option>';
+      }
+      return Response::json(['institute' => $output]); 
+  }
+public function course(Request $request){
+      $institute_id = $request->institute_id;
+      $courses = MasterCourse::select('id','name')->where('institute_id',$institute_id)->get();
+      $output = '';
+      $output = '<option value="">Select Course</option>';
+      foreach($courses as $course){
+       $output .='<option value="'.$course->id.'">'.$course->name.'</option>';
+      }
+      return Response::json(['course' => $output]); 
+}  
+public function education(Request $request){
+      //return $request->all();
+      $student_id = $request->student_id;
+      $degree_id = $request->degree_id;
+      $university_id = $request->select_university;
+      $institute_id = $request->select_institute;
+      $course_id = $request->select_course;
+      $course_specialization = $request->course_specialization;
+      $course_type = $request->course_type;
+      $passing_out_year = $request->passing_out_year;
+      $grading_system = $request->grading_system;
+      $student_education = StudentEducationDetail::create([
+                    'student_id' => $student_id,
+                    'degree_id' => $degree_id,
+                    'university_id' => $university_id,
+                    'institute_id' => $institute_id,
+                    'course_id' => $course_id,
+                    'course_specialization' => $course_specialization,
+                    'course_type' =>$course_type,
+                    'passing_out_year' => $passing_out_year,
+                    'grading_system' =>  $grading_system
+                ]);
+      $studentEducationDetail = StudentEducationDetail::where('student_id',$student_id)->get();
+      $university_name = MasterUniversity::where('id',$university_id)->first();
+      $course_type_array = array('Full Time','Part Time','Correspondence/Distance learning');
+      $editIcon = asset('web/images/Editiconcommon3.png');
+      $output = '';
+      foreach($studentEducationDetail as $details){
+        $output .= '<div class="education_inner"><h3 class="desination margin-top-none font-size-18 text-color-gray">'.$details->course_specialization.'</h3>
+                        <h3 class="company_name margin-top-none font-size-16 text-color-gray">'.$university_name->name.'<span><img data-education="'.$details->id.'" class="education-edit-icon edit_education_btn" src="'.$editIcon.'" alt=""></span></h3>
+                        <h3 class="joining margin-top-none font-size-16 text-color-gray margin-bottom-15">'.$details->passing_out_year.' ('.$course_type_array[$details->course_type].')</h3></div>';
+
+      }
+      return Response::json(['education' => $output]);
+
+
+}
+public function education_edit(Request $request){
+    //return $request->all();
+      $education_form_id = $request->education_form_id;
+      $student_id = $request->student_id;
+      $degree_id = $request->degree_id;
+      $university_id = $request->select_university;
+      $institute_id = $request->select_institute;
+      $course_id = $request->select_course;
+      $course_specialization = $request->course_specialization;
+      $course_type = $request->course_type;
+      $passing_out_year = $request->passing_out_year;
+      $grading_system = $request->grading_system;
+      $StudentEducationDetailToBeUpdated = StudentEducationDetail::find($education_form_id);
+              $updateFields = [
+                    'student_id' => $student_id,
+                    'degree_id' => $degree_id,
+                    'university_id' => $university_id,
+                    'institute_id' => $institute_id,
+                    'course_id' => $course_id,
+                    'course_specialization' => $course_specialization,
+                    'course_type' =>$course_type,
+                    'passing_out_year' => $passing_out_year,
+                    'grading_system' =>  $grading_system
+                    ];
+      $StudentEducationDetailToBeUpdated->update($updateFields);
+      $studentEducationDetail = StudentEducationDetail::where('student_id',$student_id)->get();
+      $university_name = MasterUniversity::where('id',$university_id)->first();
+      $course_type_array = array('Full Time','Part Time','Correspondence/Distance learning');
+      $editIcon = asset('web/images/Editiconcommon3.png');
+      $output = '';
+      foreach($studentEducationDetail as $details){
+        $output .= '<div class="education_inner"><h3 class="desination margin-top-none font-size-18 text-color-gray">'.$details->course_specialization.'</h3>
+                        <h3 class="company_name margin-top-none font-size-16 text-color-gray">'.$university_name->name.'<span><img data-education="'.$details->id.'" class="education-edit-icon edit_education_btn" src="'.$editIcon.'" alt=""></span></h3>
+                        <h3 class="joining margin-top-none font-size-16 text-color-gray margin-bottom-15">'.$details->passing_out_year.' ('.$course_type_array[$details->course_type].')</h3></div>';
+
+      }
+      return Response::json(['education' => $output]);
+}
+public function upload_resume(Request $request){
+       $student_id = $request->student_id;
+       $studentToBeUpdated = Student::find($student_id);
+            if ($request->hasFile('upload_resume'))
+              {
+                    $file      = $request->file('upload_resume');
+                    $filename  = $file->getClientOriginalName();
+                    $extension = $file->getClientOriginalExtension();
+                    $picture   = date('His').'-'.$filename;
+                    $uploadSuccess = $file->move(public_path('uploads/student'), $picture);
+              }else{
+                    $picture = $studentToBeUpdated->resume_upload;
+              }
+              $updateFields = ['resume_upload' => $picture];
+              $studentToBeUpdated->update($updateFields);
+              return redirect('/student_admin');
+}
+     
 
     
     // public function student_employment(Request $request){

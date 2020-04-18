@@ -1,0 +1,5 @@
+@include('web.student.dashboard.layout.header')
+@include('web.student.dashboard.layout.nav')
+@include('web.student.dashboard.layout.sidebar')
+@yield('studentcontent')
+@include('web.student.dashboard.layout.footer')
