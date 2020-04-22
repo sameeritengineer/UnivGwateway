@@ -53,7 +53,7 @@
 		    <?php  } ?>
 		</div>
 		<div class="width-100-per margin-bottom-30">
-			<label class="color-gray font-size-15"> (D.) Where do you want UnivGateway mentors to help?</label>
+			<label class="color-gray font-size-15"> (D.) Where do you want UnivGateway mentors to help you?</label>
 	        <?php
              if(!empty($aspiration)){ 
 		         $i =0;
@@ -109,7 +109,7 @@
 		</div>
 
 	  <div class="notice-period-section margin-bottom-30">
-		<label class="color-gray font-size-15"> (G.) Which semester & year do you intend to go for higher education</label>
+		<label class="color-gray font-size-15"> (F.) Which semester & year do you intend to go for higher education</label>
 		<select id="higher_education" name="degree_program" class="select_field_work form-control notice_period">
 		<option value="">Select higher education</option> 
         <?php  
@@ -134,7 +134,7 @@
 
 		
 		<div class="display-grid margin-top-30 flex-content-right">
-			<div class="letter-uppercase margin-right-15 font-weight-600 font-size-16 text-color-second">Cancel</div>
+			<div class="letter-uppercase margin-right-15 font-weight-600 font-size-16 text-color-second cancel-aspiration">Cancel</div>
 			<input type="button" value="SAVE" class="custom-btn-2 border-none" id="aspiration_submit">
 		</div>
 	</form>

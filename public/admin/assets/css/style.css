@@ -12,3 +12,10 @@ WE WILL RELEASE FUTURE UPDATES SO IN ORDER TO NOT OVERWRITE YOUR STYLES IT'S BET
 img#Imageoutput,img#FImageoutput {
     width: 90%;
 }
+.key_skill_container .chosen-container.chosen-container-multi {
+    width: 531px !important;
+    /* padding: 10px; */
+}
+.key_skill_container ul.chosen-choices {
+    padding: 5px !important;
+}

@@ -22,7 +22,7 @@ $array_mentor_help = array("Determining target schools","Creating a schedule for
 
 $education_plans = array("I want to change careers, and need help with making my application stand out.","I am confused about programs being offered by the institutes and the career choices afterwards. I need some guidance.","I have a very simple background story to tell. How should I tell it effectively? Basically, I need to make my profile & career work sound impressive.","I am running late on my application plans and need help managing the workload efficiently.","With no captivating extracurriculars, how do I stand out from the crowd?","Something else");
 
-$higher_education = array('Spring 2021','Fall 2021','Spring 2022','Fall 2022','2023 & later');
+$higher_education = array('Spring 2021','Fall 2021','Spring 2022','Fall 2022','Spring 2023','Fall 2023','2023 & later');
 @endphp
 
 
@@ -30,6 +30,7 @@ $higher_education = array('Spring 2021','Fall 2021','Spring 2022','Fall 2022','2
 @include('web.student.prfile-modal.resume-heading')
 @include('web.student.prfile-modal.key-skills')
 @include('web.student.prfile-modal.summery')
+@include('web.student.prfile-modal.test-score')
 @include('web.student.prfile-modal.employment')
 @include('web.student.prfile-modal.add-education')
 @include('web.student.prfile-modal.edit-education')
@@ -190,12 +191,9 @@ $higher_education = array('Spring 2021','Fall 2021','Spring 2022','Fall 2022','2
 
 					<div class="user-show-data margin-bottom-30 education_output">
 						@foreach($studentEducationDetail as $details)
-						@php
-                          $university_name = App\MasterUniversity::where('id',$details->university_id)->first();
-						@endphp
 						<div class="education_inner"><h3 class="desination margin-top-none font-size-18 text-color-gray">{{$details->course_specialization}} <span><img data-education="{{$details->id}}" class="education-edit-icon edit_education_btn" src="{{asset('web/images/Editiconcommon3.png')}}" alt="" /></span></h3>
 
-						<h3 class="company_name margin-top-none font-size-16 text-color-gray">{{$university_name->name}}</h3>
+						<h3 class="company_name margin-top-none font-size-16 text-color-gray">{{$details->university_value}}</h3>
 						<h3 class="joining margin-top-none font-size-16 text-color-gray margin-bottom-15">{{$details->passing_out_year}} ({{$course_type_array[$details->course_type]}})</h3></div>
 						@endforeach
 						<!-- <h3 class="joining margin-top-none font-size-16 text-color-second margin-bottom-15 cursor-pointer add_doctorate_btn cursur-pointer">Add Doctorate/PhD</h3>
@@ -238,6 +236,22 @@ $higher_education = array('Spring 2021','Fall 2021','Spring 2022','Fall 2022','2
 						@endif
 					</div>
 				</div>
+				<div class="col-md-12 col-sm-12 col-xs-12 headline-section padding-25 margin-bottom-30 box-shadow " id="Test_score_number">
+					<div class="display-grid heading margin-bottom-15">
+						<h3 class="margin-right-15 font-weight-600 font-size-25 text-color-theme">Test Score Number</h3>
+						<img class="test-score-btn" src="{{asset('web/images/Editiconcommon3.png')}}" alt="" />
+					</div>
+					<div class="testscore_output">
+						@if(!empty($ProfileTestScore))
+						@php
+                         $testName = App\MasterTest::where('id',$ProfileTestScore->test_id)->first();
+						@endphp
+						 <h3 class="text-color-second font-size-16 font-weight-600 margin-bottom-none margin-top-none">TestName:</h3><p>{{$testName->name}}</p>
+						 <h3 class="text-color-second font-size-16 font-weight-600 margin-bottom-none margin-top-none">Test Ateend Year:</h3><p>{{$ProfileTestScore->attend_year}}</p>
+						 <h3 class="text-color-second font-size-16 font-weight-600 margin-bottom-none margin-top-none">Test Score: </h3><p>{{$ProfileTestScore->score}}</p>
+						 @endif
+				    </div>
+			</div>
 
 				<div class="col-md-12 col-sm-12 col-xs-12 headline-section padding-25 margin-bottom-30 box-shadow " id="Desired-Career-Profile-output">
 					<?php
@@ -303,7 +317,10 @@ $higher_education = array('Spring 2021','Fall 2021','Spring 2022','Fall 2022','2
 					@if($student->resume_upload)
 					<div class="user-show-data display-grid space-between">
 						<div class="left-data">
-							<h3 class="text-color-theme font-size-16 font-weight-600">Updated Resume File pdf - uploaded on {{date('d F, Y', strtotime(trim($student->updated_at)))}}</h3>
+							@php
+                             $filename = explode('+',$student->resume_upload);
+							@endphp
+							<h3 class="text-color-theme font-size-16 font-weight-600">Updated Resume File pdf ({{$filename[1]}}) - uploaded on {{date('d F, Y', strtotime(trim($student->updated_at)))}}</h3>
 						</div>
 						<div class="right-data text-right">
 							<a href="{{asset('uploads/student/'.$student->resume_upload)}}" download><img style="width: 25px;" class="margin-bottom-15" src="{{asset('web/images/Downloadsicon.png')}}" alt="" /></a>
@@ -482,36 +499,36 @@ $("form[name='Edit_Education_Form']").validate({
 
 });
 /* Script for update student education */	
-$('#select_university').on('change', function() {
-  var uni_id = this.value;
-  var token = $('meta[name="csrf-token"]').attr('content');
-             $.ajax({
-                    _token: token,
-                    url: "{{ route('web.get-institute') }}",
-                    type: "POST",
-                    data: {
-                        "uni_id": uni_id,
-                    },
-                    success: function(response) {
-                    	$('#select_institute').html(response.institute);
-                    	},
-                 });
-});
-$('#select_institute').on('change', function() {
-  var institute_id = this.value;
-  var token = $('meta[name="csrf-token"]').attr('content');
-  $.ajax({
-                    _token: token,
-                    url: "{{ route('web.get-course') }}",
-                    type: "POST",
-                    data: {
-                        "institute_id": institute_id,
-                    },
-                    success: function(response) {
-                    	$('#select_course').html(response.course);
-                    	},
-                 });
-});
+// $('#select_university').on('change', function() {
+//   var uni_id = this.value;
+//   var token = $('meta[name="csrf-token"]').attr('content');
+//              $.ajax({
+//                     _token: token,
+//                     url: "{{ route('web.get-institute') }}",
+//                     type: "POST",
+//                     data: {
+//                         "uni_id": uni_id,
+//                     },
+//                     success: function(response) {
+//                     	$('#select_institute').html(response.institute);
+//                     	},
+//                  });
+// });
+// $('#select_institute').on('change', function() {
+//   var institute_id = this.value;
+//   var token = $('meta[name="csrf-token"]').attr('content');
+//   $.ajax({
+//                     _token: token,
+//                     url: "{{ route('web.get-course') }}",
+//                     type: "POST",
+//                     data: {
+//                         "institute_id": institute_id,
+//                     },
+//                     success: function(response) {
+//                     	$('#select_course').html(response.course);
+//                     	},
+//                  });
+// });
   /* Script for update student resume tagline */	
   $('#resume_headline_submit').click(function() {
              var resume_headline = $("#resume_headline").val();
@@ -554,6 +571,31 @@ $('#select_institute').on('change', function() {
                     	$('.popup-bg-img').hide();
                     	$('html, body').animate({ scrollTop: $("#Profile_summary").offset().top}, 1000);
                     	//$("#profile_summary").val('');
+                    },
+                 });
+    });
+  /* Script for update student test score */	
+  $('#test_score_submit').click(function() {
+  	         var student_id = $("#student_id").val();
+             var test_name = $("#select_test_name").val();
+             var attend_year = $("#attend_year").val();
+             var score = $("#score").val();
+             var token = $('meta[name="csrf-token"]').attr('content');
+             $.ajax({
+                    _token: token,
+                    url: "{{ route('web.student-test-score') }}",
+                    type: "POST",
+                    data: {
+                    	"student_id": student_id,
+                        "test_name": test_name,
+                        "attend_year": attend_year,
+                        "score": score,
+                    },
+                    success: function(response) {
+                       $('.testscore_output').html(response.test_score);
+                       $('.test-score-model').hide('100');
+                       $('.popup-bg-img').hide();
+                       $('html, body').animate({ scrollTop: $("#Test_score_number").offset().top}, 1000);
                     },
                  });
     });
@@ -620,7 +662,42 @@ $('#select_institute').on('change', function() {
  
     
   });	
+  /* Cancel Buttun  */
+  $('.cancel-skills').click(function() {
+   $('.key-skills-model').hide('100');
+   $('.popup-bg-img').hide();
+   $('html, body').animate({ scrollTop: $("#key-skills").offset().top}, 1000);
+  });
+  $('.cancel-resume').click(function() {
+   $('.heading-model').hide('100');
+   $('.popup-bg-img').hide();
+   $('html, body').animate({ scrollTop: $("#resume-heading").offset().top}, 1000);
+  });
+  $('.cancel-education').click(function() {
+   $('.education_model-edit').hide('100');
+   $('.popup-bg-img').hide();
+   $('html, body').animate({ scrollTop: $("#education").offset().top}, 1000);
+  });
+  $('.cancel-summary').click(function() {
+   $('.profile-summery-model').hide('100');
+   $('.popup-bg-img').hide();
+   $('html, body').animate({ scrollTop: $("#Profile_summary").offset().top}, 1000);
+  });
+  $('.cancel-aspiration').click(function() {
+   $('.Desired-Career-Profile').hide('100');
+   $('.popup-bg-img').hide();
+   $('html, body').animate({ scrollTop: $("#Desired-Career-Profile-output").offset().top}, 1000);
+  });
+  $('.cancel-score').click(function() {
+   $('.test-score-model').hide('100');
+   $('.popup-bg-img').hide();
+   $('html, body').animate({ scrollTop: $("#Test_score_number").offset().top}, 1000);
+  });
 
+  
+  
+
+  
   
   
 

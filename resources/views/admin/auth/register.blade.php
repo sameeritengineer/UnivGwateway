@@ -1,6 +1,10 @@
 @extends('admin.layouts.index')
 @section('title','register')
 @section('content')
+<link href="https://cdnjs.cloudflare.com/ajax/libs/chosen/1.4.2/chosen.min.css" rel="stylesheet" />
+<link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.0/css/select2.min.css" />
+<script src="https://cdnjs.cloudflare.com/ajax/libs/chosen/1.4.2/chosen.jquery.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.0/js/select2.min.js"></script>
     <!-- BEGIN: Content-->
     <div class="app-content content">
         <div class="content-overlay"></div>
@@ -163,6 +167,22 @@
                                                              </select>
                                                             </div>
                                                         </div>
+                                                        <div class="form-group row">
+                                                            <label class="col-md-3 label-control" for="userinput5">Skills:</label>
+                                                            <div class="col-md-9">
+                                                                <div class="key_skill_container">
+                                                               <select name="mentor_skills[]" class="multipleChosen keyskillsInput" multiple="true">
+                                                            @foreach($master_skills as $skills)
+                                                                <option value="{{$skills->id}}">{{$skills->name}}</option>
+                                                            @endforeach    
+                                                            </select>
+                                                           </div>
+                                                            </div>
+                                                            
+                                                        </div>
+
+
+             
                                                     </div>
                                                     <div class="col-md-6">
                                                         <div class="form-group row">
@@ -330,6 +350,9 @@ $(document).ready(function(){
    $('#datepicker').datepicker({
             uiLibrary: 'bootstrap4'
         });
+    $(".multipleChosen").chosen({
+      placeholder_text_multiple: "Enter your area of Expertise/Specialization" //placeholder
+    }); //JSON.parse('" . json_encode($data) . "')
   });
 var loadFileImage = function(event) {
     var output = document.getElementById('Imageoutput');

@@ -18,35 +18,12 @@
 		</div>
 		<div class="notice-period-section margin-bottom-30">
 			<label class="color-gray font-size-13">University <span class="color-red"> *</span></label>
-			<select name="select_university" id="select_university" class="select_field_work form-control notice_period">
-				@foreach($master_university as $university)
-				<option {{$detail->university_id==$university->id?'selected':''}} value="{{$university->id}}">{{$university->name}}</option>
-				@endforeach
-			</select>
+			<input type="text" placeholder="University" value="{{$detail->university_value}}" class="margin-right-15 input-key-skills form-control" name="select_university">
 		</div>
 
 		<div class="notice-period-section margin-bottom-30">
 			<label class="color-gray font-size-13">Institute <span class="color-red"> *</span></label>
-			@php
-			 $institutes = App\MasterInstitute::select('id','name')->where('university_id',$detail->university_id)->where('status',1)->get();
-			@endphp
-			<select name="select_institute" id="select_institute" class="select_field_work form-control notice_period">   
-				@foreach($institutes as $institute)
-				    <option {{$detail->institute_id==$institute->id?'selected':''}}  value="{{$institute->id}}">{{$institute->name}}</option>
-				@endforeach    
-			</select>
-		</div>
-
-		<div class="notice-period-section margin-bottom-30">
-			<label class="color-gray font-size-13">Course <span class="color-red"> *</span></label>
-			@php
-			 $courses = App\MasterCourse::select('id','name')->where('institute_id',$detail->institute_id)->get();
-			@endphp
-			<select name="select_course" id="select_course" class="select_field_work form-control notice_period">
-				@foreach($courses as $course)
-				<option {{$detail->course_id==$course->id?'selected':''}}  value="{{$course->id}}">{{$course->name}}</option>
-				@endforeach 
-			</select>
+			<input type="text" placeholder="Institute" value="{{$detail->institute_value}}" class="margin-right-15 input-key-skills form-control" name="select_institute">
 		</div>
 
 		<div class="notice-period-section margin-bottom-30">
@@ -75,11 +52,20 @@
 			<label class="color-gray font-size-13">Passing Out Year <span class="color-red"> *</span></label>
 			<select name="passing_out_year" class="select_field_work form-control notice_period">
 				<option value="">Select passing out year</option>
+				<option {{$detail->passing_out_year==2010?'selected':''}}>2010</option>
+				<option {{$detail->passing_out_year==2011?'selected':''}}>2011</option>
+				<option {{$detail->passing_out_year==2012?'selected':''}} >2012</option>
+				<option {{$detail->passing_out_year==2013?'selected':''}}>2013</option>
+				<option {{$detail->passing_out_year==2014?'selected':''}}>2014</option>
 				<option {{$detail->passing_out_year==2015?'selected':''}}>2015</option>
 				<option {{$detail->passing_out_year==2016?'selected':''}}>2016</option>
-				<option {{$detail->passing_out_year==2017?'selected':''}} >2017</option>
+				<option {{$detail->passing_out_year==2017?'selected':''}}>2017</option>
 				<option {{$detail->passing_out_year==2018?'selected':''}}>2018</option>
 				<option {{$detail->passing_out_year==2019?'selected':''}}>2019</option>
+				<option {{$detail->passing_out_year==2020?'selected':''}}>2020</option>
+				<option {{$detail->passing_out_year==2021?'selected':''}}>2021</option>
+				<option {{$detail->passing_out_year==2022?'selected':''}}>2022</option>
+				<option {{$detail->passing_out_year==2023?'selected':''}}>2023</option>
 			</select>
 		</div>
 
@@ -98,9 +84,13 @@
 				@endforeach
 			</select>
 		</div>
+		<div class="notice-period-section margin-bottom-30">
+			<label class="color-gray font-size-13">Grade Value</label>
+            <input type="text" placeholder="Grade Value" value="{{$detail->grade_value}}" class="margin-right-15 input-key-skills form-control" name="grade_value">
+		</div>
 		
 		<div class="display-grid margin-top-30 flex-content-right">
-			<div class="letter-uppercase margin-right-15 font-weight-600 font-size-16 text-color-second">Cancel</div>
+			<div class="letter-uppercase margin-right-15 font-weight-600 font-size-16 text-color-second cancel-education">Cancel</div>
 			<input type="Submit" value="SAVE" class="custom-btn-2 border-none" name="">
 		</div>
 	</form>

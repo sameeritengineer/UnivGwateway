@@ -16,6 +16,8 @@ use App\StudentSkill;
 use App\Aspiration;
 use App\MasterCourse;
 use App\StudentEducationDetail;
+use App\MasterTest;
+use App\ProfileTestScore;
 use Response;
 
 class StudentController extends Controller
@@ -83,6 +85,9 @@ if($count_student_resume >0 ){
 $totalStrenth = $strenth_1+$strenth_2+$strenth_3+$strenth_4+$strenth_5;
 //dd($total);
 
+$master_test = MasterTest::select('id','name')->get();
+$ProfileTestScore = ProfileTestScore::where('student_id',$student->id)->first();
+
 
         $data['student'] = $student;
         $data['master_degree'] = $master_degree;
@@ -96,6 +101,8 @@ $totalStrenth = $strenth_1+$strenth_2+$strenth_3+$strenth_4+$strenth_5;
         $data['studentEducationDetail'] = $studentEducationDetail;
         $data['totalStrenth'] = $totalStrenth;
         $data['country_Name'] = $country_Name;
+        $data['master_test'] = $master_test;
+        $data['ProfileTestScore'] = $ProfileTestScore;
         return view('web.student.profile',$data);
     }
 
@@ -188,6 +195,38 @@ $totalStrenth = $strenth_1+$strenth_2+$strenth_3+$strenth_4+$strenth_5;
         if($value){
         return Response::json(['profile_summary' => $output]);
         } 
+    }
+    public function test_score(Request $request){
+        //return $request->all();
+          $student_id = $request->student_id;
+          $test_id    = $request->test_name;
+          $attend_year = $request->attend_year;
+          $score = $request->score;
+
+      if(ProfileTestScore::where('student_id', $student_id)->first()){
+          ProfileTestScore::where('student_id',$student_id)->update(['test_id'=>$test_id,'attend_year'=>$attend_year,'score'=>$score]);
+       }else{
+          $ProfileTestScore = ProfileTestScore::create([
+                    'student_id' => $student_id,
+                    'test_id'=>$test_id,
+                    'attend_year'=>$attend_year,
+                    'score'=>$score,
+                ]);
+       }
+       $ProfileTestScore = ProfileTestScore::where('student_id',$student_id)->first();
+       if(!empty($ProfileTestScore)){
+        $testName = MasterTest::where('id',$ProfileTestScore->test_id)->first();
+        $output = '<h3 class="text-color-second font-size-16 font-weight-600 margin-bottom-none margin-top-none">TestName:</h3><p>'.$testName->name.'</p>
+                         <h3 class="text-color-second font-size-16 font-weight-600 margin-bottom-none margin-top-none">Test Ateend Year:</h3><p>'.$ProfileTestScore->attend_year.'</p>
+                         <h3 class="text-color-second font-size-16 font-weight-600 margin-bottom-none margin-top-none">Test Score: </h3><p>'.$ProfileTestScore->score.'</p>';
+       }else{
+         $output = '';
+       }
+       return Response::json(['test_score' => $output]);
+
+
+
+          
     }
     public function skills(Request $request){
        $student_id = $request->student_id;
@@ -385,56 +424,56 @@ $totalStrenth = $strenth_1+$strenth_2+$strenth_3+$strenth_4+$strenth_5;
     
        // return $image = $request->file('profile_image');
     } 
-public function institute(Request $request){
-      $uni_id = $request->uni_id;
-      $institutes = MasterInstitute::select('id','name')->where('university_id',$uni_id)->where('status',1)->get();
-      $output = '';
-      $output = '<option value="">Select Institute</option>';
-      foreach($institutes as $institute){
-       $output .='<option value="'.$institute->id.'">'.$institute->name.'</option>';
-      }
-      return Response::json(['institute' => $output]); 
-  }
-public function course(Request $request){
-      $institute_id = $request->institute_id;
-      $courses = MasterCourse::select('id','name')->where('institute_id',$institute_id)->get();
-      $output = '';
-      $output = '<option value="">Select Course</option>';
-      foreach($courses as $course){
-       $output .='<option value="'.$course->id.'">'.$course->name.'</option>';
-      }
-      return Response::json(['course' => $output]); 
-}  
+// public function institute(Request $request){
+//       $uni_id = $request->uni_id;
+//       $institutes = MasterInstitute::select('id','name')->where('university_id',$uni_id)->where('status',1)->get();
+//       $output = '';
+//       $output = '<option value="">Select Institute</option>';
+//       foreach($institutes as $institute){
+//        $output .='<option value="'.$institute->id.'">'.$institute->name.'</option>';
+//       }
+//       return Response::json(['institute' => $output]); 
+//   }
+// public function course(Request $request){
+//       $institute_id = $request->institute_id;
+//       $courses = MasterCourse::select('id','name')->where('institute_id',$institute_id)->get();
+//       $output = '';
+//       $output = '<option value="">Select Course</option>';
+//       foreach($courses as $course){
+//        $output .='<option value="'.$course->id.'">'.$course->name.'</option>';
+//       }
+//       return Response::json(['course' => $output]); 
+// }  
 public function education(Request $request){
       //return $request->all();
       $student_id = $request->student_id;
       $degree_id = $request->degree_id;
       $university_id = $request->select_university;
       $institute_id = $request->select_institute;
-      $course_id = $request->select_course;
       $course_specialization = $request->course_specialization;
       $course_type = $request->course_type;
       $passing_out_year = $request->passing_out_year;
       $grading_system = $request->grading_system;
+      $grading_value = $request->grade_value;
       $student_education = StudentEducationDetail::create([
                     'student_id' => $student_id,
                     'degree_id' => $degree_id,
-                    'university_id' => $university_id,
-                    'institute_id' => $institute_id,
-                    'course_id' => $course_id,
+                    'university_value' => $university_id,
+                    'institute_value' => $institute_id,
                     'course_specialization' => $course_specialization,
                     'course_type' =>$course_type,
                     'passing_out_year' => $passing_out_year,
-                    'grading_system' =>  $grading_system
+                    'grading_system' =>  $grading_system,
+                    'grade_value' =>  $grading_value
                 ]);
       $studentEducationDetail = StudentEducationDetail::where('student_id',$student_id)->get();
-      $university_name = MasterUniversity::where('id',$university_id)->first();
+      //$university_name = MasterUniversity::where('id',$university_id)->first();
       $course_type_array = array('Full Time','Part Time','Correspondence/Distance learning');
       $editIcon = asset('web/images/Editiconcommon3.png');
       $output = '';
       foreach($studentEducationDetail as $details){
         $output .= '<div class="education_inner"><h3 class="desination margin-top-none font-size-18 text-color-gray">'.$details->course_specialization.'</h3>
-                        <h3 class="company_name margin-top-none font-size-16 text-color-gray">'.$university_name->name.'<span><img data-education="'.$details->id.'" class="education-edit-icon edit_education_btn" src="'.$editIcon.'" alt=""></span></h3>
+                        <h3 class="company_name margin-top-none font-size-16 text-color-gray">'.$details->university_value.'<span><img data-education="'.$details->id.'" class="education-edit-icon edit_education_btn" src="'.$editIcon.'" alt=""></span></h3>
                         <h3 class="joining margin-top-none font-size-16 text-color-gray margin-bottom-15">'.$details->passing_out_year.' ('.$course_type_array[$details->course_type].')</h3></div>';
 
       }
@@ -454,27 +493,28 @@ public function education_edit(Request $request){
       $course_type = $request->course_type;
       $passing_out_year = $request->passing_out_year;
       $grading_system = $request->grading_system;
+      $grading_value = $request->grade_value;
       $StudentEducationDetailToBeUpdated = StudentEducationDetail::find($education_form_id);
               $updateFields = [
                     'student_id' => $student_id,
                     'degree_id' => $degree_id,
-                    'university_id' => $university_id,
-                    'institute_id' => $institute_id,
-                    'course_id' => $course_id,
+                    'university_value' => $university_id,
+                    'institute_value' => $institute_id,
                     'course_specialization' => $course_specialization,
                     'course_type' =>$course_type,
                     'passing_out_year' => $passing_out_year,
-                    'grading_system' =>  $grading_system
+                    'grading_system' =>  $grading_system,
+                    'grade_value' =>  $grading_value
                     ];
       $StudentEducationDetailToBeUpdated->update($updateFields);
       $studentEducationDetail = StudentEducationDetail::where('student_id',$student_id)->get();
-      $university_name = MasterUniversity::where('id',$university_id)->first();
+      //$university_name = MasterUniversity::where('id',$university_id)->first();
       $course_type_array = array('Full Time','Part Time','Correspondence/Distance learning');
       $editIcon = asset('web/images/Editiconcommon3.png');
       $output = '';
       foreach($studentEducationDetail as $details){
         $output .= '<div class="education_inner"><h3 class="desination margin-top-none font-size-18 text-color-gray">'.$details->course_specialization.'</h3>
-                        <h3 class="company_name margin-top-none font-size-16 text-color-gray">'.$university_name->name.'<span><img data-education="'.$details->id.'" class="education-edit-icon edit_education_btn" src="'.$editIcon.'" alt=""></span></h3>
+                        <h3 class="company_name margin-top-none font-size-16 text-color-gray">'.$details->university_value.'<span><img data-education="'.$details->id.'" class="education-edit-icon edit_education_btn" src="'.$editIcon.'" alt=""></span></h3>
                         <h3 class="joining margin-top-none font-size-16 text-color-gray margin-bottom-15">'.$details->passing_out_year.' ('.$course_type_array[$details->course_type].')</h3></div>';
 
       }
@@ -488,7 +528,7 @@ public function upload_resume(Request $request){
                     $file      = $request->file('upload_resume');
                     $filename  = $file->getClientOriginalName();
                     $extension = $file->getClientOriginalExtension();
-                    $picture   = date('His').'-'.$filename;
+                    $picture   = date('His').'+'.$filename;
                     $uploadSuccess = $file->move(public_path('uploads/student'), $picture);
               }else{
                     $picture = $studentToBeUpdated->resume_upload;

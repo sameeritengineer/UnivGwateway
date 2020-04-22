@@ -15,7 +15,7 @@
 		      </select>
 		</div>
 		<div class="display-grid margin-top-30 flex-content-right">
-			<div class="letter-uppercase margin-right-15 font-weight-600 font-size-16 text-color-second">Cancel</div>
+			<div class="letter-uppercase margin-right-15 font-weight-600 font-size-16 text-color-second cancel-skills">Cancel</div>
 			<input type="button" value="SAVE" class="custom-btn-2 border-none" id="keyskills_submit">
 		</div>
 	</form>	

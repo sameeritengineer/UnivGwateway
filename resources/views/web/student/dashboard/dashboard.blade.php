@@ -2,27 +2,7 @@
 @section('student_title','Student UNIV GATEWAY DASHBOARD')
 @section('studentcontent')
 <div class="col-md-10 col-sm-9 col-xs-12 right-main-container">
-		<div class="student-title">Student Dashboard</div>
-		<div style="background-image: url('{{asset('web/studentdashboard/images/Student-MEntordashboard-BG.png')}}');" class="col-md-12 col-sm-12 col-xs-12 dashboard-title-banner display-grid space-between align-items-end">
-			<div class="display-grid">
-				<div class="student-detail">
-					<img class="margin-right-30" src="{{asset('web/studentdashboard/images/MENTOR_stuartlucasprofile.png')}}" alt="" />
-				</div>
-				<div>
-					<div class="name-row display-flex">
-						<h3 class="letter-uppercase font-size-25 font-weight-600 text-white">Sara Davis</h3>
-						<img class="cursor-pointer" src="{{asset('web/studentdashboard/images/editiconWHite.png')}}" alt="" />
-					</div>
-					<div class="row-parral text-white font-size-20 margin-bottom-10">
-						<span>infosara@gmail.com</span> <span>99 999 99 99</span> <span>MBA</span> <span>Duration</span>
-					</div>
-					<div class="letter-uppercase text-color-second font-size-25 font-weight-600">Professional Package</div>
-				</div>
-			</div>
-			<div class="padding-top-30">
-				<h3 class="text-white font-size-20 font-weight-500">Profile Last Updated - Today</h3>
-			</div>
-		</div>
+@include('web.student.dashboard.layout.student-board')
 
 		<div class="right-data-row col-md-12 col-sm-12 col-xs-12">
 			<div class="button-row display-grid dashboard-btn-row">

@@ -40,7 +40,13 @@
                     @php 
                      $degree = App\Mentor::find($mentor->id)->degree;
                     @endphp
-                    <p class="date-font text-color-second">{{$mentor->job_title}}. {{$mentor->major_specialization}},{{$degree->name}}</p>
+                    <p class="date-font text-color-second">{{$mentor->job_title}}. {{$mentor->major_specialization}},
+                        @if(!empty($degree))
+                        {{$degree->name}}
+                        @else
+
+                        @endif
+                    </p>
                     <a class="text-color-theme font-weight-600" href="#"><i class="fa fa-angle-right font-weight-900 font-size-18"></i> Consult Now</a>
                 </div>
             </div>

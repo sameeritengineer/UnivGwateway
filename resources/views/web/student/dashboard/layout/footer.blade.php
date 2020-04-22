@@ -23,7 +23,7 @@
 <div class="col-md-12 col-sm-12 col-xs-12 btm-footer background-color-second text-white">
  	2020 © UNIVGATEWAY. All Rights Reserved.
 </div>
-
+<script src="{{asset('web/js/script.js')}}" type="text/javascript"></script>
 </body>
 </html>
 

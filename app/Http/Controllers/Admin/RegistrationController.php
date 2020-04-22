@@ -9,6 +9,7 @@ use App\Mentor;
 use App\MasterUniversity;
 use App\MasterDegree;
 use App\MasterCountry;
+use App\MasterSkill;
 use Illuminate\Support\Facades\Hash;
 use Carbon\Carbon;
 
@@ -21,9 +22,11 @@ class RegistrationController extends Controller
     	$master_universities = MasterUniversity::select('id','name')->where('status',1)->get();
     	$master_degree = MasterDegree::select('id','name')->where('status',1)->get();
     	$master_country = MasterCountry::select('id','code')->where('status',1)->get();
+        $master_skills = MasterSkill::select('id','name')->where('status',1)->get();
     	$data['master_universities'] = $master_universities;
     	$data['master_degree'] = $master_degree;
     	$data['master_country'] = $master_country;
+        $data['master_skills'] = $master_skills;
         return view('admin.auth.register',$data);
     }
     public function store(Request $request)
@@ -34,6 +37,7 @@ class RegistrationController extends Controller
         //      'email' => 'required|email|unique:users|max:255',
         //      'password' => 'required|string|min:8|confirmed'
         // ]);
+        
         $request->validate([
             'name' => 'required',
             'email' => 'required|email|unique:users|max:255',
@@ -66,7 +70,10 @@ class RegistrationController extends Controller
                     $extension = $file->getClientOriginalExtension();
                     $picture   = date('His').'-'.$filename;
                     $uploadSuccess = $file->move(public_path('uploads/mentor'), $picture);
+              }else{
+                   $picture = '';
               }
+            $implode_skills = implode(',',$request->mentor_skills);  
             $mentor = Mentor::create([
                 'first_name' => $request->name,
                 'last_name' => $request->lname,
@@ -86,6 +93,7 @@ class RegistrationController extends Controller
                 'image'=>  $picture,
                 'featured'=>  $request->feature,
                 'status' =>  $request->status,
+                'skills' =>  $implode_skills
 
             ]);
             }

@@ -2224,6 +2224,7 @@ span.social-icon {
 
 .form_field_row {
     margin-bottom: 30px;
+    text-align: left
 }
 
 .form_field_row img{
@@ -2775,6 +2776,30 @@ input[type=number] {
 
 .display-flex{
     display: flex;
+}
+
+.margin-bottom-5{
+  margin-bottom: 5px;
+}
+
+.form_error{
+  margin-left: 39px;
+}
+
+.form-field-icon{
+    width: 10%;
+}
+
+.input-field-row{
+    width: 90%;
+}
+
+.align-item-baseline{
+    align-items: baseline;
+}
+
+.error{
+    color: red;
 }
 
 /*.user-img{
@@ -3503,6 +3528,18 @@ input[type=number] {
         font-size: 18px !important;
     }
 
+    .width-47-per{
+        width: 100%;
+    }
+
+    .margin-left-5-per{
+        margin-left: 0;
+    }
+
+    .user_signup_form .margin-bottom-30{
+        margin-bottom: 0px;
+    }
+
 }
 
 @media screen and (max-width:480px){
@@ -3528,18 +3565,6 @@ input[type=number] {
         min-height: 270px;
         text-align: left;
         color: #ffffff;
-    }
-
-    .width-47-per{
-        width: 100%;
-    }
-
-    .margin-left-5-per{
-        margin-left: 0;
-    }
-
-    .user_signup_form .margin-bottom-30{
-        margin-bottom: 0px;
     }
 
     .mob-width-50-per{
@@ -3616,5 +3641,17 @@ img.user-img {
     width: 50%;
 }
 .education_form-class{
+    display: none;
+}
+.cancel-skills,.cancel-resume,.cancel-education,.cancel-summary,.cancel-aspiration,.cancel-score {
+    cursor: pointer;
+}
+.student-detail img.margin-right-30 {
+    width: 139px;
+    border-radius: 86px;
+    height: 141px;
+    border: 3px solid #442d7b;
+}
+.test-score-model{
     display: none;
 }

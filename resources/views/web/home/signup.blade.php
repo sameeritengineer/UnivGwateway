@@ -31,36 +31,75 @@
                     @endif
 					<form action="{{ route('web.student-signup') }}" name="signUpForm" class="user_signup_form margin-top-50" action="" method="post">
 						{{ csrf_field() }}
-						<div class="display-grid margin-bottom-30">
-							<div class="form_field_row display-grid-center width-47-per">
-								<img class="margin-right-15" src="{{asset('web/images/nameicon.png')}}" alt="" />
-								<input class="width-100-per form_field" value="{{ old('f_name') }}" type="text" name="f_name" placeholder="First Name *">
+						<div class="display-grid align-item-baseline margin-bottom-30">
+							<div class="form_field_row width-47-per">
+								<div class="display-grid align-item-baseline margin-bottom-5 width-100-per">
+									<div class="form-field-icon">
+										<img class="margin-right-15" src="{{asset('web/images/nameicon.png')}}" alt="" />
+									</div>
+									<div class="input-field-row">
+										<input class="width-100-per form_field" value="{{ old('f_name') }}" type="text" name="f_name" placeholder="First Name *">
+									</div>
+								</div>
 							</div>
-							<div class="form_field_row display-grid-center width-47-per margin-left-5-per">
-								<img class="margin-right-15" src="{{asset('web/images/nameicon.png')}}" alt="" />
-								<input class="width-100-per form_field" type="text" value="{{ old('l_name') }}" name="l_name" placeholder="Last Name *">
+							<div class="form_field_row width-47-per margin-left-5-per">
+								<div class="display-grid align-item-baseline margin-bottom-5 width-100-per">
+									<div class="form-field-icon">
+										<img class="margin-right-15" src="{{asset('web/images/nameicon.png')}}" alt="" />
+									</div>
+									<div class="input-field-row">
+										<input class="width-100-per form_field" type="text" value="{{ old('l_name') }}" name="l_name" placeholder="Last Name *">
+									</div>
+								</div>
+								<span class="form_error" style="color:red"></span>
 							</div>
 						</div>
-						<div class="display-grid margin-bottom-30">
-							<div class="form_field_row display-grid-center width-47-per">
-								<img class="margin-right-15" src="{{asset('web/images/nameicon.png')}}" alt="" />
-								<input class="width-100-per form_field" type="number" value="{{ old('mobile') }}"  name="mobile" placeholder="Mobile No. *">
-								<span style="color:red">We will send an OTP to this number</span>
+						<div class="display-grid align-item-baseline margin-bottom-30">
+							<div class="form_field_row width-47-per">
+								<div class="display-grid align-item-baseline margin-bottom-5 width-100-per">
+									<div class="form-field-icon">
+										<img class="margin-right-15" src="{{asset('web/images/nameicon.png')}}" alt="" />
+									</div>
+									<div class="input-field-row">
+										<input class="width-100-per form_field" type="number" value="{{ old('mobile') }}"  name="mobile" placeholder="Mobile No. *">
+									</div>
+								</div>
+								<span class="form_error" style="color:red">We will send an OTP to this number</span>
 							</div>
+
 							<div class="form_field_row display-grid-center width-47-per margin-left-5-per">
-								<img class="margin-right-15" src="{{asset('web/images/MAIL-icon.png')}}" alt="" />
-								<input class="width-100-per form_field" value="{{ old('email') }}" type="email" name="email" placeholder="Email *">
+								<div class="display-grid align-item-baseline margin-bottom-5 width-100-per">
+									<div class="form-field-icon">
+										<img class="margin-right-15" src="{{asset('web/images/MAIL-icon.png')}}" alt="" />
+									</div>
+									<div class="input-field-row">
+										<input class="width-100-per form_field" value="{{ old('email') }}" type="email" name="email" placeholder="Email *">
+									</div>
+								</div>
 							</div>
 						</div>
 
-						<div class="display-grid margin-bottom-20">
+						<div class="display-grid align-item-baseline margin-bottom-20">
 							<div class="form_field_row display-grid-center width-47-per">
-								<img class="margin-right-15" src="{{asset('web/images/Lock_passwordicon.png')}}" alt="" />
-								<input class="width-100-per form_field" type="password" name="password" placeholder="Choose a password">
+								<div class="display-grid align-item-baseline margin-bottom-5 width-100-per">
+									<div class="form-field-icon">
+										<img class="margin-right-15" src="{{asset('web/images/Lock_passwordicon.png')}}" alt="" />
+									</div>
+									<div class="input-field-row">	
+										<input class="width-100-per form_field" type="password" name="password" placeholder="Choose a password">
+									</div>
+								</div>
 							</div>
 							<div class="form_field_row display-grid-center width-47-per margin-left-5-per">
-								<img class="margin-right-15" src="{{asset('web/images/Lock_passwordicon.png')}}" alt="" />
-								<input class="width-100-per form_field" type="password" name="confirm_password" placeholder="Confirm password">
+								<div class="display-grid align-item-baseline margin-bottom-5 width-100-per">
+									<div class="form-field-icon">
+										<img class="margin-right-15" src="{{asset('web/images/Lock_passwordicon.png')}}" alt="" />
+									</div>
+									<div class="input-field-row">
+										<input class="width-100-per form_field" type="password" name="confirm_password" placeholder="Confirm password">
+									</div>
+								</div>
+								
 							</div>
 						</div>
 						<!-- <div class="display-grid margin-bottom-30">

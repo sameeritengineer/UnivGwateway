@@ -94,6 +94,12 @@ $('document').ready(function (){
         $('.popup-bg-img').show();
     });
 
+    $('.test-score-btn').click(function (){
+        $("html").animate({ scrollTop: 0 });
+        $('.test-score-model').show('100');
+        $('.popup-bg-img').show();
+    });
+
     $('.desired_career_icon').click(function (){
         $("html").animate({ scrollTop: 0 });
         $('.Desired-Career-Profile').show('100');
@@ -104,6 +110,11 @@ $('document').ready(function (){
         $('.Personal_details').show('100');
         $('.popup-bg-img').show();
         });
+    $(document).on("click", ".student-dashboard-edit" , function() {
+         $("html").animate({ scrollTop: 0 });
+        $('.Student_Dashboard_detail').show('100');
+        $('.popup-bg-img').show();
+        });   
     // $('.edit-profile-iocn').click(function (){
     //     $("html").animate({ scrollTop: 0 });
     //     $('.Personal_details').show('100');
@@ -122,8 +133,10 @@ $('document').ready(function (){
         $('.add_tenth').hide('100');
         $('.extra-skills-model').hide('100');
         $('.profile-summery-model').hide('100');
+        $('.test-score-model').hide('100');
         $('.Desired-Career-Profile').hide('100');
         $('.Personal_details').hide('100');
+        $('.Student_Dashboard_detail').hide('100');
         $('.popup-bg-img').hide();
     });
     $('#scroll_resume_upload').click(function (){

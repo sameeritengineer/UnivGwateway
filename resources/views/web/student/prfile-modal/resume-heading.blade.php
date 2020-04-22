@@ -7,7 +7,7 @@
 		</div>
 		<textarea class="form-control popup-text-area resume_output_field" name="resume_headline" id="resume_headline">{{$student->resume_headline}}</textarea>
 		<div class="display-grid margin-top-30 flex-content-right">
-			<!-- <div class="letter-uppercase margin-right-15 font-weight-600 font-size-16 text-color-second">Cancel</div> -->
+			<div class="letter-uppercase margin-right-15 font-weight-600 font-size-16 text-color-second cancel-resume">Cancel</div>
 			<input type="button" value="SAVE" class="custom-btn-2 border-none" id="resume_headline_submit">
 		</div>
 	</form>
