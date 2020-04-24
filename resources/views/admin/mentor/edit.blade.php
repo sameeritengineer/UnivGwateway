@@ -1,6 +1,10 @@
 @extends('admin.layouts.index')
 @section('title','mentors')
 @section('content')
+<link href="https://cdnjs.cloudflare.com/ajax/libs/chosen/1.4.2/chosen.min.css" rel="stylesheet" />
+<link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.0/css/select2.min.css" />
+<script src="https://cdnjs.cloudflare.com/ajax/libs/chosen/1.4.2/chosen.jquery.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.0/js/select2.min.js"></script>
     <!-- BEGIN: Content-->
     <div class="app-content content">
         <div class="content-overlay"></div>
@@ -105,7 +109,7 @@
                                                 <div class="row">
                                                     <div class="col-md-6">
                                                         <div class="form-group row">
-                                                            <label class="col-md-3 label-control" for="userinput5">University Attended:</label>
+                                                            <label class="col-md-3 label-control" for="userinput5">Last University Attended:</label>
                                                             <div class="col-md-9">
                                                                 <select id="projectinput5" name="university_id" class="form-control">
 							                                    <option value="">Select University Attended</option>
@@ -146,15 +150,28 @@
                                                             </div>
                                                         </div>
                                                         <div class="form-group row">
-                                                            <label class="col-md-3 label-control" for="userinput5">Country Code:</label>
+                                                            <label class="col-md-3 label-control" for="userinput5">Country Name:</label>
                                                             <div class="col-md-9">
                                                                 <select id="projectinput5" name="country_code" class="form-control">
                                                                 <option value="">Select Country Code</option>
                                                                 @foreach($master_country as $country)
-                                                                <option {{$mentor->country_code==$country->id?'selected':''}} value="{{$country->id}}">{{$country->code}}</option>
+                                                                <option {{$mentor->country_code==$country->id?'selected':''}} value="{{$country->id}}">{{$country->name}}</option>
                                                                 @endforeach
                                                              </select>
                                                             </div>
+                                                        </div>
+                                                        <div class="form-group row">
+                                                            <label class="col-md-3 label-control" for="userinput5">Skills:</label>
+                                                            <div class="col-md-9">
+                                                                <div class="key_skill_container">
+                                                               <select name="mentor_skills[]" class="multipleChosen keyskillsInput" multiple="true">
+                                                            @foreach($master_skills as $skills)
+                                                                <option value="{{$skills->id}}">{{$skills->name}}</option>
+                                                            @endforeach    
+                                                            </select>
+                                                           </div>
+                                                            </div>
+                                                            
                                                         </div>
                                                     </div>
                                                     <div class="col-md-6">
@@ -232,6 +249,156 @@
                                                         </div>
                                                     </div>
                                                 </div>
+                                                <h4 class="form-section"><i class="fa fa-image"></i></i>Mentor Test Score</h4>
+        <section id="form-control-repeater">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="card">
+                                <div class="card-content collapse show">
+                                    <div class="card-body">
+
+                                            <div class="form-group col-12 mb-2 test-repeater">
+                                                <div data-repeater-list="test_score_list">
+@foreach($mentor_test_score as $test_score)
+                                                    <div data-mentor_test_score="{{$test_score->id}}" data-repeater-item>
+                                          <input type="hidden" name="mentor_test_score_id" value="{{$test_score->id}}">
+                                                        <div class="row mb-1">
+                                                            <div class="col-6 col-md-10">
+                                                              <div class="row">
+                                                    <div class="col-md-6">
+                                                        <div class="form-group row">
+                                                            <label class="col-md-3 label-control" for="userinput5">Test Name:</label>
+                                                            <div class="col-md-9">
+                                                                <select id="projectinput5" name="test_name" class="select_test_data form-control">
+                                                                <option value="">Select Test Name</option>
+                                                                @foreach($master_test as $test)
+                                                                <option data-max="{{$test->max_score}}" {{$test_score->id==$test->id?'selected':''}} value="{{$test->id}}">{{$test->name}}</option>
+                                                                @endforeach
+                                                             </select>
+                                                            </div>
+                                                        </div>
+
+                                                        <div class="form-group row">
+                                                            <label class="col-md-3 label-control" for="userinput6">Test Year:</label>
+                                                            <div class="col-md-9">
+                                                               <input value="{{ $test_score->test_year }}" id="test_datepicker" class="test_datepicker form-control border-primary" type="text" placeholder="Test Year:" id="userinput5" name="test_year">
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-md-6">
+                                                        <div class="form-group row">
+                                                            <label class="col-md-3 label-control" for="userinput5">Score:</label>
+                                                            <div class="col-md-9">
+                                                                <input value="{{ $test_score->score }}" class="form-control border-primary" type="text" placeholder="Score:" id="userinput5" name="test_score">
+                                                            </div>
+                                                        </div>
+                                                        <div class="form-group row">
+                                                            <label class="col-md-3 label-control" for="userinput5">Max Score:</label>
+                                                            <div class="col-md-9">
+                                                                <input value="{{ $test_score->max_score }}" class="test_max_score form-control border-primary" type="text" placeholder="Max Score:" id="userinput5" name="test_max_score">
+                                                            </div>
+                                                        </div>
+                  
+                                                    </div>
+
+                                                </div>
+                                                            </div>
+                                                            <div class="col-2 col-xl-1">
+                                                                <button  type="button" data-repeater-delete class="btn btn-icon btn-danger mr-1"><i class="feather icon-x"></i></button>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+@endforeach
+
+                                                </div>
+
+                                                <button type="button" data-repeater-create class="btn btn-primary">
+                                                    <i class="icon-plus4"></i> Add new file
+                                                </button>
+                                            </div>
+
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+   
+                    </div>
+                </section>
+<h4 class="form-section"><i class="fa fa-image"></i></i>Mentor Apllied Universities</h4>
+                <section id="form-control-repeater">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="card">
+                                <div class="card-content collapse show">
+                                    <div class="card-body">
+
+                                            <div class="form-group col-12 mb-2 applied-university-repeater">
+                                                <div data-repeater-list="applied_university_list">
+@foreach($mentor_universities_applied_list as $applied_list)
+                                                    <div data-mentor_applied_university="{{$applied_list->id}}" data-repeater-item>
+                                                 <input type="hidden" name="mentor_applied_university_id" value="{{$applied_list->id}}">
+                                                        <div class="row mb-1">
+                                                            <div class="col-6 col-md-10">
+                                                              <div class="row">
+                                                    <div class="col-md-6">
+                                                        <div class="form-group row">
+                                                            <label class="col-md-3 label-control" for="userinput5">Univeristy Name:</label>
+                                                            <div class="col-md-9">
+                                                               <select id="projectinput5" name="applied_university_id" class="form-control">
+                                                                <option value="">Select University Attended</option>
+                                                                @foreach($master_universities as $universities)
+                                                                <option {{$applied_list->university_id==$universities->id?'selected':''}} value="{{$universities->id}}">{{$universities->name}}</option>
+                                                                @endforeach
+                                                             </select>
+                                                            </div>
+                                                        </div>
+
+                                                        <div class="form-group row">
+                                                            <label class="col-md-3 label-control" for="userinput6">Year Applied:</label>
+                                                            <div class="col-md-9">
+                                                               <input value="{{$applied_list->year_applied }}" id="university_datepicker" class="university_datepicker form-control border-primary" type="text" placeholder="Year Applied:" id="userinput5" name="applied_university_year">
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-md-6">
+                                                        <div class="form-group row">
+                                                            <label class="col-md-3 label-control" for="userinput5">Status:</label>
+                                                            <div class="col-md-9">
+                                                                 <select id="projectinput5" name="applied_status" class="form-control">
+                                                                  <option value="">Select Status</option>
+                                                                  <option {{$applied_list->application_status==1?'selected':''}} value="1">Completed</option>
+                                                                  <option {{$applied_list->application_status==2?'selected':''}} value="2">Pending</option>
+                                                                  </select>  
+                                                            </div>
+                                                        </div>
+                                                    </div>
+
+                                                </div>
+                                                            </div>
+                                                            <div class="col-2 col-xl-1">
+                                                                <button type="button" data-repeater-delete class="btn btn-icon btn-danger mr-1"><i class="feather icon-x"></i></button>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+
+@endforeach
+
+                                                </div>
+
+                                                <button type="button" data-repeater-create class="btn btn-primary">
+                                                    <i class="icon-plus4"></i> Add new file
+                                                </button>
+                                            </div>
+
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+   
+                    </div>
+                </section>                
                                                 
                                                     
                                                     <div class="col-md-6">
@@ -264,9 +431,77 @@
     <!-- END: Content-->
 <script>
 $(document).ready(function(){
+  $('.test-repeater').repeater({
+        show: function () {
+            $(this).slideDown();
+        },
+        hide: function(remove) {
+            
+            if (confirm('Are you sure you want to remove this item?')) {
+                var id = $(this).attr('data-mentor_test_score');
+                $.ajax({
+                    url: "{{ route('delete-mentor-test-score') }}",
+                    type: "POST",
+                    data: {
+                        "_token": "{{ csrf_token() }}",
+                        "id": id,
+                    },
+                    success: function(response) {
+                    },
+                 });
+                $(this).slideUp(remove);
+            }
+        }
+    });
+   $('.applied-university-repeater').repeater({
+        show: function () {
+            $(this).slideDown();
+        },
+        hide: function(remove) {
+            if (confirm('Are you sure you want to remove this item?')) {
+                var id = $(this).attr('data-mentor_applied_university');
+                $.ajax({
+                    url: "{{ route('delete-mentor-applied-university') }}",
+                    type: "POST",
+                    data: {
+                        "_token": "{{ csrf_token() }}",
+                        "id": id,
+                    },
+                    success: function(response) {
+                    },
+                 });
+                $(this).slideUp(remove);
+            }
+        }
+    });    
+ $(document).on("change", ".select_test_data" , function() { 
+     var max_score = $('option:selected', this).attr('data-max');
+     $(this).parent().parent().parent().next().find('.test_max_score').val(max_score);
+   });
    $('#datepicker').datepicker({
             uiLibrary: 'bootstrap4'
         });
+
+    $(document).on('focus', '.test_datepicker',function(){
+            $(this).datepicker({
+                uiLibrary: 'bootstrap4'
+            })
+        });
+    $(document).on('focus', '.university_datepicker',function(){
+            $(this).datepicker({
+                uiLibrary: 'bootstrap4'
+            })
+        });
+   $(".multipleChosen").chosen({
+      placeholder_text_multiple: "Enter your area of Expertise/Specialization" //placeholder
+    });
+ var values = JSON.parse('<?php echo json_encode($mentor_skill); ?>');
+ var numbers = new Array();
+for (i = 0; i < values.length; i++) {
+  var pushvalue = values[i].toString();
+  numbers.push(pushvalue);
+}
+$('.keyskillsInput').val(numbers).trigger('chosen:updated');
   });
 var loadFileImage = function(event) {
     var output = document.getElementById('Imageoutput');

@@ -12,6 +12,9 @@ use App\MasterDegree;
 use App\StudentSkill;
 use App\MentorSkill;
 use App\MentorAvailability;
+use App\Aspiration;
+use App\MasterCountry;
+use DB;
 
 class MentorController extends Controller
 {
@@ -49,10 +52,129 @@ class MentorController extends Controller
         }else{
            $program_name = ''; 
         }
-        $student_skill = StudentSkill::select('skill_id')->where('student_id',$student->id)->pluck('skill_id')->toArray(); 
-        $mentor_skills_according_to_student_Skill = MentorSkill::select('mentor_id')->whereIn('skill_id', $student_skill)->pluck('mentor_id')->toArray();
-        $mentor_id = array_unique($mentor_skills_according_to_student_Skill);
-        $mentors = Mentor::select('id','first_name','last_name','degree_program_id','major_specialization','job_title','detailed_bio','image')->where('status', 1)->whereIn('id', $mentor_id)->limit(4)->get();
+        /* Get Mentor According to student Skill */
+        $student_skill = StudentSkill::select('skill_id')->where('student_id',$student->id)->pluck('skill_id')->toArray();
+
+        //dd($student_skill); 
+        // $mentor_skills_according_to_student_Skill = MentorSkill::select('mentor_id')->whereIn('skill_id', $student_skill)->pluck('mentor_id')->toArray();
+        // $mentor_id = array_unique($mentor_skills_according_to_student_Skill);
+
+        $student_aspiration_data = Student::find($student->id)->aspiration;
+        if(!empty($student_aspiration_data)){
+          $degree_program_id = $student_aspiration_data->degree_id;
+          $student_countries = $student_aspiration_data->countries;
+          $student_course = $student_aspiration_data->countries;
+          $student_countries_selected = explode(',',$student_countries);
+          $country_id = array();
+        
+            foreach($student_countries_selected as $country){
+               if($country == 'US'){
+                  array_push($country_id,235);
+                }elseif($country == 'UK'){
+                  array_push($country_id,78); 
+                }elseif($country == 'Australia'){
+                  array_push($country_id,13); 
+                }elseif($country == 'Canada'){
+                  array_push($country_id,37); 
+                }elseif($country == 'Europe'){
+                  $Europe_countries_code = array(1,2,3);
+                  foreach($Europe_countries_code as $europe){
+                    array_push($country_id,$europe); 
+                  }
+                }elseif($country == 'Others'){
+                    $country_id = MasterCountry::select('id')->where('status',1)->pluck('id')->toArray();
+                }
+            } 
+
+        }else{
+          $degree_program_id = NULL;
+          $country_id = array();
+        }
+        
+        $student_testscore_data  = Student::find($student->id)->studenttest;
+        if(!empty($student_testscore_data)){
+            $student_test_id = $student_testscore_data->test_id;
+            $student_test_score = $student_testscore_data->total_score;
+        }else{
+            $student_test_id = NULL;
+            $student_test_score = 0;
+        }    
+
+        
+        //dd($country_id);
+
+        
+
+        //dd($degree_program_id);
+
+        
+
+          $mentors = DB::table('mentors')
+                    ->select('mentors.*')
+                    ->leftjoin('mentor_skill', 'mentors.id', '=', 'mentor_skill.mentor_id')
+                    ->leftjoin('mentor_test_score', 'mentors.id', '=', 'mentor_test_score.mentor_id')
+                    ->where(function($query) use ($degree_program_id) {
+                        $query->where('mentors.degree_program_id',$degree_program_id);
+                    })
+                    ->orWhere(function($query) use ($country_id) {
+                        $query->whereIn('mentors.country_code',$country_id);
+                    })
+                    ->orWhere(function($query) use ($student_skill) {
+                        $query->whereIn('mentor_skill.skill_id',$student_skill);
+                    })
+                    ->orWhere(function($query) use ($student_test_id,$student_test_score) {
+                        $query->where('mentor_test_score.test_id',$student_test_id)
+                        ->Where('mentor_test_score.score', '>' , $student_test_score);
+                    })
+                    ->where('status',1)
+                    ->distinct('mentors.id')
+                    ->get();
+
+           // dd($mentors);
+
+
+
+        //dd($country_id);
+
+        // $mentors = DB::table('mentors')
+        //     ->select('mentors.*')
+        //     ->when($degree_program_id, function($query) use ($degree_program_id) {
+        //         $query->where('mentors.degree_program_id', $degree_program_id);
+        //         return $query;
+        //     })
+        //     ->when($country_id, function($query) use ($country_id) {
+        //         $query->where('mentors.country_code', 1);
+        //         return $query;
+        //     })
+        //     ->distinct('mentors.id')
+        //     ->get();
+
+        // $mentors = DB::table('mentors')
+        //             ->select('mentors.*')
+        //             //->leftjoin('mentor_skill', 'mentors.id', '=', 'mentor_skill.mentor_id')
+        //             ->where('status',1)
+        //             ->WhereIn('mentors.country_code', $country_id)
+        //             ->orWhere('mentors.degree_program_id', $degree_program_id)
+        //             ->orWhere('mentor_skill.skill_id', $student_skill)
+        //             ->get();
+
+
+
+
+
+
+
+
+
+        /* Get Mentor According to student countries */
+        //$aspiration_data = Aspiration::select('degree_id','countries')->where('student_id',$student->id)->first();
+
+        //dd($aspiration_data->countries);
+        
+       // $mentors = Mentor::select('id')->where('status', 1)->whereIn('country_code',$country_id)->pluck('id')->toArray(); 
+        
+
+        //$mentors = Mentor::select('id','first_name','last_name','degree_program_id','major_specialization','job_title','detailed_bio','image')->where('status', 1)->whereIn('id', $mentor_id)->get();
         $data['mentors'] = $mentors;
         $data['student'] = $student;
         $data['program_name'] = $program_name;

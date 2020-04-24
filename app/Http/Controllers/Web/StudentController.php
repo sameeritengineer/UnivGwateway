@@ -17,7 +17,9 @@ use App\Aspiration;
 use App\MasterCourse;
 use App\StudentEducationDetail;
 use App\MasterTest;
-use App\ProfileTestScore;
+use App\StudentTestScore;
+use App\DataHigherEducation;
+use App\DataEducationPlan;
 use Response;
 
 class StudentController extends Controller
@@ -86,7 +88,10 @@ $totalStrenth = $strenth_1+$strenth_2+$strenth_3+$strenth_4+$strenth_5;
 //dd($total);
 
 $master_test = MasterTest::select('id','name')->get();
-$ProfileTestScore = ProfileTestScore::where('student_id',$student->id)->first();
+$ProfileTestScore = StudentTestScore::where('student_id',$student->id)->first();
+
+$data_higher_education = DataHigherEducation::select('id','name')->get();
+$data_education_plan = DataEducationPlan::select('id','name')->get();
 
 
         $data['student'] = $student;
@@ -103,6 +108,8 @@ $ProfileTestScore = ProfileTestScore::where('student_id',$student->id)->first();
         $data['country_Name'] = $country_Name;
         $data['master_test'] = $master_test;
         $data['ProfileTestScore'] = $ProfileTestScore;
+        $data['data_higher_education'] = $data_higher_education;
+        $data['data_education_plan'] = $data_education_plan;
         return view('web.student.profile',$data);
     }
 
@@ -203,22 +210,22 @@ $ProfileTestScore = ProfileTestScore::where('student_id',$student->id)->first();
           $attend_year = $request->attend_year;
           $score = $request->score;
 
-      if(ProfileTestScore::where('student_id', $student_id)->first()){
-          ProfileTestScore::where('student_id',$student_id)->update(['test_id'=>$test_id,'attend_year'=>$attend_year,'score'=>$score]);
+      if(StudentTestScore::where('student_id', $student_id)->first()){
+          StudentTestScore::where('student_id',$student_id)->update(['test_id'=>$test_id,'attend_year'=>$attend_year,'total_score'=>$score]);
        }else{
-          $ProfileTestScore = ProfileTestScore::create([
+          $ProfileTestScore = StudentTestScore::create([
                     'student_id' => $student_id,
                     'test_id'=>$test_id,
                     'attend_year'=>$attend_year,
-                    'score'=>$score,
+                    'total_score'=>$score,
                 ]);
        }
-       $ProfileTestScore = ProfileTestScore::where('student_id',$student_id)->first();
+       $ProfileTestScore = StudentTestScore::where('student_id',$student_id)->first();
        if(!empty($ProfileTestScore)){
         $testName = MasterTest::where('id',$ProfileTestScore->test_id)->first();
         $output = '<h3 class="text-color-second font-size-16 font-weight-600 margin-bottom-none margin-top-none">TestName:</h3><p>'.$testName->name.'</p>
                          <h3 class="text-color-second font-size-16 font-weight-600 margin-bottom-none margin-top-none">Test Ateend Year:</h3><p>'.$ProfileTestScore->attend_year.'</p>
-                         <h3 class="text-color-second font-size-16 font-weight-600 margin-bottom-none margin-top-none">Test Score: </h3><p>'.$ProfileTestScore->score.'</p>';
+                         <h3 class="text-color-second font-size-16 font-weight-600 margin-bottom-none margin-top-none">Test Score: </h3><p>'.$ProfileTestScore->total_score.'</p>';
        }else{
          $output = '';
        }
@@ -250,9 +257,17 @@ $ProfileTestScore = ProfileTestScore::where('student_id',$student->id)->first();
 
        $student_id = $request->student_id;
        $degree_id  = $request->degree_id;
-       $countries  = implode(",",$request->countries);
+       if(!empty($request->countries)){
+         $countries  = implode(",",$request->countries);
+       }else{
+         $countries  = NULL;
+       }
        $program_course  = $request->program_course;
-       $mentor_help  = implode(",",$request->mentor_help);
+       if(!empty($request->mentor_help)){
+        $mentor_help  = implode(",",$request->mentor_help);
+       }else{
+         $mentor_help  = NULL;
+       }
        $education_plans  = $request->education_plans;
        $higher_education = $request->higher_education;
        if(Aspiration::where('student_id', $student_id)->first()){
@@ -270,20 +285,44 @@ $ProfileTestScore = ProfileTestScore::where('student_id',$student->id)->first();
        }
         $aspiration  = Aspiration::where('student_id',$student_id)->first();
         $degree_name = MasterDegree::where('id',$aspiration->degree_id)->first();
-        $array_mentor_help = array("Determining target schools","Creating a schedule for college / MBA applications (from Test prep to Admissions)","Building your (or your child's) profile","Choosing Recommenders","Brainstorming for essays","Something else");
-        $explode_help = explode(',',$aspiration->mentors_to_help);
-        $help_output = '';
-        foreach($explode_help as $help){
-          $help_output .= '<p>'.$array_mentor_help[$help].'</p>';
+        if(!empty($degree_name)){
+          $degree_name = $degree_name->name;
+        }else{
+          $degree_name = '';
         }
+        $array_mentor_help = array("Determining target schools","Creating a schedule for college / MBA applications (from Test prep to Admissions)","Building your (or your child's) profile","Choosing Recommenders","Brainstorming for essays","Something else");
+        if(!empty($aspiration->mentors_to_help)){
+            $explode_help = explode(',',$aspiration->mentors_to_help);
+            $help_output = '';
+            foreach($explode_help as $help){
+              $help_output .= '<p>'.$array_mentor_help[$help].'</p>';
+            } 
+        }else{
+              $help_output  = '';
+        }
+        
         $education_plans = array("I want to change careers, and need help with making my application stand out.","I am confused about programs being offered by the institutes and the career choices afterwards. I need some guidance.","I have a very simple background story to tell. How should I tell it effectively? Basically, I need to make my profile & career work sound impressive.","I am running late on my application plans and need help managing the workload efficiently.","With no captivating extracurriculars, how do I stand out from the crowd?","Something else");
         $higher_education = array('Spring 2021','Fall 2021','Spring 2022','Fall 2022','2023 & later');
+
+        if(!empty($aspiration->education_plans)){
+            $education_plans_data  = DataEducationPlan::where('id',$aspiration->education_plans)->first();
+            $education_plans = $education_plans_data->name;
+        }else{
+            $education_plans = '';
+        }
+
+        if(!empty($aspiration->higher_education)){
+             $higher_education_data = DataHigherEducation::where('id',$aspiration->higher_education)->first();
+             $higher_education = $higher_education_data->name;
+          }else{
+             $higher_education = '';
+          }
                         
         $output = '';
 
         $output .= '<div class="user-show-data margin-bottom-15 width-47-per">
                         <h3 class="text-color-second font-size-16 font-weight-600 margin-bottom-none margin-top-none">What Degree Program do you want to apply for</h3>
-                        <p>'.$degree_name->name.'</p>
+                        <p>'.$degree_name.'</p>
                     </div>';
         $output .= '<div class="user-show-data margin-bottom-15 width-47-per margin-left-5-per">
                         <h3 class="text-color-second font-size-16 font-weight-600 margin-bottom-none margin-top-none">What is your preferred list of countries for study</h3>
@@ -299,11 +338,11 @@ $ProfileTestScore = ProfileTestScore::where('student_id',$student->id)->first();
                     </div>';
         $output .= '<div class="user-show-data margin-bottom-15 width-47-per">
                         <h3 class="text-color-second font-size-16 font-weight-600 margin-bottom-none margin-top-none">What are key questions/concerns/worries about your education plans</h3>
-                        <p>'.$education_plans[$aspiration->education_plans].'</p>
+                        <p>'.$education_plans.'</p>
                     </div>';
         $output .= '<div class="user-show-data margin-bottom-15 width-47-per margin-left-5-per">
                         <h3 class="text-color-second font-size-16 font-weight-600 margin-bottom-none margin-top-none">Which semester &amp; year do you intend to go for higher education</h3>
-                        <p>'.$higher_education[$aspiration->higher_education].'</p>
+                        <p>'.$higher_education.'</p>
                     </div>';                                                           
      
         return Response::json(['aspiration' => $output]);           

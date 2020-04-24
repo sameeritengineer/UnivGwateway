@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class AddFieldsToMasterRegionTable extends Migration
+class CreateDataEducationPlanTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,9 +13,10 @@ class AddFieldsToMasterRegionTable extends Migration
      */
     public function up()
     {
-        Schema::table('master_region', function (Blueprint $table) {
-            //
-            $table->string('parent_area_name')->nullable();
+        Schema::create('data_education_plan', function (Blueprint $table) {
+            $table->id();
+            $table->text('name')->nullable();
+            $table->timestamps();
         });
     }
 
@@ -26,8 +27,6 @@ class AddFieldsToMasterRegionTable extends Migration
      */
     public function down()
     {
-        Schema::table('master_region', function (Blueprint $table) {
-            //
-        });
+        Schema::dropIfExists('data_education_plan');
     }
 }

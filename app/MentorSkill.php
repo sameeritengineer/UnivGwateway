@@ -8,4 +8,5 @@ class MentorSkill extends Model
 {
     //
     protected $table = 'mentor_skill';
+    protected $fillable = ['mentor_id','skill_id'];
 }

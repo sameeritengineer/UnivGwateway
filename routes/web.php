@@ -82,12 +82,14 @@ Route::post('/slots', 'Web\MentorController@slots')->name('slots');
 
 
 Route::prefix('ug_admin')->group(function () {
-   Route::get('/','Admin\DashboardController@dashboard')->name('dashboard');
-   Route::resource('pages','Admin\PageController');
-   Route::get('mentor_register','Admin\RegistrationController@create')->name('mentor_register');
-   Route::post('mentor_register', 'Admin\RegistrationController@store')->name('mentor_store');
-   Route::resource('mentor','Admin\MentorController');
-   Route::resource('user_role','Admin\UserRoles');
+  Route::get('/','Admin\DashboardController@dashboard')->name('dashboard');
+  Route::resource('pages','Admin\PageController');
+  Route::get('mentor_register','Admin\RegistrationController@create')->name('mentor_register');
+  Route::post('mentor_register', 'Admin\RegistrationController@store')->name('mentor_store');
+  Route::resource('mentor','Admin\MentorController');
+  Route::resource('user_role','Admin\UserRoles');
+  Route::post('delete-mentor-test-score', 'Admin\MentorController@delete_mentor_test_score')->name('delete-mentor-test-score');
+  Route::post('delete-mentor-applied-university', 'Admin\MentorController@delete_mentor_applied_university')->name('delete-mentor-applied-university');
 });
 
 // Route::prefix('myadmin')->group(function() {

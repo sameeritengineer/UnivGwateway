@@ -85,23 +85,17 @@
 		</div>
 		<div class="width-100-per margin-bottom-30">
 			<label class="color-gray font-size-15"> (E.) What are key questions/concerns/worries about your education plans?</label>
-            <?php
-            if(!empty($aspiration)){ 
-              $i =0;
-              foreach($education_plans as $plan){ ?>
-              <div class="display-flex">
-				<input type="radio" class="margin-right-15 education_plans" value="{{$i}}" name="education_plans" {{$aspiration->education_plans==$i?'checked':''}}>
-				<p class="font-size-16 color-gray">{{$plan}}</p>
+          
+            @foreach($data_education_plan as $plan)
+            <div class="display-flex">
+            	@if(!empty($aspiration->education_plans))
+				<input type="radio" class="margin-right-15 education_plans" value="{{$plan->id}}" name="education_plans" {{$aspiration->education_plans==$plan->id?'checked':''}}>
+				@else
+				<input type="radio" class="margin-right-15 education_plans" value="{{$plan->id}}" name="education_plans">
+				@endif
+				<p class="font-size-16 color-gray">{{$plan->name}}</p>
 			  </div>
-              <?php $i++; } }else{ 
-              $i =0;	
-              foreach($education_plans as $plan){
-               ?>
-              <div class="display-flex">
-				<input type="radio" class="margin-right-15 education_plans" value="{{$i}}" name="education_plans">
-				<p class="font-size-16 color-gray">{{$plan}}</p>
-			  </div>
-              <?php $i++; } } ?> 	
+			@endforeach  	
 		
 			<div class="width-100-per margin-bottom-30">
 				<input type="text" class="form-control education_plans_val" name="education_plans_val">
@@ -112,15 +106,13 @@
 		<label class="color-gray font-size-15"> (F.) Which semester & year do you intend to go for higher education</label>
 		<select id="higher_education" name="degree_program" class="select_field_work form-control notice_period">
 		<option value="">Select higher education</option> 
-        <?php  
-         if(!empty($aspiration)){ 
-            $i =0;
-            foreach($higher_education as $edu){ ?>
-            <option {{$aspiration->higher_education==$i?'selected':''}} value="{{$i}}">{{$edu}}</option>
-            <?php $i++; } 
-             }else{ $i =0;  foreach($higher_education as $edu){ ?>
-             <option value="{{$i}}">{{$edu}}</option>
-          	<?php $i++; } } ?>
+		  @foreach($data_higher_education as $education)
+		  @if(!empty($aspiration->higher_education))
+           <option {{$aspiration->higher_education==$education->id?'selected':''}} value="{{$education->id}}">{{$education->name}}</option>
+           @else
+           <option value="{{$education->id}}">{{$education->name}}</option>
+           @endif
+          @endforeach 
         </select>  	
 		</div>
 

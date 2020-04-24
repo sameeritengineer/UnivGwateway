@@ -10,6 +10,10 @@ use App\MasterUniversity;
 use App\MasterDegree;
 use App\MasterCountry;
 use App\MasterSkill;
+use App\MentorSkill;
+use App\MasterTest;
+use App\MentorTestScore;
+use App\MentorUniversityAppliedList;
 use Illuminate\Support\Facades\Hash;
 use Carbon\Carbon;
 
@@ -21,17 +25,19 @@ class RegistrationController extends Controller
     	$data = [];
     	$master_universities = MasterUniversity::select('id','name')->where('status',1)->get();
     	$master_degree = MasterDegree::select('id','name')->where('status',1)->get();
-    	$master_country = MasterCountry::select('id','code')->where('status',1)->get();
-        $master_skills = MasterSkill::select('id','name')->where('status',1)->get();
+    	$master_country = MasterCountry::select('id','name')->where('status',1)->get();
+      $master_skills = MasterSkill::select('id','name')->where('status',1)->get();
+      $master_test = MasterTest::select('id','name','max_score')->get();
     	$data['master_universities'] = $master_universities;
     	$data['master_degree'] = $master_degree;
     	$data['master_country'] = $master_country;
-        $data['master_skills'] = $master_skills;
+      $data['master_skills'] = $master_skills;
+      $data['master_test'] = $master_test;
         return view('admin.auth.register',$data);
     }
     public function store(Request $request)
     {
-        //dd($request->all());
+        
         // $request->validate([
         //     'name' => 'required',
         //      'email' => 'required|email|unique:users|max:255',
@@ -73,7 +79,6 @@ class RegistrationController extends Controller
               }else{
                    $picture = '';
               }
-            $implode_skills = implode(',',$request->mentor_skills);  
             $mentor = Mentor::create([
                 'first_name' => $request->name,
                 'last_name' => $request->lname,
@@ -93,9 +98,41 @@ class RegistrationController extends Controller
                 'image'=>  $picture,
                 'featured'=>  $request->feature,
                 'status' =>  $request->status,
-                'skills' =>  $implode_skills
-
             ]);
+            if($mentor){
+              /* insert values for mentor  skills */
+              $skills = $request->mentor_skills;
+              if(!empty($skills)){
+                foreach($skills as $skill){
+                 $create_mentor_skills = MentorSkill::create([
+                    'mentor_id' => $mentor->id,
+                    'skill_id' => $skill,
+                 ]);
+                }
+              }
+              /* insert values for test score for mentor */
+              $test_score_list = $request->test_score_list;
+              foreach($test_score_list as $list){
+                $create_mentor_testscore = MentorTestScore::create([
+                    'mentor_id' => $mentor->id,
+                    'test_id' => $list['test_name'],
+                    'test_year' =>date("Y-m-d", strtotime(trim($list['test_year'])) ),
+                    'score' => $list['test_score'],
+                    'max_score' => $list['test_max_score'],
+                 ]);
+              }
+              /* insert values for Apllied Universities for mentor */
+              $applied_universities = $request->applied_university_list;
+              foreach($applied_universities as $list){
+                $create_mentor_appliedlist = MentorUniversityAppliedList::create([
+                    'mentor_id' => $mentor->id,
+                    'university_id' => $list['applied_university_id'],
+                    'year_applied' =>date("Y-m-d", strtotime(trim($list['applied_university_year'])) ),
+                    'application_status' => $list['applied_status'],
+                 ]);
+              }
+              
+            }
             }
 
          }catch (Throwable $e) {

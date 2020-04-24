@@ -248,7 +248,7 @@ $higher_education = array('Spring 2021','Fall 2021','Spring 2022','Fall 2022','S
 						@endphp
 						 <h3 class="text-color-second font-size-16 font-weight-600 margin-bottom-none margin-top-none">TestName:</h3><p>{{$testName->name}}</p>
 						 <h3 class="text-color-second font-size-16 font-weight-600 margin-bottom-none margin-top-none">Test Ateend Year:</h3><p>{{$ProfileTestScore->attend_year}}</p>
-						 <h3 class="text-color-second font-size-16 font-weight-600 margin-bottom-none margin-top-none">Test Score: </h3><p>{{$ProfileTestScore->score}}</p>
+						 <h3 class="text-color-second font-size-16 font-weight-600 margin-bottom-none margin-top-none">Test Score: </h3><p>{{$ProfileTestScore->total_score}}</p>
 						 @endif
 				    </div>
 			</div>
@@ -257,16 +257,36 @@ $higher_education = array('Spring 2021','Fall 2021','Spring 2022','Fall 2022','S
 					<?php
                         if(!empty($aspiration)){
                            	$degree_value = App\MasterDegree::where('id',$aspiration->degree_id)->first();
-                           	$degree_name  = $degree_value->name;
+                            if(!empty($degree_value->name)){
+                            	$degree_name  = $degree_value->name;
+                            }else{
+                            	$degree_name  = '';
+                            }
+                           	
                            	$aspiration_countries = $aspiration->countries;
                            	$program_courses = $aspiration->program_courses;
-                           	$explode_help = explode(',',$aspiration->mentors_to_help);
-                           	$help_output  = '';
-                           	foreach($explode_help as $help){
-                             $help_output = '<p>'.$array_mentor_help[$help].'</p>';  
-                           	}
-                           	$education_plans  = $education_plans[$aspiration->education_plans];
-                           	$higher_education = $higher_education[$aspiration->higher_education];
+                           	if(!empty($aspiration->mentors_to_help)){
+                              $explode_help = explode(',',$aspiration->mentors_to_help);
+                              $help_output  = '';
+	                           	foreach($explode_help as $help){
+	                             $help_output = '<p>'.$array_mentor_help[$help].'</p>';  
+	                           	}	
+                            }else{
+                            	 $help_output  = '';
+                            }
+                            if(!empty($aspiration->education_plans)){
+                            	 $education_plans_data  = App\DataEducationPlan::where('id',$aspiration->education_plans)->first();
+                            	 $education_plans = $education_plans_data->name;
+                            }else{
+                            	 $education_plans = '';
+                            }
+                            if(!empty($aspiration->higher_education)){
+                                 $higher_education_data = App\DataHigherEducation::where('id',$aspiration->higher_education)->first();
+                                 $higher_education = $higher_education_data->name;
+                            }else{ 
+                                 $higher_education = '';
+                            } 	
+                           	
                         }else{
                            	$degree_name  = ''; 
                            	$aspiration_countries = '';

@@ -9,6 +9,8 @@
     <script src="{{asset('admin/app-assets/vendors/js/charts/morris.min.js')}}"></script>
     <script src="{{asset('admin/app-assets/vendors/js/extensions/unslider-min.js')}}"></script>
     <script src="{{asset('admin/app-assets/vendors/js/timeline/horizontal-timeline.js')}}"></script>
+    <script src="{{asset('admin/app-assets/vendors/js/forms/repeater/jquery.repeater.min.js')}}"></script>
+    <script src="{{asset('admin/app-assets/js/scripts/forms/form-repeater.js')}}"></script>
     <!-- END: Page Vendor JS-->
 
     <!-- BEGIN: Theme JS-->

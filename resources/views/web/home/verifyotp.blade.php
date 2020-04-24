@@ -36,7 +36,7 @@
 					{{ csrf_field() }}
 					<a class="padding-left-25 padding-right-25" href="{{route('web.student-signup')}}"><i class="fa fa-angle-left font-size-55 text-color-theme"></i></a>
 					<div class="otp-form-row">
-						<h3 class="font-weight-600 text-color-theme font-size-30 margin-top-none text-center">Verifacation Code</h3>
+						<h3 class="font-weight-600 text-color-theme font-size-30 margin-top-none text-center">verification Code</h3>
 						<p class="font-weight-600 text-color-second font-size-20  text-center">Please enter the verification code sent to +91 {{$mobile}}</p>
 						<div id="otp-row" class="padding-top-50">
 							<div id="inner-otp-row">
