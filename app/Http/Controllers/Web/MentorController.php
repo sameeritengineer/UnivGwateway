@@ -133,6 +133,7 @@ class MentorController extends Controller
                     })
                     ->where('status',1)
                     ->distinct('mentors.id')
+                    ->limit(4)
                     ->get();
 
            // dd($mentors);
