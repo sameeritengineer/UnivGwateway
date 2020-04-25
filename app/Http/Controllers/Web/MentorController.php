@@ -15,6 +15,7 @@ use App\MentorAvailability;
 use App\Aspiration;
 use App\MasterCountry;
 use DB;
+use DateTime;
 
 class MentorController extends Controller
 {
@@ -63,7 +64,7 @@ class MentorController extends Controller
         if(!empty($student_aspiration_data)){
           $degree_program_id = $student_aspiration_data->degree_id;
           $student_countries = $student_aspiration_data->countries;
-          $student_course = $student_aspiration_data->countries;
+          $student_course = $student_aspiration_data->program_courses;
           $student_countries_selected = explode(',',$student_countries);
           $country_id = array();
         
@@ -88,6 +89,7 @@ class MentorController extends Controller
 
         }else{
           $degree_program_id = NULL;
+          $student_course    = NULL;
           $country_id = array();
         }
         
@@ -115,6 +117,9 @@ class MentorController extends Controller
                     ->leftjoin('mentor_test_score', 'mentors.id', '=', 'mentor_test_score.mentor_id')
                     ->where(function($query) use ($degree_program_id) {
                         $query->where('mentors.degree_program_id',$degree_program_id);
+                    })
+                    ->orWhere(function($query) use ($student_course) {
+                        $query->where('mentors.major_specialization',$student_course);
                     })
                     ->orWhere(function($query) use ($country_id) {
                         $query->whereIn('mentors.country_code',$country_id);
@@ -184,12 +189,24 @@ class MentorController extends Controller
     }
     public function avilable(Request $request)
     {
-        date_default_timezone_set('Asia/Kolkata');
+        //date_default_timezone_set('America/Denver');
         //return $request->all();
         $mentor_id = $request->mentor_id;
         //return $request->startTime;
-        $startTime = date("Y-m-d H:i:s",$request->startTime/1000);
-        $endtime = date("Y-m-d H:i:s",$request->endtime/1000);
+        // $startTime = date("Y-m-d H:i:s",$request->startTime/1000);
+        // $endtime = date("Y-m-d H:i:s",$request->endtime/1000);
+$starttime = date("Y-m-d H:i:s",$request->startTime/1000);
+$given1 = new DateTime($starttime);
+$given1->setTimezone(new \DateTimeZone("UTC"));
+$startTime = $given1->format("Y-m-d H:i:s"); // 2014-12-12 07:18:00 UTC
+
+$endtime = date("Y-m-d H:i:s",$request->endtime/1000);
+$given2 = new DateTime($endtime);
+$given2->setTimezone(new \DateTimeZone("UTC"));
+$endTime = $given2->format("Y-m-d H:i:s");
+
+
+
         $day = $request->date;
         $month = $request->month+1;
         $year = $request->year;
@@ -198,9 +215,9 @@ class MentorController extends Controller
         $status = 1;
 
          MentorAvailability::create([
-                    'student_id' => $mentor_id,
+                    'mentor_id' => $mentor_id,
                     'from_time'=>$startTime,
-                    'to_time'=>$endtime,
+                    'to_time'=>$endTime,
                     'date'=>$orignal_date,
                     'status'=>$status
                 ]);
@@ -236,9 +253,24 @@ class MentorController extends Controller
             // $timestamp = $value->from_time;
             // $datetime = explode(" ",$timestamp);
             // return $Start_time = $datetime[1];
-            $Start_time =  date("g:i a", strtotime($value->from_time));
-            $End_time   =  date("g:i a", strtotime($value->to_time));
-            $output .= '<option value="'.$value->from_time.'">'.$Start_time.':'.$End_time.'</option>';
+
+            $startdate = new DateTime($value->from_time, new \DateTimeZone('UTC'));
+            $endtdate = new DateTime($value->to_time, new \DateTimeZone('UTC'));
+//echo $date->format('Y-m-d H:i:s') . "\n";
+//echo "<br>";
+$startdate->setTimezone(new \DateTimeZone('Asia/Karachi'));
+$endtdate->setTimezone(new \DateTimeZone('Asia/Karachi'));
+//echo $date->format('Y-m-d H:i:s') . "\n";
+$Start_time = $startdate->format('Y-m-d g:i a');
+$End_time = $endtdate->format('Y-m-d g:i a');
+
+
+$output .= '<option value="'.$value->id.'">'.$Start_time.':'.$End_time.'</option>';
+
+
+            // $Start_time =  date("g:i a", strtotime($value->from_time));
+            // $End_time   =  date("g:i a", strtotime($value->to_time));
+            // $output .= '<option value="'.$value->from_time.'">'.$Start_time.':'.$End_time.'</option>';
          }
          $output .= '</select>';
          return $output;

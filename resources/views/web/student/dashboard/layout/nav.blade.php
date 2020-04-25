@@ -11,16 +11,19 @@
 				</a>
 				</li>
 			<li class=" margin-left-15">
-				<a href="#">
+				<a href="{{route('web.student-profile')}}">
 					<img class="margin-right-15" src="{{asset('web/studentdashboard/images/profileicon.png')}}">
 				</a>
 			</li>
 			<li>
-				<a href="#">
+				<a href="{{ route('logout') }}" onclick="event.preventDefault(); document.getElementById('frm-logout').submit();">
 					<img src="{{asset('web/studentdashboard/images/LOgouticon.png')}}">
 				</a>
 			</li>
 		</ul>
+<form id="frm-logout" action="{{ route('logout') }}" method="POST" style="display: none;">
+    {{ csrf_field() }}
+</form>
 	</div>
 </div>
 <div class="col-md-12 col-sm-12 col-xs-12 main-container background-color-theme">

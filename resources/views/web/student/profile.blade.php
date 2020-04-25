@@ -1,4 +1,4 @@
-@extends('web.layouts.index')
+@extends('web.layouts.profile-index')
 @section('title','Student Profile')
 @section('content')
 <link href="https://cdnjs.cloudflare.com/ajax/libs/chosen/1.4.2/chosen.min.css" rel="stylesheet" />
@@ -132,7 +132,7 @@ $higher_education = array('Spring 2021','Fall 2021','Spring 2022','Fall 2022','S
 					<li><a href="#" id="scroll_education">Education</a></li>
 					<!-- <li><a href="#">Extra Skills</a></li> -->
 					<li><a href="#" id="scroll_profile_summary">Profile Summary</a></li>
-					<li><a href="#" id="scroll_dersired_profile">Desireed Career Profile</a></li>
+					<li><a href="#" id="scroll_dersired_profile">Educational Aspirations</a></li>
 					<li><a href="#" id="scroll_resume_upload">Resume Upload</a></li>
 				</ul>
 			</div>
@@ -354,7 +354,7 @@ $higher_education = array('Spring 2021','Fall 2021','Spring 2022','Fall 2022','S
 							{{ csrf_field() }}
 							<input type="hidden" value="{{$student->id}}" id="student_id" name="student_id">
 							<label for="file-upload" class="letter-uppercase upload-btn">Update Resume</label>
-							<input id="file-upload"  type="file" name="upload_resume" class="center-block upload-resume-input" accept=".doc, .docx,.rtf, .pdf" required="">
+							<input id="file-upload"  type="file" name="upload_resume" class="center-block upload-resume-input" accept=".doc, .docx,.rtf, .pdf">
 							<p class="text-color-red-error"></p>
 							<p class="text-color-gray">Support formats: doc, docs, rtf, pdf, upto 2MB</p>
 							
@@ -406,10 +406,10 @@ $('.keyskillsInput').val(numbers).trigger('chosen:updated');
    // });
 $(function() {
 $("form[name='uploadresumeForm']").validate({
-   rules: {
-      upload_resume: "required",
-      upload_resume: {required: true, accept: ".doc, .docx,.rtf, .pdf"},
-    },
+   // rules: {
+   //    upload_resume: "required",
+   //    upload_resume: {required: true, accept: ".doc, .docx,.rtf, .pdf"},
+   //  },
     submitHandler: function(form) {
     	form.submit();
     }

@@ -78,6 +78,10 @@ class LoginController extends Controller
             'password' => 'required|string',
         ]);
     }
+    public function logout(Request $request) {
+      $this->guard()->logout();
+      return redirect('/student-signin');
+    }
 
     // protected function authenticated(Request $request, $user)
     // {

@@ -313,7 +313,7 @@
                                                 </div>
 
                                                 <button type="button" data-repeater-create class="btn btn-primary">
-                                                    <i class="icon-plus4"></i> Add new file
+                                                    <i class="icon-plus4"></i> Add New Test Score
                                                 </button>
                                             </div>
 
@@ -367,8 +367,10 @@
                                                             <div class="col-md-9">
                                                                  <select id="projectinput5" name="applied_status" class="form-control">
                                                                   <option value="">Select Status</option>
-                                                                  <option {{$applied_list->application_status==1?'selected':''}} value="1">Completed</option>
-                                                                  <option {{$applied_list->application_status==2?'selected':''}} value="2">Pending</option>
+                                                                  <option {{$applied_list->application_status==1?'selected':''}} value="1">Intrested</option>
+                                                                  <option {{$applied_list->application_status==2?'selected':''}} value="2">Applied</option>
+                                                                  <option {{$applied_list->application_status==3?'selected':''}} value="3">Admitted</option>
+                                                                  <option {{$applied_list->application_status==4?'selected':''}} value="4">Rejected</option>
                                                                   </select>  
                                                             </div>
                                                         </div>
@@ -387,7 +389,7 @@
                                                 </div>
 
                                                 <button type="button" data-repeater-create class="btn btn-primary">
-                                                    <i class="icon-plus4"></i> Add new file
+                                                    <i class="icon-plus4"></i> Add New Applied university
                                                 </button>
                                             </div>
 
