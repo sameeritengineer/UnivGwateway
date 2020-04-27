@@ -11,7 +11,6 @@
 					<h3 class="text-color-theme font-weight-500 font-size-40">Student Sign Up</h3>
 					@if ($errors->any())
 				    <div class="alert alert-danger">
-				        <strong>Whoops!</strong> There were some problems with your input.<br><br>
 				        <ul>
 				            @foreach ($errors->all() as $error)
 				                <li>{{ $error }}</li>

@@ -53,6 +53,9 @@ Route::group([
    Route::post('upload-resume', 'StudentController@upload_resume')->name('upload-resume');
    // Route::post('student-employment', 'StudentController@student_employment')->name('student-employment');
 
+   /* Mentor */
+   Route::get('mentor-profile', 'MentorController@profile')->name('mentor-profile');
+
 
 });
 
@@ -61,17 +64,18 @@ Route::group([
 Route::prefix('mentor_admin')->middleware(['auth','can:isAllowed,"mentor:"'])->group(function () {
 
 Route::get('/', function () { return view('web.mentor.test'); })->name('mentor-home');
-Route::post('mentor-avl', 'Web\MentorController@avilable')->name('mentor-avl');
+Route::post('mentor-avl', 'Web\StudentDashboardController@avilable')->name('mentor-avl');
 
 
 });
 
 Route::prefix('student_admin')->middleware(['auth','can:isAllowedStudent,"student:"'])->group(function () {
 //Route::get('/', function () { return view('web.student.dashboard.dashboard'); })->name('student-home');
-Route::get('/', 'Web\MentorController@dashboard')->name('student-mentors');
-Route::get('/student-mentors', 'Web\MentorController@index')->name('student-mentors');
-Route::get('/student-mentors/{id}', 'Web\MentorController@single_mentor')->name('student-mentor-single');
-Route::post('/slots', 'Web\MentorController@slots')->name('slots');
+Route::get('/', 'Web\StudentDashboardController@dashboard')->name('student-dashboard');
+Route::get('/student-mentors', 'Web\StudentDashboardController@index')->name('student-mentors');
+Route::get('student-mentors/{id}', 'Web\StudentDashboardController@single_mentor')->name('student-mentor-single');
+Route::post('/slots', 'Web\StudentDashboardController@slots')->name('slots');
+Route::post('/student-mentor-session', 'Web\StudentDashboardController@student_mentor_session')->name('student-mentor-session');
 
 // Route::get('/student', function () {
 //     dd("student dashboard");

@@ -106,7 +106,7 @@ $higher_education = array('Spring 2021','Fall 2021','Spring 2022','Fall 2022','S
 						</div>
 
 						<div class="right-data display-grid display-grid-center">
-							<h3 class="text-white font-size-20 margin-top-none margin-bottom-none">{{$totalStrenth}}%</h3>
+							<h3 class="text-white font-size-20 margin-top-none margin-bottom-none strength_percent">{{$totalStrenth}}%</h3>
 						</div>
 					</div>
 					<div class="strenth-container">
@@ -132,6 +132,7 @@ $higher_education = array('Spring 2021','Fall 2021','Spring 2022','Fall 2022','S
 					<li><a href="#" id="scroll_education">Education</a></li>
 					<!-- <li><a href="#">Extra Skills</a></li> -->
 					<li><a href="#" id="scroll_profile_summary">Profile Summary</a></li>
+					<li><a href="#" id="scroll_test_score">Test Score Number</a></li>
 					<li><a href="#" id="scroll_dersired_profile">Educational Aspirations</a></li>
 					<li><a href="#" id="scroll_resume_upload">Resume Upload</a></li>
 				</ul>
@@ -194,7 +195,7 @@ $higher_education = array('Spring 2021','Fall 2021','Spring 2022','Fall 2022','S
 						<div class="education_inner"><h3 class="desination margin-top-none font-size-18 text-color-gray">{{$details->course_specialization}} <span><img data-education="{{$details->id}}" class="education-edit-icon edit_education_btn" src="{{asset('web/images/Editiconcommon3.png')}}" alt="" /></span></h3>
 
 						<h3 class="company_name margin-top-none font-size-16 text-color-gray">{{$details->university_value}}</h3>
-						<h3 class="joining margin-top-none font-size-16 text-color-gray margin-bottom-15">{{$details->passing_out_year}} ({{$course_type_array[$details->course_type]}})</h3></div>
+						<h3 class="joining margin-top-none font-size-16 text-color-gray margin-bottom-15">{{$details->passing_out_year}} ({{$course_type_array[0]}})</h3></div>
 						@endforeach
 						<!-- <h3 class="joining margin-top-none font-size-16 text-color-second margin-bottom-15 cursor-pointer add_doctorate_btn cursur-pointer">Add Doctorate/PhD</h3>
 						<h3 class="joining margin-top-none font-size-16 text-color-second margin-bottom-15 cursor-pointer add_masters_btn">Add Masters/Post-Graduation</h3>
@@ -457,6 +458,7 @@ $("form[name='Add_Education_Form']").validate({
       select_institute: "required",
       course_specialization: "required",
       passing_out_year: "required",
+      course_type: "required",
     },
     submitHandler: function(form) {
       //form.submit();
@@ -491,6 +493,7 @@ $("form[name='Edit_Education_Form']").validate({
       select_institute: "required",
       course_specialization: "required",
       passing_out_year: "required",
+      course_type: "required",
     },
     submitHandler: function(form) {
       //form.submit();
@@ -575,6 +578,7 @@ $("form[name='Edit_Education_Form']").validate({
   $('#profile_summary_submit').click(function() {
              var profile_summary = $("#profile_summary").val();
              var email = $("#student_email").val();
+             var student_id = $("#student_id").val();
              var token = $('meta[name="csrf-token"]').attr('content');
              $.ajax({
                     _token: token,
@@ -583,10 +587,13 @@ $("form[name='Edit_Education_Form']").validate({
                     data: {
                         "profile_summary": profile_summary,
                         "email": email,
+                        "student_id": student_id,
                     },
                     success: function(response) {
                     	location.reload();
                     	$('.profileData').html(response['profile_summary']);
+                    	$(".skills-strenth").css("width", response.total_strenth+'%');
+                        $(".strength_percent").text(response.total_strenth+'%');
                     	$('.profile-summery-model').hide('100');
                     	$('.popup-bg-img').hide();
                     	$('html, body').animate({ scrollTop: $("#Profile_summary").offset().top}, 1000);
@@ -634,6 +641,8 @@ $("form[name='Edit_Education_Form']").validate({
                     },
                     success: function(response) {
                        $("#skills_output").html(response.skills);
+                       $(".skills-strenth").css("width", response.total_strenth+'%');
+                       $(".strength_percent").text(response.total_strenth+'%');
                        $('.key-skills-model').hide('100');
                        $('.popup-bg-img').hide();
                        $('html, body').animate({ scrollTop: $("#key-skills").offset().top}, 1000);
@@ -672,6 +681,8 @@ $("form[name='Edit_Education_Form']").validate({
                     },
                     success: function(response) {
                     	$(".aspriration_output").html(response.aspiration);
+                    	$(".skills-strenth").css("width", response.total_strenth+'%');
+                        $(".strength_percent").text(response.total_strenth+'%');
                     	$('.Desired-Career-Profile').hide('100');
                         $('.popup-bg-img').hide();
                         $('html, body').animate({ scrollTop: $("#Desired-Career-Profile-output").offset().top}, 1000);

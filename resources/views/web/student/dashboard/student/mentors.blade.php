@@ -13,7 +13,7 @@
 				@foreach($mentors as $mentor)
 	            <div class="col-md-3 col-sm-6 col-xs-12 three_row_section text-center">
 	                <div class="col-xs-12 col-sm-12 col-md-12 box-shadow-gray">
-	                    <img src="{{asset('uploads/mentor/'.$mentor->image)}}" alt="" class="img-responsive center-block">
+	                    <a href="{{ route('student-mentor-single', $mentor->id) }}"><img src="{{asset('uploads/mentor/'.$mentor->image)}}" alt="" class="img-responsive center-block"></a>
 	                    @php 
                          $degree = App\Mentor::find($mentor->id)->degree;
                         @endphp

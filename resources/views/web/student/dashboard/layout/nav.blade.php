@@ -1,6 +1,6 @@
 <div class="col-md-12 col-sm-12 col-xs-12 dash-header display-grid">
 	<div class="logo">
-		<a href="index.php" alt=""><img src="{{asset('web/images/MAinlogo.png')}}" alt="logo" /></a>
+		<a href="#" alt=""><img src="{{asset('web/images/MAinlogo.png')}}" alt="logo" /></a>
 	</div>
 	<div class="navigation-dashboard display-grid justify-content-end">
 		<ul class="display-grid text-right">

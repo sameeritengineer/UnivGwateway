@@ -49,7 +49,7 @@ class LoginController extends Controller
             if($role->id == 1 && $role->status == 1){
                 return redirect('/student-profile');
             }if($role->id == 2 && $role->status == 1){
-                return redirect('/mentor_admin');
+                return redirect('/mentor-profile');
             }else{
                 return redirect('/newhome');
             }
