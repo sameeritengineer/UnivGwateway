@@ -8,5 +8,5 @@ class MentorAvailability extends Model
 {
     //
     protected $table = 'mentor_availability';
-    protected $fillable = ['from_time','to_time','date','status'];
+    protected $fillable = ['from_time','to_time','date','status','mentor_id'];
 }
