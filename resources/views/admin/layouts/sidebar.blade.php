@@ -15,6 +15,14 @@
                         <li class="{{ in_array(Route::currentRouteName(), ['mentor_register']) ? 'active' : '' }}"><a href="{{route('mentor_register')}}" class="menu-item"><i class="fa fa-flag"></i><span data-i18n="" class="menu-title">Add Mentor</span></a></li>
                 </ul>
                 </li>
+
+                 <li class="nav-item"><a href="#"><i class="fa fa-flag"></i><span data-i18n="" class="menu-title">Services</span></a>
+                  <ul class="menu-content">
+                    <li class="{{ in_array(Route::currentRouteName(), ['services.index','services.edit']) ? 'active' : '' }}"><a href="{{route('services.index')}}" class="menu-item"><i class="fa fa-flag"></i><span data-i18n="" class="menu-title">Services</span></a></li>
+                        <li class="{{ in_array(Route::currentRouteName(), ['services.create']) ? 'active' : '' }}"><a href="{{route('services.create')}}" class="menu-item"><i class="fa fa-flag"></i><span data-i18n="" class="menu-title">Add Services</span></a></li>
+                </ul>
+                </li>
+
                 <li class="nav-item"><a href="#"><i class="fa fa-flag"></i><span data-i18n="" class="menu-title">User Roles</span></a>
                   <ul class="menu-content">
                     <li class="{{ in_array(Route::currentRouteName(), ['user_role.index','user_role.edit']) ? 'active' : '' }}"><a href="{{route('user_role.index')}}" class="menu-item"><i class="fa fa-flag"></i><span data-i18n="" class="menu-title">User Roles</span></a></li>

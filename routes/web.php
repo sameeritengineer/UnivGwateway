@@ -94,6 +94,7 @@ Route::prefix('ug_admin')->group(function () {
   Route::resource('user_role','Admin\UserRoles');
   Route::post('delete-mentor-test-score', 'Admin\MentorController@delete_mentor_test_score')->name('delete-mentor-test-score');
   Route::post('delete-mentor-applied-university', 'Admin\MentorController@delete_mentor_applied_university')->name('delete-mentor-applied-university');
+  Route::resource('services','Admin\ServicesController');
 });
 
 // Route::prefix('myadmin')->group(function() {
