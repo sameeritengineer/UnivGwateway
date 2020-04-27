@@ -14,6 +14,7 @@ body{
 	background: #fff;
 	padding-left: 50px;
 	padding-right: 50px;
+	border-bottom: 1.5px #442d7b solid;
 }
 
 .justify-content-end{
@@ -141,8 +142,7 @@ body{
     padding-right: 50px;
     padding-top: 70px;
     padding-bottom: 50px;
-    position: relative;
-    height:100%;
+    min-height:500px;
 }
 
 .dashboard-btn-row{
@@ -188,6 +188,128 @@ body{
 	right: 0;
 }
 
+.show-hide-btn{
+	border:2px #48b4db solid;
+	padding-left: 20px;
+}
+
+.faq-hidden-text{
+	padding-left: 20px;
+}
+
+.faq{
+	padding: 0;
+}
+
+.blog-content-section p{
+	color: #666;
+	font-size:18px;
+	text-align: justify;
+	line-height: 30px;
+}
+
+.artical-image{
+	float: left;
+}
+
+.flex-item-end{
+	align-items: end;
+}
+
+.padding-left-30{
+	padding-left: 30px;
+}
+
+.search-form{
+	position: relative;
+}
+
+
+
+input.search-field {
+    border: 0;
+    border-top: 1px #e2e2e2 solid;
+    border-bottom: 1px #e2e2e2 solid;
+    height: 35px;
+    padding-left: 5px;
+    margin-left: -5px;
+}
+
+select.select-search-form {
+    background-color: #482d7a;
+    color: #fff;
+    height: 35px;
+    border: 0;
+    padding-left: 7px;
+    border-top-left-radius: 5px;
+    border-bottom-left-radius: 5px;
+}
+
+.search-btn{
+	border:0;
+	background-color: #482d7a;
+	color: #fff;
+	text-align: center;
+	height: 35px;
+	line-height: 35px;
+	border-top-right-radius: 5px;
+    border-bottom-right-radius: 5px;
+    margin-left: -5px;
+    padding: 5px;
+    font-size: 0;
+    width: 45px;
+}
+
+.search-img{
+	position: absolute;
+    right: 12px;
+    height: 20px !important;
+    top: 7px;
+    z-index: 1;
+    margin-right: 0 !important;
+}
+
+.result-row{
+	border-bottom: 1px #48b4db solid;
+	padding-top: 15px;
+    padding-bottom: 20px;
+}
+
+.result-row:last-child{
+	border-bottom: 0;
+	padding-bottom: 10px;
+}
+
+.result-row-width{
+	width: 25%;
+}
+
+.select-mentor {
+    height: 45px;
+    padding: 0 15px;
+    background: #48b4db;
+    color: #fff;
+    font-size: 20px;
+    border: 0;
+    border-radius: 10px;
+}
+
+.input-radio-btn {
+    background: #7ebadc;
+    color: #fff;
+    padding: 7px 30px;
+    border-radius: 7px;
+    font-size: 18px;
+    cursor: pointer;
+    margin-right: 15px;
+    margin-bottom: 15px;
+    font-weight: 500;
+}
+
+.input-radio-field{
+	display: none;
+}
+
 @media screen and (max-width:1170px){
 	.right-data-row{
 		padding-right: 25px;
@@ -196,6 +318,12 @@ body{
 
 	.font-size-22{
 		font-size:18px;
+	}
+}
+
+@media screen and (max-width:991px){
+	.artical-image{
+		float: initial;
 	}
 }
 
@@ -221,5 +349,34 @@ body{
 
 	.padding-top-none{
 		padding-top: 0;
+	}
+
+	.padding-left-30{
+		padding-left: 0px;
+	}
+
+	.mob-padding-5-10{
+		padding: 5px 10px;
+	}
+
+	.dashboard-title-banner{
+		padding-right: 0;
+		padding-left: 0;
+	}
+
+	.student-detail{
+		text-align: center;
+	}
+
+	.student-detail img{
+		margin-bottom: 30px;
+	}
+
+	.margin-right-30 {
+	    margin-right: 0px;
+	}
+
+	.profile-edit-row{
+		margin-bottom: 0;
 	}
 }

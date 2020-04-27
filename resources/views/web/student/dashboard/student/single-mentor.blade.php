@@ -3,39 +3,34 @@
 @section('studentcontent')
 <meta name="csrf-token" content="{{ csrf_token() }}">
 <div class="col-md-10 col-sm-9 col-xs-12 right-main-container">
-		<div class="student-title">Student Dashboard</div>
-		<div style="background-image: url('{{asset('web/studentdashboard/images/Student-MEntordashboard-BG.png')}}');" class="col-md-12 col-sm-12 col-xs-12 dashboard-title-banner display-grid space-between align-items-end">
-			<div class="display-grid">
-				<div class="student-detail">
-					<img class="margin-right-30" src="{{asset('web/studentdashboard/images/MENTOR_stuartlucasprofile.png')}}" alt="" />
-				</div>
-				<div>
-					<div class="name-row display-flex">
-						<h3 class="letter-uppercase font-size-25 font-weight-600 text-white">Sara Davis</h3>
-						<img class="cursor-pointer" src="{{asset('web/studentdashboard/images/editiconWHite.png')}}" alt="" />
-					</div>
-					<div class="row-parral text-white font-size-20 margin-bottom-10">
-						<span>infosara@gmail.com</span> <span>99 999 99 99</span> <span>MBA</span> <span>Duration</span>
-					</div>
-					<div class="letter-uppercase text-color-second font-size-25 font-weight-600">Professional Package</div>
-				</div>
-			</div>
-			<div class="padding-top-30">
-				<h3 class="text-white font-size-20 font-weight-500">Profile Last Updated - Today</h3>
-			</div>
-		</div>
-		<div class="right-data-row col-md-12 col-sm-12 col-xs-12">
-			<div class="col-md-12 col-sm-12 col-xs-12 padding-none">
-				<h3 class="letter-uppercase font-size-18 font-weight-600 text-color-theme margin-bottom-30">My Mentors</h3>
-			</div>
-            <div class="container">
-  <p>This is a datepicker example using jquery, jquery ui, and jquery css</p>
-  <input type="hidden" id="mentor_id" value="{{$mentor_id}}">
-<form>
-Date:
-<input id="datepicker">
+@include('web.student.dashboard.layout.student-board')
+<div class="right-data-row col-md-12 col-sm-12 col-xs-12">
+<div class="container">
+<form method="POST" action="{{ route('student-mentor-session') }}">
+    @if ($errors->any())
+            <div class="alert alert-danger">
+                <ul>
+                    @foreach ($errors->all() as $error)
+                        <li>{{ $error }}</li>
+                    @endforeach
+                </ul>
+            </div>
+     @endif
+     @if (\Session::has('success'))
+      <div class="alert alert-success">
+                     <strong>{!! \Session::get('success') !!}</strong> 
+       </div>
+      @endif
+{{ csrf_field() }}
+Date: <div id="datepicker"></div>
+<input type="hidden" id="session_date" name="session_date" value="">
+<input type="hidden" name="student_id" value="{{$student->id}}">
+<input type="hidden" id="mentor_id" name="mentor_id" value="{{$mentor_id}}">
 <p class="slots_data"></p>
+<textarea name="agenda" placeholder="Agenda"></textarea>
+<input type="submit" name="submit" value="schedule">
 </form>
+
 </div>
 
 		</div>
@@ -66,6 +61,7 @@ $('#datepicker').datepicker({onSelect: function(dateText) {
      //console.log(this.value);   
     var mentor_id = $("#mentor_id").val();
     var selected_date = this.value;
+    $("#session_date").val(selected_date);
     var token = $('meta[name="csrf-token"]').attr('content');
              $.ajax({
                     _token: token,

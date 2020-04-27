@@ -59,33 +59,7 @@ class StudentController extends Controller
             $country_Name = '';
         }
 /* find student Profile Strenth */
-$count_student_summary = Student::where('id', $student->id)->where('profile_summary','<>',NULL)->count();
-$count_student_resume = Student::where('id', $student->id)->where('resume_upload','<>',NULL)->count();
-$count_student_skill = StudentSkill::where('student_id', $student->id)->count();
-$count_student_edu   = StudentEducationDetail::where('student_id', $student->id)->count();
-$count_student_aspiration   = Aspiration::where('student_id', $student->id)->count();
-$strenth_1 = 0;
-$strenth_2 = 0;
-$strenth_3 = 0;
-$strenth_4 = 0;
-$strenth_5 = 0;
-if($count_student_summary >0 ){
-    $strenth_1 = 20;
-}
-if($count_student_skill >0 ){
-    $strenth_2 = 20;
-}
-if($count_student_edu >0 ){
-    $strenth_3 = 20;
-}
-if($count_student_aspiration >0 ){
-    $strenth_4 = 20;
-}
-if($count_student_resume >0 ){
-    $strenth_5 = 20;
-}
-$totalStrenth = $strenth_1+$strenth_2+$strenth_3+$strenth_4+$strenth_5;
-//dd($total);
+$totalStrenth = $this->profileStrenth($student->id);
 
 $master_test = MasterTest::select('id','name')->get();
 $ProfileTestScore = StudentTestScore::where('student_id',$student->id)->first();
@@ -112,6 +86,34 @@ $data_education_plan = DataEducationPlan::select('id','name')->get();
         $data['data_education_plan'] = $data_education_plan;
         return view('web.student.profile',$data);
     }
+public function profileStrenth($student_id){
+$count_student_summary = Student::where('id', $student_id)->where('profile_summary','<>',NULL)->count();
+$count_student_resume = Student::where('id', $student_id)->where('resume_upload','<>',NULL)->count();
+$count_student_skill = StudentSkill::where('student_id', $student_id)->count();
+$count_student_edu   = StudentEducationDetail::where('student_id', $student_id)->count();
+$count_student_aspiration   = Aspiration::where('student_id', $student_id)->count();
+$strenth_1 = 0;
+$strenth_2 = 0;
+$strenth_3 = 0;
+$strenth_4 = 0;
+$strenth_5 = 0;
+if($count_student_summary >0 ){
+    $strenth_1 = 20;
+}
+if($count_student_skill >0 ){
+    $strenth_2 = 20;
+}
+if($count_student_edu >0 ){
+    $strenth_3 = 20;
+}
+if($count_student_aspiration >0 ){
+    $strenth_4 = 20;
+}
+if($count_student_resume >0 ){
+    $strenth_5 = 20;
+}
+  return $totalStrenth = $strenth_1+$strenth_2+$strenth_3+$strenth_4+$strenth_5;
+}    
 
     /**
      * Show the form for creating a new resource.
@@ -189,6 +191,7 @@ $data_education_plan = DataEducationPlan::select('id','name')->get();
     }
     public function profile_summary(Request $request){
         $email           = $request->email;
+        $student_id      = $request->student_id;
         $profile_summary = $request->profile_summary;
         $value = Student::where('email',$email)->update(['profile_summary'=>$profile_summary]);
         $firstdesc=substr($profile_summary, 0, 100);
@@ -197,10 +200,9 @@ $data_education_plan = DataEducationPlan::select('id','name')->get();
 
         $output = '<p>'.$firstdesc.'<span id="dots">...</span><span id="more">'.$totaldesc.'</span></p>';
 
-
-
         if($value){
-        return Response::json(['profile_summary' => $output]);
+        $total_strenth =  $this->profileStrenth($student_id);  
+        return Response::json(['profile_summary' => $output,'total_strenth' => $total_strenth]);
         } 
     }
     public function test_score(Request $request){
@@ -249,7 +251,8 @@ $data_education_plan = DataEducationPlan::select('id','name')->get();
          $skill->name = $get_skill_name->name;
          $output .='<li>'.$skill->name.'</li>';
        }
-       return Response::json(['skills' => $output]);
+        $total_strenth =  $this->profileStrenth($student_id);
+       return Response::json(['skills' => $output, 'total_strenth' => $total_strenth]);
        
        //$shopOwner = StudentSkill::firstOrNew(array('shopId' => $theID,'metadataKey' => 2001));
     } 
@@ -344,8 +347,8 @@ $data_education_plan = DataEducationPlan::select('id','name')->get();
                         <h3 class="text-color-second font-size-16 font-weight-600 margin-bottom-none margin-top-none">Which semester &amp; year do you intend to go for higher education</h3>
                         <p>'.$higher_education.'</p>
                     </div>';                                                           
-     
-        return Response::json(['aspiration' => $output]);           
+        $total_strenth =  $this->profileStrenth($student_id);
+        return Response::json(['aspiration' => $output, 'total_strenth' => $total_strenth]);           
 
     }
     public function personal(Request $request){   
@@ -511,12 +514,10 @@ public function education(Request $request){
       $editIcon = asset('web/images/Editiconcommon3.png');
       $output = '';
       foreach($studentEducationDetail as $details){
-        $output .= '<div class="education_inner"><h3 class="desination margin-top-none font-size-18 text-color-gray">'.$details->course_specialization.'</h3>
-                        <h3 class="company_name margin-top-none font-size-16 text-color-gray">'.$details->university_value.'<span><img data-education="'.$details->id.'" class="education-edit-icon edit_education_btn" src="'.$editIcon.'" alt=""></span></h3>
-                        <h3 class="joining margin-top-none font-size-16 text-color-gray margin-bottom-15">'.$details->passing_out_year.' ('.$course_type_array[$details->course_type].')</h3></div>';
+        $output .= '<div class="education_inner"><h3 class="desination margin-top-none font-size-18 text-color-gray">'.$details->course_specialization.'</h3><h3 class="company_name margin-top-none font-size-16 text-color-gray">'.$details->university_value.'<span><img data-education="'.$details->id.'" class="education-edit-icon edit_education_btn" src="'.$editIcon.'" alt=""></span></h3><h3 class="joining margin-top-none font-size-16 text-color-gray margin-bottom-15">'.$details->passing_out_year.' ('.$course_type_array[$details->course_type].')</h3></div>';
 
       }
-      return Response::json(['education' => $output]);
+      return Response::json(['education' => 1]);
 
 
 }

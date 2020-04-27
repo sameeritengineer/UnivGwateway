@@ -145,6 +145,9 @@ $('document').ready(function (){
     $('#scroll_dersired_profile').click(function (){
      $('html, body').animate({ scrollTop: $("#Desired-Career-Profile-output").offset().top}, 1000);
     });
+    $('#scroll_test_score').click(function (){
+     $('html, body').animate({ scrollTop: $("#Test_score_number").offset().top}, 1000);
+    });
     $('#scroll_profile_summary').click(function (){
      $('html, body').animate({ scrollTop: $("#Profile_summary").offset().top}, 1000);
     });
