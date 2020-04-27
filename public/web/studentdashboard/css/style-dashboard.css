@@ -309,6 +309,9 @@ select.select-search-form {
 .input-radio-field{
 	display: none;
 }
+.input-radio-btn:focus {
+    background-color: #482d7a;
+}
 
 @media screen and (max-width:1170px){
 	.right-data-row{

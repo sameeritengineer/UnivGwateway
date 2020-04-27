@@ -98,6 +98,9 @@ class StudentDashboardController extends Controller
         if(!empty($student_testscore_data)){
             $student_test_id = $student_testscore_data->test_id;
             $student_test_score = $student_testscore_data->total_score;
+            if(empty($student_test_score)){
+              $student_test_score = 0;   
+            }
         }else{
             $student_test_id = NULL;
             $student_test_score = 0;
@@ -235,7 +238,8 @@ $endTime = $given2->format("Y-m-d H:i:s");
            $program_name =  $program_id->name; 
         }else{
            $program_name = ''; 
-        } 
+        }
+     $mentor = Mentor::select('id','first_name','last_name','email','mobile','image')->where('id',$id)->first();    
      $mentor_avlable = MentorAvailability::select('date')->where('mentor_id',$id)->where('status',1)->pluck('date')->toArray();   
     // dd($mentor_avlable);
      $dates = array();
@@ -248,7 +252,7 @@ $endTime = $given2->format("Y-m-d H:i:s");
     $data['mentor_id'] = $id;
     $data['student'] = $student;
     $data['program_name'] = $program_name;
-    //dd($data);
+    $data['mentor'] = $mentor;  
      return view('web.student.dashboard.student.single-mentor',$data);
     }
      public function slots(Request $request)
@@ -259,7 +263,6 @@ $endTime = $given2->format("Y-m-d H:i:s");
          $mentor_id     = $request->mentor_id;
          $avilables = MentorAvailability::where('mentor_id',$mentor_id)->where('date',$selected_data)->orderBy('from_time', 'asc')->get();
          $output = '';
-         $output .='<p>Please select Slot:</p>';
          //$output .= '<select>';
          foreach($avilables as $value){
             //return $time = date('H:i:s', $value->from_time);
@@ -278,7 +281,9 @@ $Start_time = $startdate->format('g:i a');
 $End_time = $endtdate->format('g:i a');
 
 if($value->status!=0){
-  $output .= '<input type="radio" id="slot" name="slot" value="'.$value->id.'"><label for="slot">'.$Start_time.':'.$End_time.'</label><br>';  
+  //$output .= '<input type="radio" id="slot" name="slot" value="'.$value->id.'"><label for="slot">'.$Start_time.':'.$End_time.'</label><br>';  
+
+    $output .= '<div class="input-radio-row"><input id="slot" type="radio" name="slot" value="'.$value->id.'" class="input-radio-field"><label tabindex=1 class="input-radio-btn" for="slot">'.$Start_time.'</label></div>';
 }
 
 
@@ -309,7 +314,7 @@ if($value->status!=0){
         $session_date = date("Y-m-d", strtotime(trim($request->session_date)) );
         $slot         = $request->slot;
         $agenda       = $request->agenda;
-        $status       = 'pending';
+        $status       = 1;
 
         $Session = Session::create([
                     'student_id' => $student_id,

@@ -9,8 +9,9 @@
   <script type="text/javascript" src="{{asset('web/calender/js/date.js')}}"></script>
   <script type='text/javascript' src="{{asset('web/calender/js/jquery.weekcalendar.js')}}"></script>
   <meta name="csrf-token" content="{{ csrf_token() }}">
-
-  <h1>Week Calendar Demo (Data supplied config overrides)</h1>
+  
+  <a href="{{route('requested-student')}}"><h3>Requested Students</h3></a>
+<!--   <h1>Week Calendar Demo (Data supplied config overrides)</h1>
 
   <p class="description">
     This calendar demonstrates the ability to return calendar configuration
@@ -20,7 +21,7 @@
   <div id="message" class="ui-corner-all"></div>
 
   <div class="clearer"></div>
-
+<input type="hidden" id="mentor_id" value="{{$mentor->id}}">
   <div id="calendar_selection" class="ui-corner-all">
     <strong>Event Data Source: </strong>
     <select id="data_source">
@@ -29,7 +30,7 @@
       <option value="2">Event data 2</option>
       <option value="3">Event data 3</option>
     </select>
-  </div>
+  </div> -->
 
   <div id="calendar"></div>
 <script type="text/javascript">
@@ -66,6 +67,7 @@ console.log(new Date(year, month, day, 13, 30));
 
 
   $(document).ready(function() {
+    var mentor_id = $('#mentor_id').val();
     var $calendar = $('#calendar').weekCalendar({
       timeslotsPerHour: 1,
       scrollToHourMillis : 0,
@@ -94,7 +96,7 @@ console.log(new Date(year, month, day, 13, 30));
                     type: "POST",
                     data: {
                     	"_token": "{{ csrf_token() }}",
-                        "mentor_id": 1,
+                        "mentor_id": mentor_id,
                         "startTime": startTime,
                         "endtime": endtime,
                         "date": date,
