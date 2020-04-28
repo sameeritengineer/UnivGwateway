@@ -56,7 +56,7 @@ Route::group([
    /* Mentor */
    Route::get('mentor-profile', 'MentorController@profile')->name('mentor-profile');
    Route::post('mentor-profile', 'MentorController@signup_profile');
-
+   Route::get('services/{slug?}', 'ServicesController@showallservices')->name('services');
 
 });
 

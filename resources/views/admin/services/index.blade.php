@@ -57,7 +57,7 @@
                                               @endphp
                                                 <tr>
                                                     <td>{{$service->service_name}}</td>
-                                                    <td>{{$service->description}}</td>
+                                                    <td>{!!$service->description!!}</td>
                                                     <td>@if(!empty($service_category->name)) {{$service_category->name}} @endif</td>
                                                     <td><a class="btn btn-outline-warning" href="{{ route('services.edit',$service->id) }}">Edit</a></td>
                                                     <!-- <td><a class="btn btn-outline-warning" href="{{ route('services.destroy',2) }}">Delete</a></td>  -->

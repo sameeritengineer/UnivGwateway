@@ -36,7 +36,7 @@
                    <li><a href="about-us.php">About Us</a></li>
                    <li><a href="how-it-works">How it works</a></li>
                    <li><a href="#">Team</a></li>
-                   <li><a href="#">Services</a></li>
+                   <li><a href="{{route('web.services')}}">Services</a></li>
                    
                </ul>
            </div>
@@ -72,8 +72,6 @@
 <script src="{{asset('web/js/swiper.js')}}" type="text/javascript"></script>
 <script src="{{asset('web/js/script.js')}}" type="text/javascript"></script>
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js"></script>
-
-
 <script type="text/javascript">
   var swiper = new Swiper('#testimonial .swiper-container', {
   slidesPerView: 2,

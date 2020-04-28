@@ -235,7 +235,7 @@
                                                     <div class="col-md-12">
                                                         <div class="form-group row">
                                                             <div class="col-md-12">
-                                                                <textarea id="userinput8" rows="6" class="form-control border-primary" name="detailed_bio" placeholder="Enter Description"></textarea>
+                                                                <textarea id="userinput8" rows="6" class="form-control border-primary editor" name="detailed_bio" placeholder="Enter Description"></textarea>
                                                             </div>
                                                         </div>
                                                     </div>
