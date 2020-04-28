@@ -31,7 +31,7 @@
                 @endforeach
 
 	        </div>
-	        <div class="view-all-btn"><a class="view-all" href="">View All</a></div>
+	        <div class="view-all-btn"><a class="view-all" href="{{route('all-mentors')}}">View All</a></div>
 		</div>
 	</div>
 @endsection

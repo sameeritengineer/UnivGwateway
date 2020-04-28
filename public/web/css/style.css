@@ -2876,6 +2876,40 @@ input[type=number] {
     justify-content: center;
 }
 
+.text-align-justify{
+    text-align: justify;
+}
+
+.services-section-row{
+
+}
+
+.inner-section{
+    background-color: #fff;
+    box-shadow: 1px 7px 9px 1px #e2e2e2;
+    position:relative;
+    padding-left: 10px;
+    padding-right: 10px; 
+}
+
+.inner-section h3{
+    padding-top: 15px;
+    padding-bottom: 15px;
+    margin-left: 80px;
+}
+
+.univ-logo-img-overlay{
+    position: absolute;
+    width: 70px;
+    margin-top: -10px;
+
+}
+
+.services-row{
+    margin-bottom: 70px;
+}
+
+
 /*.user-img{
     border:2px #442d7b solid;
 }

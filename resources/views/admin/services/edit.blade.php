@@ -126,7 +126,7 @@
                                                     <div class="col-md-12">
                                                         <div class="form-group row">
                                                             <div class="col-md-12">
-                                                                <textarea id="userinput8" rows="6" class="form-control border-primary" name="description" placeholder="Enter Description">{{ $service->description }}</textarea>
+                                                                <textarea id="userinput8" rows="6" class="form-control border-primary editor" name="description" placeholder="Enter Description">{{ $service->description }}</textarea>
                                                             </div>
                                                         </div>
                                                     </div>
@@ -138,7 +138,7 @@
                                                     <div class="col-md-12">
                                                         <div class="form-group row">
                                                             <div class="col-md-12">
-                                                                <textarea id="userinput8" rows="6" class="form-control border-primary" name="deliverables" placeholder="Enter Deliverables">{{ $service->deliverables }}</textarea>
+                                                                <textarea id="userinput18" rows="6" class="form-control border-primary editor" name="deliverables" placeholder="Enter Deliverables">{{ $service->deliverables }}</textarea>
                                                             </div>
                                                         </div>
                                                     </div>
