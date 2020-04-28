@@ -108,6 +108,7 @@ console.log(new Date(year, month, day, 13, 30));
                     },
                  });
         alert('You\'ve added a new event. You would capture this event, add the logic for creating a new event with your own fields, data and whatever backend persistence you require.');
+        window.location.reload();
       },
       // data: function(start, end, callback) {
       //   var dataSource = $('#data_source').val();
