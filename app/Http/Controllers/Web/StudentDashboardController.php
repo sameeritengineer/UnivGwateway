@@ -332,6 +332,42 @@ if($value->status!=0){
         }
 
     }
+
+    public function schedule_session(){
+        $data = [];
+        $student_dashboard = $this->student_dashboard();
+        $mentors = Mentor::select('id','first_name','last_name')->where('status',1)->get();
+        $data['student']      = $student_dashboard['student'];
+        $data['program_name'] = $student_dashboard['program_name'];
+        $data['mentors'] = $mentors;
+        return view('web.student.dashboard.student.schedule-session',$data);
+    }
+    public function session_dates(Request $request){
+        $mentor_id = $request->mentor_id;
+        $mentor_avlable = MentorAvailability::select('date')->where('mentor_id',$mentor_id)->where('status',1)->pluck('date')->toArray();   
+         $dates = array();
+         foreach($mentor_avlable as $value){
+             $date_data =  date('d-n-Y',strtotime($value));
+            array_push($dates,$date_data);
+         }
+        return $unique_dates =  array_values(array_unique($dates));
+        //return  json_encode($unique_dates);
+    }
+
+    public function student_dashboard(){
+        $data = [];
+        $email = Auth::user()->email;
+        $student = Student::select('id','first_name','last_name','email','mobile','image','planned_degree_program_id','updated_at')->where('email',$email)->first();
+        if(!empty($student->planned_degree_program_id)){
+           $program_id = MasterDegree::select('name')->where('id',$student->planned_degree_program_id)->first();
+           $program_name =  $program_id->name; 
+        }else{
+           $program_name = ''; 
+        }
+        $data['student'] = $student;
+        $data['program_name'] = $program_name;
+        return $data;
+    }
        
 
     
