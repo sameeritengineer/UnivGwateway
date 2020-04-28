@@ -28,36 +28,54 @@
                         <div class="col-12">
                             <div class="card">
                                 <div class="card-header">
-                                    <h4 class="card-title">Zero configuration</h4>
-                                    <a class="heading-elements-toggle"><i class="fa fa-ellipsis-v font-medium-3"></i></a>
+                                    @if (\Session::has('success'))
+                                                    <div class="alert alert-success">
+                                                     <strong>Success!</strong> {!! \Session::get('success') !!}
+                                                    </div>
+                                    @endif
+                                    @if (\Session::has('error'))
+                                                    <div class="alert alert-danger">
+                                                      <strong>Danger!</strong> {!! \Session::get('error') !!}
+                                                    </div>
+                                    @endif 
                                 </div>
                                 <div class="card-content collapse show">
                                     <div class="card-body card-dashboard">
                                         <table class="table table-striped table-bordered zero-configuration">
                                             <thead>
                                                 <tr>
-                                                    <th>Name</th>
-                                                    <th>Email</th>
-                                                    <th>Status</th>
+                                                    <th>Service Name</th>
+                                                    <th>Description</th>
+                                                    <th>Category</th>
                                                     <th>Edit</th>
                                                     <th>Delete</th>
                                             </thead>
                                             <tbody>
-                                              @foreach($mentors as $mentor)
+                                              @foreach($services as $service)
+                                              @php
+                                               $service_category = App\Master_category::where('id',$service->category_id)->first();
+                                              @endphp
                                                 <tr>
-                                                    <td>{{$mentor->first_name}}</td>
-                                                    <td>{{$mentor->email}}</td>
-                                                    <td>{{$mentor->status==1?'Active':'Not Active'}}</td>
-                                                    <td><a class="btn btn-outline-warning" href="{{ route('mentor.edit',$mentor->id) }}">Edit</a></td>
-                                                    <td><button type="button" class="btn btn-outline-warning" onclick="deleteboard({{$mentor->id}},'{{$mentor->first_name}}')"><i class="fa fa-trash"></i></button></td> 
+                                                    <td>{{$service->service_name}}</td>
+                                                    <td>{{$service->description}}</td>
+                                                    <td>@if(!empty($service_category->name)) {{$service_category->name}} @endif</td>
+                                                    <td><a class="btn btn-outline-warning" href="{{ route('services.edit',$service->id) }}">Edit</a></td>
+                                                    <!-- <td><a class="btn btn-outline-warning" href="{{ route('services.destroy',2) }}">Delete</a></td>  -->
+                                                    <td>
+                                                        <form action="{{route('services.destroy',[$service->id])}}" method="POST">
+                                                         @method('DELETE')
+                                                         @csrf
+                                                         <button class="btn btn-outline-warning" type="submit">Delete</button>               
+                                                        </form>
+                                                    </td>
                                                 </tr>
                                               @endforeach 
                                             </tbody>
                                             <tfoot>
                                                 <tr>
-                                                    <th>Name</th>
-                                                    <th>Email</th>
-                                                    <th>Status</th>
+                                                    <th>Service Name</th>
+                                                    <th>Description</th>
+                                                    <th>Category</th>
                                                     <th>Edit</th>
                                                     <th>Delete</th>
                                                 </tr>

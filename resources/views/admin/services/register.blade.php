@@ -59,6 +59,7 @@
                                                 <h4 class="form-section"><i class="fa fa-tag"></i> Service Details </h4>
 
                                                 <div class="row">
+                                                    <div class="col-md-6">
                                                      <div class="form-group row">
                                                             <label class="col-md-4 label-control" for="userinput5">Category:</label>
                                                             <div class="col-md-8">
@@ -70,6 +71,7 @@
                                                              </select>
                                                             </div>
                                                         </div>
+                                                      </div>  
                                                     <div class="col-md-6">
                                                         <div class="form-group row">
                                                             <label class="col-md-3 label-control" for="userinput5">Service Name:</label>
@@ -81,6 +83,7 @@
                                                 </div>
 
                                                 <div class="row">
+                                                    <div class="col-md-6">
                                                      <div class="form-group row">
                                                             <label class="col-md-4 label-control" for="userinput5">Service:</label>
                                                             <div class="col-md-8">
@@ -92,6 +95,7 @@
                                                              </select>
                                                             </div>
                                                         </div>
+                                                    </div>
                                                     <div class="col-md-6">
                                                         <div class="form-group row">
                                                             <label class="col-md-3 label-control" for="userinput5">Service Type:</label>
@@ -103,9 +107,6 @@
                                                             </div>
                                                         </div>
                                                     </div>
-                                                </div>
-
-                                                 <div class="row">
                                                     <div class="col-md-6">
                                                         <div class="form-group row">
                                                             <label class="col-md-3 label-control" for="userinput5">Sort:</label>
@@ -115,6 +116,7 @@
                                                         </div>
                                                     </div>
                                                 </div>
+
 
                                                 <h4 class="form-section"><i class="fa fa-tag"></i> Description </h4>
                                                 <div class="row">

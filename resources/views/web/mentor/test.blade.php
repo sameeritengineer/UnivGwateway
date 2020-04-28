@@ -11,7 +11,7 @@
   <meta name="csrf-token" content="{{ csrf_token() }}">
   
   <a href="{{route('requested-student')}}"><h3>Requested Students</h3></a>
-<!--   <h1>Week Calendar Demo (Data supplied config overrides)</h1>
+  <h1>Week Calendar Demo (Data supplied config overrides)</h1>
 
   <p class="description">
     This calendar demonstrates the ability to return calendar configuration
@@ -30,7 +30,7 @@
       <option value="2">Event data 2</option>
       <option value="3">Event data 3</option>
     </select>
-  </div> -->
+  </div>
 
   <div id="calendar"></div>
 <script type="text/javascript">
@@ -46,24 +46,23 @@ $.ajaxSetup({
   var year = new Date().getFullYear();
   var month = new Date().getMonth();
   var day = new Date().getDate();
-console.log(new Date(year, month, day, 13, 30));
-  var eventData1 = {
-    options: {
-      timeslotsPerHour: 1,
-      scrollToHourMillis : 0,
-      defaultEventLength: 1,
-      timeslotHeight: 50,
-    },
-    events : [
-       {'id':1, 'start': new Date(year, month, day, 12), 'end': new Date(year, month, day, 13, 30),'title':'Lunch with Mike'},
-       {'id':2, 'start': new Date(year, month, day, 14), 'end': new Date(year, month, day, 14, 45),'title':'Dev Meeting'},
-       {'id':3, 'start': new Date(year, month, day + 1, 18), 'end': new Date(year, month, day + 1, 18, 45),'title':'Hair cut'},
-       {'id':4, 'start': new Date(year, month, day - 1, 8), 'end': new Date(year, month, day - 1, 9, 30),'title':'Team breakfast'},
-       {'id':5, 'start': new Date(year, month, day + 1, 14), 'end': new Date(year, month, day + 1, 15),'title':'Product showcase'},
-       {"title": "Event 1","start": 1587666600000,"end": 1587670200000},
-       {"title": "Event 2","start": 1587583800000,"end": 1587587400000}
-    ]
-  };
+  // var eventData1 = {
+  //   options: {
+  //     timeslotsPerHour: 1,
+  //     scrollToHourMillis : 0,
+  //     defaultEventLength: 1,
+  //     timeslotHeight: 50,
+  //   },
+  //   events : [
+  //      // {'id':1, 'start': new Date(year, month, day, 12), 'end': new Date(year, month, day, 13, 30),'title':'Lunch with Mike'},
+  //      // {'id':2, 'start': new Date(year, month, day, 14), 'end': new Date(year, month, day, 14, 45),'title':'Dev Meeting'},
+  //      // {'id':3, 'start': new Date(year, month, day + 1, 18), 'end': new Date(year, month, day + 1, 18, 45),'title':'Hair cut'},
+  //      // {'id':4, 'start': new Date(year, month, day - 1, 8), 'end': new Date(year, month, day - 1, 9, 30),'title':'Team breakfast'},
+  //      // {'id':5, 'start': new Date(year, month, day + 1, 14), 'end': new Date(year, month, day + 1, 15),'title':'Product showcase'},
+  //      {"title": "Event 1","start": 1587666600000,"end": 1587670200000},
+  //      {"title": "Event 2","start": 1587583800000,"end": 1587587400000}
+  //   ]
+  // };
 
 
   $(document).ready(function() {
@@ -85,7 +84,10 @@ console.log(new Date(year, month, day, 13, 30));
       },
       eventNew : function(calEvent, $event) {
         var startTime = calEvent.start.getTime();
+
         var endtime = calEvent.end.getTime();
+        console.log(startTime);
+        console.log(endtime);
         var date = calEvent.start.getDate();
         var month = calEvent.start.getMonth();
         var year = calEvent.start.getFullYear();
