@@ -120,7 +120,7 @@ console.log(new Date(year, month, day, 13, 30));
       // }
       data: function(start, end, callback) {
         setInterval(function() {
-         $.getJSON("http://localhost/UnivGwateway/public/web/calender/mentor_availability_"+mentor_id+".json", {
+         $.getJSON("{{asset('web/calender')}}"+"/mentor_availability_"+mentor_id+".json", {
            start: start.getTime(),
            end: end.getTime()
          },  function(result) {
