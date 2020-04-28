@@ -106,35 +106,69 @@ class MentorController extends Controller
         //date_default_timezone_set('America/Denver');
         //return $request->all();
         $mentor_id = $request->mentor_id;
+        $type = $request->type;
         //return $request->startTime;
         // $startTime = date("Y-m-d H:i:s",$request->startTime/1000);
         // $endtime = date("Y-m-d H:i:s",$request->endtime/1000);
-$starttime = date("Y-m-d H:i:s",$request->startTime/1000);
-$given1 = new DateTime($starttime);
-$given1->setTimezone(new \DateTimeZone("UTC"));
-$startTime = $given1->format("Y-m-d H:i:s"); // 2014-12-12 07:18:00 UTC
+        if($type == 1){
+           $mentor_availability = MentorAvailability::select('from_time','to_time','status')->where('mentor_id',$mentor_id)->get();
+          foreach ($mentor_availability as $key => $value) {
+              if($value->status == 0)
+                 $title = "Booked";
+              else
+                 $title = "Avaliable";
+              $data[] = array(
+                "title"=> $title,
+                "start"=> strtotime($value->from_time).'000',
+                "end"=>strtotime($value->to_time).'000',
+              );
+            }
+            //unlink('web/calender/mentor_availability_'.$mentor_id.'.json');
+            $fp = fopen('web/calender/mentor_availability_'.$mentor_id.'.json', 'w');
+            fwrite($fp, json_encode($data));
+            fclose($fp);
+        } else {
+            $starttime = date("Y-m-d H:i:s",$request->startTime/1000);
+            $given1 = new DateTime($starttime);
+            $given1->setTimezone(new \DateTimeZone("UTC"));
+            $startTime = $given1->format("Y-m-d H:i:s"); // 2014-12-12 07:18:00 UTC
 
-$endtime = date("Y-m-d H:i:s",$request->endtime/1000);
-$given2 = new DateTime($endtime);
-$given2->setTimezone(new \DateTimeZone("UTC"));
-$endTime = $given2->format("Y-m-d H:i:s");
+            $endtime = date("Y-m-d H:i:s",$request->endtime/1000);
+            $given2 = new DateTime($endtime);
+            $given2->setTimezone(new \DateTimeZone("UTC"));
+            $endTime = $given2->format("Y-m-d H:i:s");
+            $day = $request->date;
+            $month = $request->month+1;
+            $year = $request->year;
+            $getDate=strtotime("$year-$month-$day");
+            $orignal_date=date("Y-m-d",$getDate);
+            $status = 1;
 
+             MentorAvailability::create([
+                        'mentor_id' => $mentor_id,
+                        'from_time'=>$startTime,
+                        'to_time'=>$endTime,
+                        'date'=>$orignal_date,
+                        'status'=>$status
+            ]);
 
+           $mentor_availability = MentorAvailability::select('from_time','to_time','status')->where('mentor_id',$mentor_id)->get();
 
-        $day = $request->date;
-        $month = $request->month+1;
-        $year = $request->year;
-        $getDate=strtotime("$year-$month-$day");
-        $orignal_date=date("Y-m-d",$getDate);
-        $status = 1;
-
-         MentorAvailability::create([
-                    'mentor_id' => $mentor_id,
-                    'from_time'=>$startTime,
-                    'to_time'=>$endTime,
-                    'date'=>$orignal_date,
-                    'status'=>$status
-                ]);
+          foreach ($mentor_availability as $key => $value) {
+              if($value->status == 0)
+                 $title = "Booked";
+              else
+                 $title = "Avaliable";
+              $data[] = array(
+                "title"=> $title,
+                "start"=> strtotime($value->from_time).'000',
+                "end"=>strtotime($value->to_time).'000',
+              );
+           }
+            $fp = fopen('web/calender/mentor_availability_'.$mentor_id.'.json', 'w');
+            fwrite($fp, json_encode($data));
+            fclose($fp);
+       }
 
     }
  

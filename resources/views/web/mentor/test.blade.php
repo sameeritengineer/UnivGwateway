@@ -9,7 +9,6 @@
   <script type="text/javascript" src="{{asset('web/calender/js/date.js')}}"></script>
   <script type='text/javascript' src="{{asset('web/calender/js/jquery.weekcalendar.js')}}"></script>
   <meta name="csrf-token" content="{{ csrf_token() }}">
-  
   <a href="{{route('requested-student')}}"><h3>Requested Students</h3></a>
 <!--   <h1>Week Calendar Demo (Data supplied config overrides)</h1>
 
@@ -31,7 +30,7 @@
       <option value="3">Event data 3</option>
     </select>
   </div> -->
-
+<input type="hidden" id="mentor_id" value="{{$mentor->id}}">
   <div id="calendar"></div>
 <script type="text/javascript">
 $.ajaxSetup({
@@ -68,6 +67,7 @@ console.log(new Date(year, month, day, 13, 30));
 
   $(document).ready(function() {
     var mentor_id = $('#mentor_id').val();
+    updateJsonFile(mentor_id);
     var $calendar = $('#calendar').weekCalendar({
       timeslotsPerHour: 1,
       scrollToHourMillis : 0,
@@ -89,7 +89,6 @@ console.log(new Date(year, month, day, 13, 30));
         var date = calEvent.start.getDate();
         var month = calEvent.start.getMonth();
         var year = calEvent.start.getFullYear();
-
         var token = $('meta[name="csrf-token"]').attr('content');
         $.ajax({
                     url: "{{ route('mentor-avl') }}",
@@ -102,8 +101,11 @@ console.log(new Date(year, month, day, 13, 30));
                         "date": date,
                         "month": month,
                         "year": year,
+                         "type": '0',
                     },
                     success: function(response) {
+
+                     
                     },
                  });
         alert('You\'ve added a new event. You would capture this event, add the logic for creating a new event with your own fields, data and whatever backend persistence you require.');
@@ -118,13 +120,15 @@ console.log(new Date(year, month, day, 13, 30));
       //   }
       // }
       data: function(start, end, callback) {
-  $.getJSON("http://localhost/projects/UnivGwateway/public/web/calender/abc.json", {
-     start: start.getTime(),
-     end: end.getTime()
-   },  function(result) {
-     callback(result);
-   });
-}
+        setInterval(function() {
+         $.getJSON("http://localhost/UnivGwateway/public/web/calender/mentor_availability_"+mentor_id+".json", {
+           start: start.getTime(),
+           end: end.getTime()
+         },  function(result) {
+           callback(result);
+         });
+        }, 1000);   
+      }
     });
 
     $('#data_source').change(function() {
@@ -146,6 +150,22 @@ console.log(new Date(year, month, day, 13, 30));
         }
         $(this).fadeIn();
       });
+    }
+
+    function updateJsonFile(mentor_id) {
+        $.ajax({
+          url: "{{ route('mentor-avl') }}",
+          type: "POST",
+          data: {
+            "_token": "{{ csrf_token() }}",
+             "mentor_id": mentor_id,
+             "type": '1',
+          },
+          success: function(response) {
+
+           
+          },
+       });
     }
 
     updateMessage();
