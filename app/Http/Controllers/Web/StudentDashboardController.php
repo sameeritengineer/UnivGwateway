@@ -45,38 +45,43 @@ class StudentDashboardController extends Controller
     }
     public function index()
     {
-        
+         $session = $this->get_diagnostic_session();
+         $diagnostic_call_count = count($session);
          $student_mentor_query =  $this->student_mentor_query();
-         $degree_program_id    =  $student_mentor_query['degree_program_id'];
-         $student_course    =  $student_mentor_query['student_course'];
-         $country_id    =  $student_mentor_query['country_id'];
-         $student_skill    =  $student_mentor_query['student_skill'];
-         $student_test_id    =  $student_mentor_query['student_test_id'];
-         $student_test_score    =  $student_mentor_query['student_test_score'];
-         $mentors = DB::table('mentors')
-                    ->select('mentors.*')
-                    ->leftjoin('mentor_skill', 'mentors.id', '=', 'mentor_skill.mentor_id')
-                    ->leftjoin('mentor_test_score', 'mentors.id', '=', 'mentor_test_score.mentor_id')
-                    ->where(function($query) use ($degree_program_id) {
-                        $query->where('mentors.degree_program_id',$degree_program_id);
-                    })
-                    ->orWhere(function($query) use ($student_course) {
-                        $query->where('mentors.major_specialization',$student_course);
-                    })
-                    ->orWhere(function($query) use ($country_id) {
-                        $query->whereIn('mentors.country_code',$country_id);
-                    })
-                    ->orWhere(function($query) use ($student_skill) {
-                        $query->whereIn('mentor_skill.skill_id',$student_skill);
-                    })
-                    ->orWhere(function($query) use ($student_test_id,$student_test_score) {
-                        $query->where('mentor_test_score.test_id',$student_test_id)
-                        ->Where('mentor_test_score.score', '>' , $student_test_score);
-                    })
-                    ->where('status',1)
-                    ->distinct('mentors.id')
-                    ->limit(4)
-                    ->get();
+         if($diagnostic_call_count == 2){
+            $mentors = Mentor::select('id','first_name','last_name','degree_program_id','major_specialization','job_title','detailed_bio','image')->where('status', 1)->whereIn('id', $session)->get();
+         }else{
+             $degree_program_id    =  $student_mentor_query['degree_program_id'];
+             $student_course    =  $student_mentor_query['student_course'];
+             $country_id    =  $student_mentor_query['country_id'];
+             $student_skill    =  $student_mentor_query['student_skill'];
+             $student_test_id    =  $student_mentor_query['student_test_id'];
+             $student_test_score    =  $student_mentor_query['student_test_score'];
+             $mentors = DB::table('mentors')
+                        ->select('mentors.*')
+                        ->leftjoin('mentor_skill', 'mentors.id', '=', 'mentor_skill.mentor_id')
+                        ->leftjoin('mentor_test_score', 'mentors.id', '=', 'mentor_test_score.mentor_id')
+                        ->where(function($query) use ($degree_program_id) {
+                            $query->where('mentors.degree_program_id',$degree_program_id);
+                        })
+                        ->orWhere(function($query) use ($student_course) {
+                            $query->where('mentors.major_specialization',$student_course);
+                        })
+                        ->orWhere(function($query) use ($country_id) {
+                            $query->whereIn('mentors.country_code',$country_id);
+                        })
+                        ->orWhere(function($query) use ($student_skill) {
+                            $query->whereIn('mentor_skill.skill_id',$student_skill);
+                        })
+                        ->orWhere(function($query) use ($student_test_id,$student_test_score) {
+                            $query->where('mentor_test_score.test_id',$student_test_id)
+                            ->Where('mentor_test_score.score', '>' , $student_test_score);
+                        })
+                        ->where('status',1)
+                        ->distinct('mentors.id')
+                        ->limit(4)
+                        ->get();
+         }
 
            // dd($mentors);
 
@@ -513,5 +518,11 @@ if($value->status!=0){
     public function destroy($id)
     {
         //
+    }
+    function get_diagnostic_session(){
+        $data = [];
+        $email   = Auth::user()->email;
+        $student = Student::select('id')->where('email',$email)->first();
+        return $session = Session::select('mentor_id')->where('status',4)->where('type','free')->pluck('mentor_id')->toArray();;
     }
 }
