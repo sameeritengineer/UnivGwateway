@@ -51,6 +51,12 @@ class StudentController extends Controller
          $skill->name = $get_skill_name->name;
         }
         $aspiration = Aspiration::where('student_id',$student->id)->first();
+        if(!empty($aspiration->degree_id)){
+          $aspiration_degree = MasterDegree::where('id',$aspiration->degree_id)->first();
+          $aspiration_degree_name = $aspiration_degree->name.' '.'Aspirant';
+        }else{
+          $aspiration_degree_name = '';
+        }
         $studentEducationDetail = StudentEducationDetail::where('student_id',$student->id)->get();
         $country_Get =MasterCountry::where('id',$student->country_id)->first();
         if(!empty($country_Get)){
@@ -62,7 +68,7 @@ class StudentController extends Controller
 $totalStrenth = $this->profileStrenth($student->id);
 
 $master_test = MasterTest::select('id','name')->get();
-$ProfileTestScore = StudentTestScore::where('student_id',$student->id)->first();
+$ProfileTestScore = StudentTestScore::where('student_id',$student->id)->get();
 
 $data_higher_education = DataHigherEducation::select('id','name')->get();
 $data_education_plan = DataEducationPlan::select('id','name')->get();
@@ -77,6 +83,7 @@ $data_education_plan = DataEducationPlan::select('id','name')->get();
         $data['student_skill'] = $student_skill;
         $data['skills'] = $skills;
         $data['aspiration'] = $aspiration;
+        $data['aspiration_degree_name'] = $aspiration_degree_name;
         $data['studentEducationDetail'] = $studentEducationDetail;
         $data['totalStrenth'] = $totalStrenth;
         $data['country_Name'] = $country_Name;
@@ -211,17 +218,12 @@ if($count_student_resume >0 ){
           $test_id    = $request->test_name;
           $attend_year = $request->attend_year;
           $score = $request->score;
-
-      if(StudentTestScore::where('student_id', $student_id)->first()){
-          StudentTestScore::where('student_id',$student_id)->update(['test_id'=>$test_id,'attend_year'=>$attend_year,'total_score'=>$score]);
-       }else{
           $ProfileTestScore = StudentTestScore::create([
                     'student_id' => $student_id,
                     'test_id'=>$test_id,
                     'attend_year'=>$attend_year,
                     'total_score'=>$score,
                 ]);
-       }
        $ProfileTestScore = StudentTestScore::where('student_id',$student_id)->first();
        if(!empty($ProfileTestScore)){
         $testName = MasterTest::where('id',$ProfileTestScore->test_id)->first();
@@ -232,11 +234,29 @@ if($count_student_resume >0 ){
          $output = '';
        }
        return Response::json(['test_score' => $output]);
-
-
-
           
     }
+    public function test_score_edit(Request $request){
+        
+        //return $request->all();
+          $test_form_id = $request->test_form_id;
+          $student_id = $request->student_id;
+          $test_id    = $request->select_test_name;
+          $attend_year = $request->attend_year;
+          $score = $request->score;
+          $TestScoreTobeUpdated = StudentTestScore::find($test_form_id);
+              $updateFields = [
+                    'student_id' => $student_id,
+                    'test_id'=>$test_id,
+                    'attend_year'=>$attend_year,
+                    'total_score'=>$score,
+                    ];
+          $TestScoreTobeUpdated->update($updateFields);
+          //return redirect()->back(); 
+          return redirect(url()->previous() .'#Test_score_number');
+    }
+
+    
     public function skills(Request $request){
        $student_id = $request->student_id;
        $skill_ids  = $request->selectedValues;
@@ -348,7 +368,8 @@ if($count_student_resume >0 ){
                         <p>'.$higher_education.'</p>
                     </div>';                                                           
         $total_strenth =  $this->profileStrenth($student_id);
-        return Response::json(['aspiration' => $output, 'total_strenth' => $total_strenth]);           
+        $aspiration_degree_name = $degree_name.' '.'Aspirant';
+        return Response::json(['aspiration' => $output, 'total_strenth' => $total_strenth,'aspiration_degree_name' => $aspiration_degree_name]);           
 
     }
     public function personal(Request $request){   

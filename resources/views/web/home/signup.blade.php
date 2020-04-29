@@ -60,6 +60,7 @@
 										<img class="margin-right-15" src="{{asset('web/images/nameicon.png')}}" alt="" />
 									</div>
 									<div class="input-field-row">
+										<span class="phonecode_selected"></span>
 										<input class="width-100-per form_field" type="number" value="{{ old('mobile') }}"  name="mobile" placeholder="Mobile No. *">
 									</div>
 								</div>
@@ -77,6 +78,24 @@
 								</div>
 							</div>
 						</div>
+						<div class="display-grid align-item-baseline margin-bottom-30">
+                          <div class="form_field_row width-47-per margin-left-5-per">
+								<div class="display-grid align-item-baseline margin-bottom-5 width-100-per">
+									<div class="form-field-icon">
+										<img class="margin-right-15" src="{{asset('web/images/nameicon.png')}}" alt="" />
+									</div>
+									<div class="input-field-row">
+										<select name="county_id" id="select_country">
+											<option value="">Select Country</option>
+											@foreach($master_country as $country)
+											<option data-phonecode="{{$country->phone_code}}" value="{{$country->id}}">{{$country->name}}</option>
+											@endforeach
+										</select>
+									</div>
+								</div>
+								<span class="form_error" style="color:red"></span>
+							</div>
+					    </div>		
 
 						<div class="display-grid align-item-baseline margin-bottom-20">
 							<div class="form_field_row display-grid-center width-47-per">
@@ -133,13 +152,18 @@
 <script type="text/javascript">
     // Wait for the /books/doAddbookDOM to be ready
 $(function() {
-  // Initialize form validation on the registration form.
-  // It has the name attribute "registration"
+  $('body').on('change', '#select_country', function() {
+    var country_id = this.value;
+    var phonecode = $('option:selected', this).attr('data-phonecode');
+    $(".phonecode_selected").text(phonecode);
+
+  });
   $("form[name='signUpForm']").validate({
     // Specify validation rules
     rules: {
       f_name: "required",
       l_name: "required",
+      county_id: "required",
       email: {
         required: true,
         email: true

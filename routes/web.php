@@ -43,6 +43,7 @@ Route::group([
    Route::post('student-resume-headline', 'StudentController@resume_headline')->name('student-resume-headline');
    Route::post('student-profile-summary', 'StudentController@profile_summary')->name('student-profile-summary');
    Route::post('student-test-score', 'StudentController@test_score')->name('student-test-score');
+   Route::post('student-test-score-edit', 'StudentController@test_score_edit')->name('student-test-score-edit');
    Route::post('student-skills', 'StudentController@skills')->name('student-skills');
    Route::post('student-aspiration', 'StudentController@aspiration')->name('student-aspiration');
    Route::post('student-personal', 'StudentController@personal')->name('student-personal');
@@ -104,9 +105,11 @@ Route::prefix('ug_admin')->group(function () {
   Route::post('delete-service-price', 'Admin\ServicesController@delete_service_price')->name('delete-service-price');
 });
 
-// Route::prefix('myadmin')->group(function() {
-//     Route::get('/login', 'Auth\AdminLoginController@showLoginForm')->name('admin.login');
-//     Route::post('/login', 'Auth\AdminLoginController@login')->name('admin.login.submit');
-//     Route::get('/home', 'AdminController@index')->name('admin.home');
-//     Route::get('/sameer', 'AdminController@sameer')->name('admin.sameer');
-// });
+Route::prefix('myadmin')->group(function() {
+    Route::get('/login', 'Auth\AdminLoginController@showLoginForm')->name('admin.login');
+    Route::post('/login', 'Auth\AdminLoginController@login')->name('admin.login.submit');
+    Route::get('/home', 'AdminController@index')->name('admin.home');
+    Route::get('/logoutadmin', 'AdminController@logoutadmin');
+    Route::get('/sameer', 'AdminController@sameer')->name('admin.sameer');
+
+});

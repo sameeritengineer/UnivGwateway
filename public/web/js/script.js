@@ -56,6 +56,14 @@ $('document').ready(function (){
         $('.education_model-edit').show('100');
         $('.popup-bg-img').show();
     });
+    $(document).on("click", ".edit_testscore_btn" , function() {    
+        $('.test_form-class').hide();
+        var formId = $(this).attr('data-testscore');
+         $("#test_form-"+formId).show();
+        $("html").animate({ scrollTop: 0 });
+        $('.testscore_model-edit').show('100');
+        $('.popup-bg-img').show();
+    });
     
 
     $('.add_doctorate_btn').click(function (){
@@ -134,6 +142,7 @@ $('document').ready(function (){
         $('.extra-skills-model').hide('100');
         $('.profile-summery-model').hide('100');
         $('.test-score-model').hide('100');
+        $('.testscore_model-edit').hide('100');
         $('.Desired-Career-Profile').hide('100');
         $('.Personal_details').hide('100');
         $('.Student_Dashboard_detail').hide('100');

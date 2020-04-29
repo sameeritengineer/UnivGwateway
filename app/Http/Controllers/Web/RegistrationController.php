@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Web\BaseController;
 use App\User;
 use App\Student;
+use App\MasterCountry;
 use Illuminate\Support\Facades\Hash;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Auth;
@@ -15,7 +16,10 @@ class RegistrationController extends BaseController
 {
 	public function signup()
     {  
-      return view('web.home.signup');
+      $data = [];
+      $master_country = MasterCountry::select('id','name','phone_code')->where('status',1)->get();
+      $data['master_country'] = $master_country;
+      return view('web.home.signup',$data);
     }
   public function verifyotp()
     {  
@@ -67,6 +71,7 @@ class RegistrationController extends BaseController
        $password = Session::get('password');
        $hash_password =  Hash::make($password);
        $email = Session::get('email');
+       $country_id = Session::get('country_id');
 
        $getTheLastLoginIp = $this->getTheLastLoginIp(); // get last login ip
        $role_id = 1; // role id for student
@@ -85,6 +90,7 @@ class RegistrationController extends BaseController
                 'last_name' => $l_name,
                 'email' => $email,
                 'mobile'=> $mobile,
+                'country_id'=> $country_id,
             ]);
 
              Session::forget('firstname');
@@ -92,6 +98,7 @@ class RegistrationController extends BaseController
              Session::forget('password');
              Session::forget('mobile');
              Session::forget('otp');
+             Session::forget('country_id');
              Auth::login($user);
              return redirect('/student-profile');
          }
@@ -115,8 +122,10 @@ class RegistrationController extends BaseController
             'mobile' => 'required|digits:10',
             'email' => 'required|email|unique:users|max:255',
         ]);
-      $params = $request->input();   
-      // if(isset($params['g-recaptcha-response'])){
+      $params = $request->input();
+      //dd($params);
+       if($params['county_id'] == 106){
+          // if(isset($params['g-recaptcha-response'])){
       //     $captcha=$params['g-recaptcha-response'];
       //     $secretKey = "6LdPGOkUAAAAAEf9Q9LTfkjbo-n3v1r1IU6b76En";
       //     $ip = $_SERVER['REMOTE_ADDR'];
@@ -132,6 +141,7 @@ class RegistrationController extends BaseController
           Session::put('email', $request->email);
           Session::put('password', $request->password);
           Session::put('mobile', $request->mobile);
+          Session::put('country_id', $request->county_id);
      
           $apiKey = urlencode('grgpALgWAbk-MfixOlCHHxz79kKeEIkN29PcsQsY8J');
   
@@ -167,6 +177,40 @@ class RegistrationController extends BaseController
           // }else{
           //   return redirect()->back()->with('error', 'Please check the the captcha form.');
           // }
+         }else{
+
+         $f_name = $params['f_name'];
+         $l_name = $params['l_name'];
+         $mobile = $params['mobile'];
+         $password = $params['password'];
+         $hash_password =  Hash::make($password);
+         $email = $params['email'];
+         $country_id = $params['county_id'];
+         $getTheLastLoginIp = $this->getTheLastLoginIp(); // get last login ip
+         $role_id = 1; // role id for student
+         $login_date = Carbon::now()->format('d-m-Y'); //last login date
+         $user = User::create([
+                      'name' => $f_name,
+                      'email' => $email,
+                      'password' => $hash_password,
+                      'role_id' => $role_id,
+                      'last_login_ip' => $getTheLastLoginIp,
+                      'last_login_date' => date("Y-m-d", strtotime(trim($login_date))),
+                  ]);
+         if($user){
+            $student = Student::create([
+                'first_name' => $f_name,
+                'last_name' => $l_name,
+                'email' => $email,
+                'mobile'=> $mobile,
+                'country_id'=> $country_id,
+            ]);
+             Auth::login($user);
+             return redirect('/student-profile');
+
+         }
+        } 
+      
   
 //   // Process your response here
 //   echo $response;
