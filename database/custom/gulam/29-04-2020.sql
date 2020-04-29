@@ -1,0 +1,1 @@
+ALTER TABLE `master_categories` ADD `desciption` TEXT NOT NULL AFTER `name`, ADD `image` VARCHAR(255) NOT NULL AFTER `desciption`, ADD `sort` INT(11) NOT NULL AFTER `image`;

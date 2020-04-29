@@ -1,5 +1,5 @@
 @extends('admin.layouts.index')
-@section('title','mentors')
+@section('title','Services')
 @section('content')
 <link rel="stylesheet" type="text/css" href="{{asset('admin/app-assets/vendors/css/tables/datatable/datatables.min.css')}}">
     <!-- BEGIN: Content-->
@@ -8,13 +8,13 @@
         <div class="content-wrapper">
             <div class="content-header row">
                 <div class="content-header-left col-md-6 col-12 mb-2">
-                    <h3 class="content-header-title mb-0">Mentors</h3>
+                    <h3 class="content-header-title mb-0">Services</h3>
                     <div class="row breadcrumbs-top">
                         <div class="breadcrumb-wrapper col-12">
                             <ol class="breadcrumb">
                                 <li class="breadcrumb-item"><a href="index.html">Home</a>
                                 </li>
-                                <li class="breadcrumb-item"><a href="#">Mentors</a>
+                                <li class="breadcrumb-item"><a href="#">Services</a>
                                 </li>
                             </ol>
                         </div>

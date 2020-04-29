@@ -16,6 +16,13 @@
                 </ul>
                 </li>
 
+                <li class="nav-item"><a href="#"><i class="fa fa-flag"></i><span data-i18n="" class="menu-title">Category</span></a>
+                  <ul class="menu-content">
+                    <li class="{{ in_array(Route::currentRouteName(), ['category.index','category.edit']) ? 'active' : '' }}"><a href="{{route('category.index')}}" class="menu-item"><i class="fa fa-flag"></i><span data-i18n="" class="menu-title">Category</span></a></li>
+                        <li class="{{ in_array(Route::currentRouteName(), ['category.create']) ? 'active' : '' }}"><a href="{{route('category.create')}}" class="menu-item"><i class="fa fa-flag"></i><span data-i18n="" class="menu-title">Add Category</span></a></li>
+                </ul>
+                </li>
+
                  <li class="nav-item"><a href="#"><i class="fa fa-flag"></i><span data-i18n="" class="menu-title">Services</span></a>
                   <ul class="menu-content">
                     <li class="{{ in_array(Route::currentRouteName(), ['services.index','services.edit']) ? 'active' : '' }}"><a href="{{route('services.index')}}" class="menu-item"><i class="fa fa-flag"></i><span data-i18n="" class="menu-title">Services</span></a></li>
