@@ -45,77 +45,15 @@ class StudentDashboardController extends Controller
     }
     public function index()
     {
-        //
-        $email = Auth::user()->email;
-        $student = Student::select('id','first_name','last_name','email','mobile','image','planned_degree_program_id','updated_at')->where('email',$email)->first();
-        if(!empty($student->planned_degree_program_id)){
-           $program_id = MasterDegree::select('name')->where('id',$student->planned_degree_program_id)->first();
-           $program_name =  $program_id->name; 
-        }else{
-           $program_name = ''; 
-        }
-        /* Get Mentor According to student Skill */
-        $student_skill = StudentSkill::select('skill_id')->where('student_id',$student->id)->pluck('skill_id')->toArray();
-
-        //dd($student_skill); 
-        // $mentor_skills_according_to_student_Skill = MentorSkill::select('mentor_id')->whereIn('skill_id', $student_skill)->pluck('mentor_id')->toArray();
-        // $mentor_id = array_unique($mentor_skills_according_to_student_Skill);
-
-        $student_aspiration_data = Student::find($student->id)->aspiration;
-        if(!empty($student_aspiration_data)){
-          $degree_program_id = $student_aspiration_data->degree_id;
-          $student_countries = $student_aspiration_data->countries;
-          $student_course = $student_aspiration_data->program_courses;
-          $student_countries_selected = explode(',',$student_countries);
-          $country_id = array();
         
-            foreach($student_countries_selected as $country){
-               if($country == 'US'){
-                  array_push($country_id,235);
-                }elseif($country == 'UK'){
-                  array_push($country_id,78); 
-                }elseif($country == 'Australia'){
-                  array_push($country_id,13); 
-                }elseif($country == 'Canada'){
-                  array_push($country_id,37); 
-                }elseif($country == 'Europe'){
-                  $Europe_countries_code = array(1,2,3);
-                  foreach($Europe_countries_code as $europe){
-                    array_push($country_id,$europe); 
-                  }
-                }elseif($country == 'Others'){
-                    $country_id = MasterCountry::select('id')->where('status',1)->pluck('id')->toArray();
-                }
-            } 
-
-        }else{
-          $degree_program_id = NULL;
-          $student_course    = NULL;
-          $country_id = array();
-        }
-        
-        $student_testscore_data  = Student::find($student->id)->studenttest;
-        if(!empty($student_testscore_data)){
-            $student_test_id = $student_testscore_data->test_id;
-            $student_test_score = $student_testscore_data->total_score;
-            if(empty($student_test_score)){
-              $student_test_score = 0;   
-            }
-        }else{
-            $student_test_id = NULL;
-            $student_test_score = 0;
-        }    
-
-        
-        //dd($country_id);
-
-        
-
-        //dd($degree_program_id);
-
-        
-
-          $mentors = DB::table('mentors')
+         $student_mentor_query =  $this->student_mentor_query();
+         $degree_program_id    =  $student_mentor_query['degree_program_id'];
+         $student_course    =  $student_mentor_query['student_course'];
+         $country_id    =  $student_mentor_query['country_id'];
+         $student_skill    =  $student_mentor_query['student_skill'];
+         $student_test_id    =  $student_mentor_query['student_test_id'];
+         $student_test_score    =  $student_mentor_query['student_test_score'];
+         $mentors = DB::table('mentors')
                     ->select('mentors.*')
                     ->leftjoin('mentor_skill', 'mentors.id', '=', 'mentor_skill.mentor_id')
                     ->leftjoin('mentor_test_score', 'mentors.id', '=', 'mentor_test_score.mentor_id')
@@ -186,11 +124,120 @@ class StudentDashboardController extends Controller
 
         //$mentors = Mentor::select('id','first_name','last_name','degree_program_id','major_specialization','job_title','detailed_bio','image')->where('status', 1)->whereIn('id', $mentor_id)->get();
         $data['mentors'] = $mentors;
-        $data['student'] = $student;
-        $data['program_name'] = $program_name;
-         return view('web.student.dashboard.student.mentors',$data);
+        $data['student'] = $student_mentor_query['student'];
+        $data['program_name'] = $student_mentor_query['program_name'];
+        return view('web.student.dashboard.student.mentors',$data);
 
         
+    }
+    public function all_mentors(){
+         $student_mentor_query = $this->student_mentor_query();
+         $degree_program_id    =  $student_mentor_query['degree_program_id'];
+         $student_course    =  $student_mentor_query['student_course'];
+         $country_id    =  $student_mentor_query['country_id'];
+         $student_skill    =  $student_mentor_query['student_skill'];
+         $student_test_id    =  $student_mentor_query['student_test_id'];
+         $student_test_score    =  $student_mentor_query['student_test_score'];
+        $mentors = DB::table('mentors')
+                    ->select('mentors.*')
+                    ->leftjoin('mentor_skill', 'mentors.id', '=', 'mentor_skill.mentor_id')
+                    ->leftjoin('mentor_test_score', 'mentors.id', '=', 'mentor_test_score.mentor_id')
+                    ->where(function($query) use ($degree_program_id) {
+                        $query->where('mentors.degree_program_id',$degree_program_id);
+                    })
+                    ->orWhere(function($query) use ($student_course) {
+                        $query->where('mentors.major_specialization',$student_course);
+                    })
+                    ->orWhere(function($query) use ($country_id) {
+                        $query->whereIn('mentors.country_code',$country_id);
+                    })
+                    ->orWhere(function($query) use ($student_skill) {
+                        $query->whereIn('mentor_skill.skill_id',$student_skill);
+                    })
+                    ->orWhere(function($query) use ($student_test_id,$student_test_score) {
+                        $query->where('mentor_test_score.test_id',$student_test_id)
+                        ->Where('mentor_test_score.score', '>' , $student_test_score);
+                    })
+                    ->where('status',1)
+                    ->distinct('mentors.id')
+                    ->get();
+            $data['mentors'] = $mentors;
+            $data['student'] = $student_mentor_query['student'];
+            $data['program_name'] = $student_mentor_query['program_name'];
+            return view('web.student.dashboard.student.all-mentors',$data);        
+    }
+    public function student_mentor_query(){
+        $email = Auth::user()->email;
+        $student = Student::select('id','first_name','last_name','email','mobile','image','planned_degree_program_id','updated_at')->where('email',$email)->first();
+        if(!empty($student->planned_degree_program_id)){
+           $program_id = MasterDegree::select('name')->where('id',$student->planned_degree_program_id)->first();
+           $program_name =  $program_id->name; 
+        }else{
+           $program_name = ''; 
+        }
+        /* Get Mentor According to student Skill */
+        $student_skill = StudentSkill::select('skill_id')->where('student_id',$student->id)->pluck('skill_id')->toArray();
+
+        //dd($student_skill); 
+        // $mentor_skills_according_to_student_Skill = MentorSkill::select('mentor_id')->whereIn('skill_id', $student_skill)->pluck('mentor_id')->toArray();
+        // $mentor_id = array_unique($mentor_skills_according_to_student_Skill);
+
+        $student_aspiration_data = Student::find($student->id)->aspiration;
+        if(!empty($student_aspiration_data)){
+          $degree_program_id = $student_aspiration_data->degree_id;
+          $student_countries = $student_aspiration_data->countries;
+          $student_course = $student_aspiration_data->program_courses;
+          $student_countries_selected = explode(',',$student_countries);
+          $country_id = array();
+        
+            foreach($student_countries_selected as $country){
+               if($country == 'US'){
+                  array_push($country_id,235);
+                }elseif($country == 'UK'){
+                  array_push($country_id,78); 
+                }elseif($country == 'Australia'){
+                  array_push($country_id,13); 
+                }elseif($country == 'Canada'){
+                  array_push($country_id,37); 
+                }elseif($country == 'Europe'){
+                  $Europe_countries_code = array(1,2,3);
+                  foreach($Europe_countries_code as $europe){
+                    array_push($country_id,$europe); 
+                  }
+                }elseif($country == 'Others'){
+                    $country_id = MasterCountry::select('id')->where('status',1)->pluck('id')->toArray();
+                }
+            } 
+
+        }else{
+          $degree_program_id = NULL;
+          $student_course    = NULL;
+          $country_id = array();
+        }
+        
+        $student_testscore_data  = Student::find($student->id)->studenttest;
+        if(!empty($student_testscore_data)){
+            $student_test_id = $student_testscore_data->test_id;
+            $student_test_score = $student_testscore_data->total_score;
+            if(empty($student_test_score)){
+              $student_test_score = 0;   
+            }
+        }else{
+            $student_test_id = NULL;
+            $student_test_score = 0;
+        }
+
+        $data = [];
+        $data['degree_program_id']  = $degree_program_id;
+        $data['student_course']     = $student_course;
+        $data['country_id']         = $country_id;
+        $data['student_skill']      = $student_skill;
+        $data['student_test_id']    = $student_test_id;
+        $data['student_test_score'] = $student_test_score;
+        $data['student'] = $student;
+        $data['program_name'] = $program_name;
+        return $data;
+
     }
     public function avilable(Request $request)
     {
@@ -331,6 +378,42 @@ if($value->status!=0){
             }
         }
 
+    }
+
+    public function schedule_session(){
+        $data = [];
+        $student_dashboard = $this->student_dashboard();
+        $mentors = Mentor::select('id','first_name','last_name')->where('status',1)->get();
+        $data['student']      = $student_dashboard['student'];
+        $data['program_name'] = $student_dashboard['program_name'];
+        $data['mentors'] = $mentors;
+        return view('web.student.dashboard.student.schedule-session',$data);
+    }
+    public function session_dates(Request $request){
+        $mentor_id = $request->mentor_id;
+        $mentor_avlable = MentorAvailability::select('date')->where('mentor_id',$mentor_id)->where('status',1)->pluck('date')->toArray();   
+         $dates = array();
+         foreach($mentor_avlable as $value){
+             $date_data =  date('d-n-Y',strtotime($value));
+            array_push($dates,$date_data);
+         }
+        return $unique_dates =  array_values(array_unique($dates));
+        //return  json_encode($unique_dates);
+    }
+
+    public function student_dashboard(){
+        $data = [];
+        $email = Auth::user()->email;
+        $student = Student::select('id','first_name','last_name','email','mobile','image','planned_degree_program_id','updated_at')->where('email',$email)->first();
+        if(!empty($student->planned_degree_program_id)){
+           $program_id = MasterDegree::select('name')->where('id',$student->planned_degree_program_id)->first();
+           $program_name =  $program_id->name; 
+        }else{
+           $program_name = ''; 
+        }
+        $data['student'] = $student;
+        $data['program_name'] = $program_name;
+        return $data;
     }
        
 

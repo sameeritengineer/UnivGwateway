@@ -3788,3 +3788,6 @@ img.user-img {
 a.mentor_custom_req_btn {
     font-size: 11px;
 }
+.hide_calender_always{
+    display: none;
+}

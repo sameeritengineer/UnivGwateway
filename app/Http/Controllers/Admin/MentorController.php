@@ -154,7 +154,8 @@ class MentorController extends Controller
                      }
                      /* update values for test score for mentor */
                      $test_score_list = $request->test_score_list;
-                      foreach($test_score_list as $list){
+                     if(!empty($test_score_list)){
+                       foreach($test_score_list as $list){
                          if(!empty($list['mentor_test_score_id'])){
                                $MentorTestScoreToBeUpdated = MentorTestScore::find($list['mentor_test_score_id']);
                                $updateFieldsMentorTestScore = [
@@ -176,9 +177,11 @@ class MentorController extends Controller
                          }
                        
                       }
+                     }
                     /* update values for apllied universities for mentor */
                     $applied_universities = $request->applied_university_list;
-                    foreach($applied_universities as $list){
+                    if(!empty($applied_universities)){
+                      foreach($applied_universities as $list){
                       if(!empty($list['mentor_applied_university_id'])){
                         $MentoruniversityAppliedToBeUpdated = MentorUniversityAppliedList::find($list['mentor_applied_university_id']);
                        $updateFieldsMentoruniversityApplied = [
@@ -197,7 +200,8 @@ class MentorController extends Controller
                          ]);  
                         }
                     
-                      }     
+                      }
+                    }   
                 }
 
          }catch (Throwable $e) {

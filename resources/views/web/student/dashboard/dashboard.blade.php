@@ -8,7 +8,7 @@
 			<div class="button-row display-grid dashboard-btn-row">
 				<h3 class="margin-top-none mob-margin-bottom-15 margin-bottom-none text-color-theme letter-uppercase font-size-18 font-weight-600">Last Sessions</h3>
 				<div class="display-grid">
-					<a class="custom-btn margin-right-20 mob-margin-bottom-15" href="#">
+					<a class="custom-btn margin-right-20 mob-margin-bottom-15" href="{{route('schedule-session')}}">
 						<span class="letter-uppercase font-weight-600">Schedule Session</span>
 					</a>
 					<a class="custom-btn" href="#">
