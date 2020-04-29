@@ -230,10 +230,10 @@ if($count_student_resume >0 ){
         $output = '';
        if(!empty($ProfileTestScore)){
         foreach($ProfileTestScore as $score){
-        $testName = MasterTest::where('id',$ProfileTestScore->test_id)->first();
+        $testName = MasterTest::where('id',$score->test_id)->first();
         $output .= '<h3 class="text-color-second font-size-16 font-weight-600 margin-bottom-none margin-top-none">TestName:</h3><p>'.$testName->name.'</p>
-                         <h3 class="text-color-second font-size-16 font-weight-600 margin-bottom-none margin-top-none">Test Ateend Year:</h3><p>'.$ProfileTestScore->attend_year.'</p>
-                         <h3 class="text-color-second font-size-16 font-weight-600 margin-bottom-none margin-top-none">Test Score: </h3><p>'.$ProfileTestScore->total_score.'</p>';
+                         <h3 class="text-color-second font-size-16 font-weight-600 margin-bottom-none margin-top-none">Test Ateend Year:</h3><p>'.$score->attend_year.'</p>
+                         <h3 class="text-color-second font-size-16 font-weight-600 margin-bottom-none margin-top-none">Test Score: </h3><p>'.$score->total_score.'</p>';
         }  
        }else{
          $output = '';
