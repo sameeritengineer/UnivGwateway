@@ -152,7 +152,7 @@
                                                             <label class="col-md-3 label-control" for="userinput8"> Image</label>
                                                             <div class="col-md-9">
                                                                 <label id="projectinput8" class="file center-block">
-                                                                    <input type="file" name="image" id="file" onchange="loadFileImage(event)">
+                                                                    <input required="" type="file" name="image" accept="image/*" id="file" onchange="loadFileImage(event)">
                                                                     <span class="file-custom"></span>
                                                                 </label>
                                                             </div>

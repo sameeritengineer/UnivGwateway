@@ -3797,3 +3797,36 @@ a.mentor_custom_req_btn {
 .grey-diagnostic-btn {
     background: #a3a3a3;
 }
+.consult a {
+  border: none;
+  outline: 0;
+  padding: 12px;
+  color: white;
+  background-color: #337ab7;
+  text-align: center;
+  cursor: pointer;
+  width: 45%;
+  font-size: 18px;
+  float:left;
+}
+
+.consult a:hover {
+  opacity: 0.7;
+}
+
+.card a {
+  border: none;
+  outline: 0;
+  padding: 12px;
+  color: white;
+  background-color: #337ab7;
+  text-align: center;
+  cursor: pointer;
+  width: 45%;
+  font-size: 18px;
+  float:right;
+}
+
+.card a:hover {
+  opacity: 0.7;
+}

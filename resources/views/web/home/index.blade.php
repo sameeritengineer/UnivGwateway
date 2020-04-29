@@ -79,15 +79,15 @@
             <img src="{{asset('web/images/Seperator-400.png')}}" class="center-block width-250" alt="" />
         </div>
         <div class="row">
-            @foreach($services as $services)
+            @foreach($category as $category)
             <div class="col-md-4 col-sm-4 col-xs-12 three_row_section ">
                 <div class="col-md-12 col-sm-12 col-xs-12 border-1px padding-none">
-                    <img src="{{asset('uploads/services/'.$services->image)}}" alt="" class="img-responsive width-100-percent" />
+                    <img src="{{asset('uploads/category/'.$category->image)}}" alt="" class="img-responsive width-100-percent" />
                     <div class="padding-15px">
-                        <h3 class="title-color text-color-theme">{{$services->service_name}}</h3></a>
+                        <h3 class="title-color text-color-theme">{{$category->name}}</h3></a>
                         <p class="date-font gray-color font-size-16">
-                        {!!substr($services->description, 0, 160)!!}</p>
-                        <a class="text-color-theme font-weight-600 letter-uppercase" href="{{route('web.services', $services->id)}}">View More  &nbsp;<i class="fa fa-angle-right font-weight-900 font-size-18"></i> </a>
+                        {!!substr($category->desciption, 0, 160)!!}</p>
+                        <a class="text-color-theme font-weight-600 letter-uppercase" href="{{route('web.services', $category->id)}}">View More  &nbsp;<i class="fa fa-angle-right font-weight-900 font-size-18"></i> </a>
                     </div>
                 </div>
             </div>
@@ -96,7 +96,7 @@
 
         </div>
 
-        <div class="view-all-btn"><a class="view-all" href="{{route('web.services')}}">View All</a></div>
+        <div class="view-all-btn" style="display:none;"><a class="view-all" href="{{route('web.services')}}">View All</a></div>
     </div>
 </div>
 <div class="col-md-12 col-sm-12 col-xs-12 about_section">
