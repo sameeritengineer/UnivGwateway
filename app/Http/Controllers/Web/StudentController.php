@@ -72,6 +72,7 @@ $ProfileTestScore = StudentTestScore::where('student_id',$student->id)->get();
 
 $data_higher_education = DataHigherEducation::select('id','name')->get();
 $data_education_plan = DataEducationPlan::select('id','name')->get();
+$StudentWorkExperience = StudentWorkExperience::where('student_id',$student->id)->get();
 
 
         $data['student'] = $student;
@@ -91,6 +92,7 @@ $data_education_plan = DataEducationPlan::select('id','name')->get();
         $data['ProfileTestScore'] = $ProfileTestScore;
         $data['data_higher_education'] = $data_higher_education;
         $data['data_education_plan'] = $data_education_plan;
+        $data['StudentWorkExperience'] = $StudentWorkExperience;
         return view('web.student.profile',$data);
     }
 public function profileStrenth($student_id){
@@ -224,12 +226,15 @@ if($count_student_resume >0 ){
                     'attend_year'=>$attend_year,
                     'total_score'=>$score,
                 ]);
-       $ProfileTestScore = StudentTestScore::where('student_id',$student_id)->first();
+       $ProfileTestScore = StudentTestScore::where('student_id',$student_id)->get();
+        $output = '';
        if(!empty($ProfileTestScore)){
-        $testName = MasterTest::where('id',$ProfileTestScore->test_id)->first();
-        $output = '<h3 class="text-color-second font-size-16 font-weight-600 margin-bottom-none margin-top-none">TestName:</h3><p>'.$testName->name.'</p>
-                         <h3 class="text-color-second font-size-16 font-weight-600 margin-bottom-none margin-top-none">Test Ateend Year:</h3><p>'.$ProfileTestScore->attend_year.'</p>
-                         <h3 class="text-color-second font-size-16 font-weight-600 margin-bottom-none margin-top-none">Test Score: </h3><p>'.$ProfileTestScore->total_score.'</p>';
+        foreach($ProfileTestScore as $score){
+        $testName = MasterTest::where('id',$score->test_id)->first();
+        $output .= '<h3 class="text-color-second font-size-16 font-weight-600 margin-bottom-none margin-top-none">TestName:</h3><p>'.$testName->name.'</p>
+                         <h3 class="text-color-second font-size-16 font-weight-600 margin-bottom-none margin-top-none">Test Ateend Year:</h3><p>'.$score->attend_year.'</p>
+                         <h3 class="text-color-second font-size-16 font-weight-600 margin-bottom-none margin-top-none">Test Score: </h3><p>'.$score->total_score.'</p>';
+        }  
        }else{
          $output = '';
        }
@@ -535,7 +540,13 @@ public function education(Request $request){
       $editIcon = asset('web/images/Editiconcommon3.png');
       $output = '';
       foreach($studentEducationDetail as $details){
-        $output .= '<div class="education_inner"><h3 class="desination margin-top-none font-size-18 text-color-gray">'.$details->course_specialization.'</h3><h3 class="company_name margin-top-none font-size-16 text-color-gray">'.$details->university_value.'<span><img data-education="'.$details->id.'" class="education-edit-icon edit_education_btn" src="'.$editIcon.'" alt=""></span></h3><h3 class="joining margin-top-none font-size-16 text-color-gray margin-bottom-15">'.$details->passing_out_year.' ('.$course_type_array[$details->course_type].')</h3></div>';
+        $degree_value = MasterDegree::where('id',$details->degree_id)->first();
+              if(!empty($degree_value->name)){
+                $degree_name  = $degree_value->name;
+              }else{
+                $degree_name  = '';
+              }
+        $output .= '<div class="education_inner"><h3 class="desination margin-top-none font-size-18 text-color-gray">'.$details->course_specialization.'<span><img data-education="'.$details->id.'" class="education-edit-icon edit_education_btn" src="'.$editIcon.'" alt=""></span></h3><h3 class="company_name margin-top-none font-size-16 text-color-gray">'.$details->university_value.'</h3><h3 class="company_name margin-top-none font-size-16 text-color-gray">'.$details->institute_value.'</h3><h3 class="joining margin-top-none font-size-16 text-color-gray margin-bottom-15">'.$details->passing_out_year.' ('.$details->course_type.')</h3><h3 class="company_name margin-top-none font-size-16 text-color-gray">'.$details->grading_system.'</h3></div>';
 
       }
       return Response::json(['education' => 1]);
@@ -601,19 +612,36 @@ public function upload_resume(Request $request){
      
 
     
-    // public function student_employment(Request $request){
-    //     /* save data for student employemnet in student_work_experience table */
-    //     $student_work_experience = StudentWorkExperience::create([
-    //                 'student_id' => $request->student_id,
-    //                 'company_name' => $request->company_name,
-    //                 'job_title' => $request->job_title,
-    //                 'city' => $request->city,
-    //                 'country_id' => $request->country_id,
-    //                 'job_start_date' =>date("Y-m-d", strtotime(trim($request->job_start_date))),
-    //                 'job_end_date' => date("Y-m-d", strtotime(trim($request->job_end_date))),
-    //                 'outcome_description' => $request->outcome_description
-    //             ]);
-    // }
+    public function student_employment(Request $request){
+      //return $request->all();
+        /* save data for student employemnet in student_work_experience table */
+        $student_work_experience = StudentWorkExperience::create([
+                    'student_id' => $request->student_id,
+                    'company_name' => $request->company_name,
+                    'job_title' => $request->job_title,
+                    'city' => $request->city,
+                    'country_id' => $request->country_id,
+                    'job_start_date' =>date("Y-m-d", strtotime(trim($request->job_start_date))),
+                    'job_end_date' => date("Y-m-d", strtotime(trim($request->job_end_date))),
+                    'outcome_description' => $request->outcome_description
+                ]);
+
+      $StudentWorkExperience = StudentWorkExperience::where('student_id',$request->student_id)->get();
+       $output = '';
+       foreach($StudentWorkExperience as $exp){
+        $output .= '<div class="user-show-data margin-bottom-30">
+            <h3 class="desination margin-top-none font-size-18 text-color-gray">'.$exp->job_title.'</h3>
+            <h3 class="company_name margin-top-none font-size-16 text-color-gray">'.$exp->company_name.'</h3>
+            <h3 class="joining margin-top-none font-size-16 text-color-gray margin-bottom-15  ">'.$exp->job_start_date.' to '.$exp->job_end_date.'</h3>
+            <b>'.$exp->city.'</b>
+            <p>'.$exp->outcome_description.'</p>
+          </div>';
+       }
+
+       return Response::json(['employemnet' => $output]);
+        
+
+    }
 
     
 }

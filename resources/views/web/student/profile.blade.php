@@ -129,7 +129,7 @@ $higher_education = array('Spring 2021','Fall 2021','Spring 2022','Fall 2022','S
 				<ul class="user-profile-link">
 					<li><a href="#" id="scroll_resume_headline">Resume Headlines</a></li>
 					<li><a href="#" id="scroll_skills">key Skills</a></li>
-					<!-- <li><a href="#">Employment</a></li> -->
+					<li><a href="#">Employment</a></li>
 					<li><a href="#" id="scroll_education">Education</a></li>
 					<!-- <li><a href="#">Extra Skills</a></li> -->
 					<li><a href="#" id="scroll_profile_summary">Profile Summary</a></li>
@@ -164,26 +164,23 @@ $higher_education = array('Spring 2021','Fall 2021','Spring 2022','Fall 2022','S
 					</div>
 				</div>
 
-				<!-- <div class="col-md-12 col-sm-12 col-xs-12 headline-section padding-25 margin-bottom-30 box-shadow " id="employment">
+				<div class="col-md-12 col-sm-12 col-xs-12 headline-section padding-25 margin-bottom-30 box-shadow" id="employment">
 					<div class="display-grid heading margin-bottom-15 space-between">
 						<h3 class="font-weight-600 font-size-25 text-color-theme">Employment</h3>
 						<h3 class="font-weight-600 text-color-second font-size-16 text-color-theme add_employment">ADD EMPLOYMENT</h3>
 					</div>
+					<div class="employemnet_output">
+					@foreach($StudentWorkExperience as $exp)
 					<div class="user-show-data margin-bottom-30">
-						<h3 class="desination margin-top-none font-size-18 text-color-gray">Executive software engineer</h3>
-						<h3 class="company_name margin-top-none font-size-16 text-color-gray">HCL Technologies</h3>
-						<h3 class="joining margin-top-none font-size-16 text-color-gray margin-bottom-15	">Feb 2019 to Present (1 Year 1 month)</h3>
-						<b>Serving Notice Period</b>
-						<p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. when an unknown printer took a galley of type and scrambled it to make a type specimen book. <a href="">read more</a></p>
+						<h3 class="desination margin-top-none font-size-18 text-color-gray">{{$exp->job_title}}</h3>
+						<h3 class="company_name margin-top-none font-size-16 text-color-gray">{{$exp->company_name}}</h3>
+						<h3 class="joining margin-top-none font-size-16 text-color-gray margin-bottom-15	">{{$exp->job_start_date}} to {{$exp->job_end_date}}</h3>
+						<b>{{$exp->city}}</b>
+						<p>{{$exp->outcome_description}}</p>
 					</div>
-					<div class="user-show-data margin-bottom-30">
-						<h3 class="desination margin-top-none font-size-18 text-color-gray">Executive software engineer</h3>
-						<h3 class="company_name margin-top-none font-size-16 text-color-gray">HCL Technologies</h3>
-						<h3 class="joining margin-top-none font-size-16 text-color-gray margin-bottom-15">Feb 2019 to Present (1 Year 1 month)</h3>
-						<b>Serving Notice Period</b>
-						<p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. when an unknown printer took a galley of type and scrambled it to make a type specimen book. <a href="">read more</a></p>
-					</div>
-				</div> -->
+					@endforeach
+                    </div>
+				</div>
 
 				<div class="col-md-12 col-sm-12 col-xs-12 headline-section padding-25 margin-bottom-30 box-shadow " id="education">
 					<div class="display-grid heading margin-bottom-15 space-between">
@@ -194,9 +191,20 @@ $higher_education = array('Spring 2021','Fall 2021','Spring 2022','Fall 2022','S
 					<div class="user-show-data margin-bottom-30 education_output">
 						@foreach($studentEducationDetail as $details)
 						<div class="education_inner"><h3 class="desination margin-top-none font-size-18 text-color-gray">{{$details->course_specialization}} <span><img data-education="{{$details->id}}" class="education-edit-icon edit_education_btn" src="{{asset('web/images/Editiconcommon3.png')}}" alt="" /></span></h3>
-
+                        @php
+                           $degree_value = App\MasterDegree::where('id',$details->degree_id)->first();
+                            if(!empty($degree_value->name)){
+                            	$degree_name  = $degree_value->name;
+                            }else{
+                            	$degree_name  = '';
+                            }
+                        @endphp
+                        <h3 class="company_name margin-top-none font-size-16 text-color-gray">{{$degree_name}}</h3>
 						<h3 class="company_name margin-top-none font-size-16 text-color-gray">{{$details->university_value}}</h3>
-						<h3 class="joining margin-top-none font-size-16 text-color-gray margin-bottom-15">{{$details->passing_out_year}} ({{$course_type_array[0]}})</h3></div>
+						<h3 class="company_name margin-top-none font-size-16 text-color-gray">{{$details->institute_value}}</h3>
+						<h3 class="joining margin-top-none font-size-16 text-color-gray margin-bottom-15">{{$details->passing_out_year}} ({{$details->course_type}})</h3>
+                        <h3 class="company_name margin-top-none font-size-16 text-color-gray">{{$details->grading_system}}</h3>
+					   </div>
 						@endforeach
 						<!-- <h3 class="joining margin-top-none font-size-16 text-color-second margin-bottom-15 cursor-pointer add_doctorate_btn cursur-pointer">Add Doctorate/PhD</h3>
 						<h3 class="joining margin-top-none font-size-16 text-color-second margin-bottom-15 cursor-pointer add_masters_btn">Add Masters/Post-Graduation</h3>
@@ -640,7 +648,7 @@ $("form[name='Edit_Education_Form']").validate({
                         "score": score,
                     },
                     success: function(response) {
-                       location.reload();
+                       //location.reload();
                        $("form[name='Add_Test_Form']").trigger("reset");
                        $('.testscore_output').html(response.test_score);
                        $('.test-score-model').hide('100');
@@ -649,34 +657,6 @@ $("form[name='Edit_Education_Form']").validate({
                     },
                  });
     });
- // $('#test_score_submit-edit').click(function() {
- //  	         var student_id = $("#student_id").val();
- //  	         var test_form_id = $("#test_form_id").val();
- //  	         alert(test_form_id);
- //             var test_name = $("#select_test_name").val();
- //             alert(test_form_id);
- //             var attend_year = $("#attend_year").val();
- //             var score = $("#score").val();
- //             var token = $('meta[name="csrf-token"]').attr('content');
- //             $.ajax({
- //                    _token: token,
- //                    url: "{{ route('web.student-test-score-edit') }}",
- //                    type: "POST",
- //                    data: {
- //                    	"test_form_id": test_form_id,
- //                    	"student_id": student_id,
- //                        "test_name": test_name,
- //                        "attend_year": attend_year,
- //                        "score": score,
- //                    },
- //                    success: function(response) {
- //                      // location.reload();
- //                      // $('.test-score-model').hide('100');
- //                      // $('.popup-bg-img').hide();
- //                       //$('html, body').animate({ scrollTop: $("#Test_score_number").offset().top}, 1000);
- //                    },
- //                 });
- //    });
   /* KeySkills */
   $('#keyskills_submit').click(function() {
 			   var selectedValues = $('.keyskillsInput').val();
@@ -782,13 +762,45 @@ $("form[name='Edit_Education_Form']").validate({
 
   
   
-  
+  /* Update Employment */
+  $("form[name='Add_Employment_Form']").validate({
+    // Specify validation rules
+    rules: {
+      company_name: "required",
+      job_title: "required",
+      city: "required",
+      select_country: "required",
+      job_start_date: "required",
+      job_end_date: "required",
+    },
+    submitHandler: function(form) {
+      //form.submit();
+      var token = $('meta[name="csrf-token"]').attr('content');
+      var formData = new FormData(form);
+      $.ajax({
+                    _token: token,
+                    url: "{{ route('web.student-employment') }}",
+                    type: "POST",
+                    data: formData,
+                    dataType:'JSON',
+                    cache:false,
+                    contentType: false,
+                    processData: false,
+                    success: function(response) {
+                    	 // location.reload();
+                    	 $(".employemnet_output").html(response.employemnet);
+                    	 $('.employment-model').hide('100');
+                         $('.popup-bg-img').hide();
+                         $('html, body').animate({ scrollTop: $("#employment").offset().top}, 1000);
+                    	},
+                 });
 
-  
-  /* Update Employment */ 
+    }
+  }); 
   // $('#employment_submit').click(function() {
   // 	        var student_id        = $("#student_id").val();
   //           var company_name = $("#company_name").val();
+  //           alert(company_name);
   //           var job_title    = $("#job_title").val();
   //           var city         = $("#city").val();
   //           var country_id   = $("#country_id").val();
@@ -798,7 +810,7 @@ $("form[name='Edit_Education_Form']").validate({
   //           var token = $('meta[name="csrf-token"]').attr('content');
   //           $.ajax({
   //                   _token: token,
-  //                  
+                   
   //                   type: "POST",
   //                   data: {
   //                       "student_id": student_id,
