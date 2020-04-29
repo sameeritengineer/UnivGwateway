@@ -20,12 +20,21 @@
 	                    <h3 class="title-color text-color-theme letter-uppercase">{{$mentor->first_name}} {{$mentor->last_name}}</h3>
 	                    <p class="font-size-15 text-color-theme">{{$mentor->job_title}}</p>
 	                    <p class="date-font text-color-second">{{$mentor->major_specialization}},{{$degree->name}}</p>
+	                    @if($diagnostic_call_count >= $max_value_diagnostic_call)
 	                    <div class="request-call-btn">
+	                			<a class="mentor_custom_req_btn custom-btn mob-padding-5-10 grey-diagnostic-btn" href="javascript:;">
+									<img style="width: 25px;" class="margin-right-5" src="images/diagnosticcall_mentordashicon.png" alt="">
+									<span class="letter-uppercase font-weight-600">Request a diagnostic call</span>
+								</a>
+	                	</div>
+	                	@else
+	                	<div class="request-call-btn">
 	                			<a class="mentor_custom_req_btn custom-btn mob-padding-5-10" href="{{ route('student-mentor-single', $mentor->id) }}">
 									<img style="width: 25px;" class="margin-right-5" src="images/diagnosticcall_mentordashicon.png" alt="">
 									<span class="letter-uppercase font-weight-600">Request a diagnostic call</span>
 								</a>
-	                		</div>
+	                	</div>
+	                	@endif
 	                </div>
 	            </div>
                 @endforeach

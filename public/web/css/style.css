@@ -3794,3 +3794,6 @@ a.mentor_custom_req_btn {
 .testscore_model-edit{
     display: none;
 }
+.grey-diagnostic-btn {
+    background: #a3a3a3;
+}

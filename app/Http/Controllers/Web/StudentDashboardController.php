@@ -17,6 +17,7 @@ use App\MasterCountry;
 use App\Session;
 use DB;
 use DateTime;
+use Config;
 
 class StudentDashboardController extends Controller
 {
@@ -48,7 +49,8 @@ class StudentDashboardController extends Controller
          $session = $this->get_diagnostic_session();
          $diagnostic_call_count = count($session);
          $student_mentor_query =  $this->student_mentor_query();
-         if($diagnostic_call_count == 2){
+         $max_value_diagnostic_call =  Config::get('custom.max_value_diagnostic_call');  
+         if($diagnostic_call_count == $max_value_diagnostic_call){
             $mentors = Mentor::select('id','first_name','last_name','degree_program_id','major_specialization','job_title','detailed_bio','image')->where('status', 1)->whereIn('id', $session)->get();
          }else{
              $degree_program_id    =  $student_mentor_query['degree_program_id'];
@@ -131,11 +133,18 @@ class StudentDashboardController extends Controller
         $data['mentors'] = $mentors;
         $data['student'] = $student_mentor_query['student'];
         $data['program_name'] = $student_mentor_query['program_name'];
+        $data['diagnostic_call_count'] = $diagnostic_call_count;
+        $data['max_value_diagnostic_call'] = $max_value_diagnostic_call;
         return view('web.student.dashboard.student.mentors',$data);
 
         
     }
     public function all_mentors(Request $request){
+
+         $session = $this->get_diagnostic_session();
+         $diagnostic_call_count = count($session);
+         $max_value_diagnostic_call =  Config::get('custom.max_value_diagnostic_call');
+
          $pageNumber     = $request->pageNumber;
          $search     = $request->search;
          $search_text_val  = $request->search_text_val;
@@ -195,6 +204,8 @@ class StudentDashboardController extends Controller
             $data['mentors'] = $mentors;
             $data['student'] = $student_mentor_query['student'];
             $data['program_name'] = $student_mentor_query['program_name'];
+            $data['diagnostic_call_count'] = $diagnostic_call_count;
+            $data['max_value_diagnostic_call'] = $max_value_diagnostic_call;
             if($pageNumber>1){
               return view('web.student.dashboard.student.all-mentors',$data);
             } else{
@@ -313,6 +324,14 @@ $endTime = $given2->format("Y-m-d H:i:s");
     public function single_mentor($id)
     {
      $data = [];
+
+    $session = $this->get_diagnostic_session();
+    $diagnostic_call_count = count($session);
+    $max_value_diagnostic_call =  Config::get('custom.max_value_diagnostic_call');
+    if($diagnostic_call_count == $max_value_diagnostic_call){
+     return 'not support';
+    }else{
+
      $email = Auth::user()->email;
      $student = Student::select('id','first_name','last_name','email','mobile','image','planned_degree_program_id','updated_at')->where('email',$email)->first();
         if(!empty($student->planned_degree_program_id)){
@@ -335,7 +354,9 @@ $endTime = $given2->format("Y-m-d H:i:s");
     $data['student'] = $student;
     $data['program_name'] = $program_name;
     $data['mentor'] = $mentor;  
-     return view('web.student.dashboard.student.single-mentor',$data);
+    return view('web.student.dashboard.student.single-mentor',$data);
+
+    } 
     }
      public function slots(Request $request)
     {
@@ -523,6 +544,6 @@ if($value->status!=0){
         $data = [];
         $email   = Auth::user()->email;
         $student = Student::select('id')->where('email',$email)->first();
-        return $session = Session::select('mentor_id')->where('status',4)->where('type','free')->pluck('mentor_id')->toArray();;
+        return $session = Session::select('mentor_id')->where('student_id',$student->id)->where('status',4)->where('type','free')->pluck('mentor_id')->toArray();;
     }
 }
