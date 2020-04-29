@@ -31,6 +31,7 @@ $higher_education = array('Spring 2021','Fall 2021','Spring 2022','Fall 2022','S
 @include('web.student.prfile-modal.key-skills')
 @include('web.student.prfile-modal.summery')
 @include('web.student.prfile-modal.test-score')
+@include('web.student.prfile-modal.edit-test-score')
 @include('web.student.prfile-modal.employment')
 @include('web.student.prfile-modal.add-education')
 @include('web.student.prfile-modal.edit-education')
@@ -66,7 +67,7 @@ $higher_education = array('Spring 2021','Fall 2021','Spring 2022','Fall 2022','S
 					<div class="display-grid space-between">
 						<div class="right-data display-grid display-grid-center mob-margin-bottom-15">
 							<img class="margin-right-30" src="{{asset('web/images/stduentprof_expicon.png')}}" alt="" />
-							<h3 class="text-white font-size-20 margin-top-none margin-bottom-none">Pursuing {{$student->current_specialization}}</h3>
+							<h3 class="text-white font-size-20 margin-top-none margin-bottom-none aspiration_degree_output">{{$aspiration_degree_name}}</h3>
 						</div>
 
 						<div class="left-date display-grid display-grid-center mob-margin-bottom-15">
@@ -132,7 +133,7 @@ $higher_education = array('Spring 2021','Fall 2021','Spring 2022','Fall 2022','S
 					<li><a href="#" id="scroll_education">Education</a></li>
 					<!-- <li><a href="#">Extra Skills</a></li> -->
 					<li><a href="#" id="scroll_profile_summary">Profile Summary</a></li>
-					<li><a href="#" id="scroll_test_score">Test Score Number</a></li>
+					<li><a href="#" id="scroll_test_score">Test Score Details</a></li>
 					<li><a href="#" id="scroll_dersired_profile">Educational Aspirations</a></li>
 					<li><a href="#" id="scroll_resume_upload">Resume Upload</a></li>
 				</ul>
@@ -238,18 +239,22 @@ $higher_education = array('Spring 2021','Fall 2021','Spring 2022','Fall 2022','S
 					</div>
 				</div>
 				<div class="col-md-12 col-sm-12 col-xs-12 headline-section padding-25 margin-bottom-30 box-shadow " id="Test_score_number">
-					<div class="display-grid heading margin-bottom-15">
-						<h3 class="margin-right-15 font-weight-600 font-size-25 text-color-theme">Test Score Number</h3>
-						<img class="test-score-btn" src="{{asset('web/images/Editiconcommon3.png')}}" alt="" />
+					<div class="display-grid heading margin-bottom-15 space-between">
+						<h3 class="margin-right-15 font-weight-600 font-size-25 text-color-theme">Test Score Details</h3>
+						<!-- <img class="test-score-btn" src="{{asset('web/images/Editiconcommon3.png')}}" alt="" /> -->
+						<h3 class="font-weight-600 text-color-second font-size-16 text-color-theme letter-uppercase test-score-btn cursor-pointer">ADD Test Score</h3>
 					</div>
 					<div class="testscore_output">
 						@if(!empty($ProfileTestScore))
+						@foreach($ProfileTestScore as $score)
 						@php
-                         $testName = App\MasterTest::where('id',$ProfileTestScore->test_id)->first();
+                         $testName = App\MasterTest::where('id',$score->test_id)->first();
 						@endphp
-						 <h3 class="text-color-second font-size-16 font-weight-600 margin-bottom-none margin-top-none">TestName:</h3><p>{{$testName->name}}</p>
-						 <h3 class="text-color-second font-size-16 font-weight-600 margin-bottom-none margin-top-none">Test Ateend Year:</h3><p>{{$ProfileTestScore->attend_year}}</p>
-						 <h3 class="text-color-second font-size-16 font-weight-600 margin-bottom-none margin-top-none">Test Score: </h3><p>{{$ProfileTestScore->total_score}}</p>
+						 <div><h3 class="text-color-second font-size-16 font-weight-600 margin-bottom-none margin-top-none">TestName: <span><img data-testscore="{{$score->id}}" class="education-edit-icon edit_testscore_btn" src="{{asset('web/images/Editiconcommon3.png')}}" alt=""></span></h3><p>@if(!empty($testName->name)){{$testName->name}}@endif</p>
+						 <h3 class="text-color-second font-size-16 font-weight-600 margin-bottom-none margin-top-none">Test Ateend Year:</h3><p>{{$score->attend_year}}</p>
+						 <h3 class="text-color-second font-size-16 font-weight-600 margin-bottom-none margin-top-none">Test Score: </h3><p>{{$score->total_score}}</p>
+						</div>
+						 @endforeach
 						 @endif
 				    </div>
 			</div>
@@ -348,13 +353,25 @@ $higher_education = array('Spring 2021','Fall 2021','Spring 2022','Fall 2022','S
 							<!-- <p class="text-color-second letter-uppercase text-color-second font-size-16">Delete Resume</p> -->
 						</div>
 					</div>
+					@else
+					<div class="user-show-data display-grid space-between">
+						<div class="left-data">
+							<h3 class="text-color-theme font-size-16 font-weight-600 rsume-file-name"></h3>
+						</div>
+					</div>
 					@endif
 
 					<div class="col-md-12 col-sm-12 col-xs-12">
 						<form id="uploadresume" name="uploadresumeForm" method="post" action="{{ route('web.upload-resume') }}" class="upload-resume text-center padding-top-50" enctype="multipart/form-data">
 							{{ csrf_field() }}
 							<input type="hidden" value="{{$student->id}}" id="student_id" name="student_id">
-							<label for="file-upload" class="letter-uppercase upload-btn">Update Resume</label>
+							<label for="file-upload" class="letter-uppercase upload-btn">
+                            @if($student->resume_upload)
+                             Update Resume
+                            @else
+                             Upload Resume
+                            @endif
+							</label>
 							<input id="file-upload"  type="file" name="upload_resume" class="center-block upload-resume-input" accept=".doc, .docx,.rtf, .pdf">
 							<p class="text-color-red-error"></p>
 							<p class="text-color-gray">Support formats: doc, docs, rtf, pdf, upto 2MB</p>
@@ -406,6 +423,10 @@ $('.keyskillsInput').val(numbers).trigger('chosen:updated');
    //   alert(name);
    // });
 $(function() {
+$('#file-upload').change(function(e){
+  var filename = e.target.files[0].name;
+  $('.rsume-file-name').text('Resume File '+filename);
+});	
 $("form[name='uploadresumeForm']").validate({
    // rules: {
    //    upload_resume: "required",
@@ -474,7 +495,7 @@ $("form[name='Add_Education_Form']").validate({
                     contentType: false,
                     processData: false,
                     success: function(response) {
-                    	location.reload();
+                    	 location.reload();
                     	 $("form[name='Add_Education_Form']").trigger("reset");
                     	 $(".education_output").html(response.education);
                     	 $('.education_model').hide('100');
@@ -619,6 +640,8 @@ $("form[name='Edit_Education_Form']").validate({
                         "score": score,
                     },
                     success: function(response) {
+                       location.reload();
+                       $("form[name='Add_Test_Form']").trigger("reset");
                        $('.testscore_output').html(response.test_score);
                        $('.test-score-model').hide('100');
                        $('.popup-bg-img').hide();
@@ -626,6 +649,34 @@ $("form[name='Edit_Education_Form']").validate({
                     },
                  });
     });
+ // $('#test_score_submit-edit').click(function() {
+ //  	         var student_id = $("#student_id").val();
+ //  	         var test_form_id = $("#test_form_id").val();
+ //  	         alert(test_form_id);
+ //             var test_name = $("#select_test_name").val();
+ //             alert(test_form_id);
+ //             var attend_year = $("#attend_year").val();
+ //             var score = $("#score").val();
+ //             var token = $('meta[name="csrf-token"]').attr('content');
+ //             $.ajax({
+ //                    _token: token,
+ //                    url: "{{ route('web.student-test-score-edit') }}",
+ //                    type: "POST",
+ //                    data: {
+ //                    	"test_form_id": test_form_id,
+ //                    	"student_id": student_id,
+ //                        "test_name": test_name,
+ //                        "attend_year": attend_year,
+ //                        "score": score,
+ //                    },
+ //                    success: function(response) {
+ //                      // location.reload();
+ //                      // $('.test-score-model').hide('100');
+ //                      // $('.popup-bg-img').hide();
+ //                       //$('html, body').animate({ scrollTop: $("#Test_score_number").offset().top}, 1000);
+ //                    },
+ //                 });
+ //    });
   /* KeySkills */
   $('#keyskills_submit').click(function() {
 			   var selectedValues = $('.keyskillsInput').val();
@@ -681,6 +732,7 @@ $("form[name='Edit_Education_Form']").validate({
                     },
                     success: function(response) {
                     	$(".aspriration_output").html(response.aspiration);
+                        $(".aspiration_degree_output").html(response.aspiration_degree_name);
                     	$(".skills-strenth").css("width", response.total_strenth+'%');
                         $(".strength_percent").text(response.total_strenth+'%');
                     	$('.Desired-Career-Profile').hide('100');

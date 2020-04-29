@@ -44,7 +44,7 @@
 			</div>
 		</div>
 		<div class="width-100-per margin-bottom-30">
-			<label class="color-gray font-size-13"> (C.) What programs are courses are you considering presently</label>
+			<label class="color-gray font-size-15"> (C.) What programs or courses are you considering presently?</label>
 			<?php
             if(!empty($aspiration)){ ?>
 			<input type="text" id="considering_program" value="{{$aspiration->program_courses}}" placeholder="" class="input-key-skills form-control" name="considering_program">

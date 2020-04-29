@@ -258,7 +258,8 @@
                                     <div class="card-body">
 
                                             <div class="form-group col-12 mb-2 test-repeater">
-                                                <div data-repeater-list="test_score_list">
+                                            <div data-repeater-list="test_score_list">
+                                              
 @foreach($mentor_test_score as $test_score)
                                                     <div data-mentor_test_score="{{$test_score->id}}" data-repeater-item>
                                           <input type="hidden" name="mentor_test_score_id" value="{{$test_score->id}}">

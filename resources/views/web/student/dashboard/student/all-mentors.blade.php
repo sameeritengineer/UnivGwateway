@@ -41,12 +41,21 @@
 	                			<h3 class="text-color-theme font-size-22 margin-top-none">{{$mentor->job_title}}</h3>
 	                			<h3 class="text-color-second font-size-22 margin-top-none">{{$mentor->major_specialization}},{{$degree->name}}</h3>	
 	                		</div>
-	                		<div class="request-call-btn">
+	                		 @if($diagnostic_call_count >= $max_value_diagnostic_call)
+                             <div class="request-call-btn">
+	                			<a class="custom-btn mob-padding-5-10 grey-diagnostic-btn" href="javascript:;">
+									<img style="width: 25px;" class="margin-right-5" src="images/diagnosticcall_mentordashicon.png" alt="">
+									<span class="letter-uppercase font-weight-600">Request a diagnostic call</span>
+								</a>
+	                		</div>
+	                		 @else
+                             <div class="request-call-btn">
 	                			<a class="custom-btn mob-padding-5-10" href="{{ route('student-mentor-single', $mentor->id) }}">
 									<img style="width: 25px;" class="margin-right-5" src="images/diagnosticcall_mentordashicon.png" alt="">
 									<span class="letter-uppercase font-weight-600">Request a diagnostic call</span>
 								</a>
 	                		</div>
+	                		 @endif
 	                	</div>
 	                	<p> {!!$mentor->detailed_bio!!} </p>
 	                </div>
