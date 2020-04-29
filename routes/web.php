@@ -103,6 +103,7 @@ Route::prefix('ug_admin')->group(function () {
   Route::post('delete-mentor-applied-university', 'Admin\MentorController@delete_mentor_applied_university')->name('delete-mentor-applied-university');
   Route::resource('services','Admin\ServicesController');
   Route::post('delete-service-price', 'Admin\ServicesController@delete_service_price')->name('delete-service-price');
+  Route::resource('category','Admin\CategoryController');
 });
 
 Route::prefix('myadmin')->group(function() {
