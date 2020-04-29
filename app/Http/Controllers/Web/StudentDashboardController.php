@@ -130,7 +130,19 @@ class StudentDashboardController extends Controller
 
         
     }
-    public function all_mentors(){
+    public function all_mentors(Request $request){
+         $pageNumber     = $request->pageNumber;
+         $search     = $request->search;
+         $search_text_val  = $request->search_text_val;
+         $university = "";$degree ="";
+         if($search == "university" && !empty($search_text_val))
+             $university = 'university';
+         if($search == "degree"  && !empty($search_text_val))
+             $degree = 'degree';
+         $limit = 4;
+         if(!empty($pageNumber)){
+           $limit = $pageNumber*4;
+         }
          $student_mentor_query = $this->student_mentor_query();
          $degree_program_id    =  $student_mentor_query['degree_program_id'];
          $student_course    =  $student_mentor_query['student_course'];
@@ -138,11 +150,15 @@ class StudentDashboardController extends Controller
          $student_skill    =  $student_mentor_query['student_skill'];
          $student_test_id    =  $student_mentor_query['student_test_id'];
          $student_test_score    =  $student_mentor_query['student_test_score'];
-        $mentors = DB::table('mentors')
+         $mentors = DB::table('mentors')
                     ->select('mentors.*')
                     ->leftjoin('mentor_skill', 'mentors.id', '=', 'mentor_skill.mentor_id')
                     ->leftjoin('mentor_test_score', 'mentors.id', '=', 'mentor_test_score.mentor_id')
-                    ->where(function($query) use ($degree_program_id) {
+                    ->leftjoin('mentor_university_applied_list', 'mentors.id', '=', 'mentor_university_applied_list.mentor_id')
+                    ->leftjoin('master_university', 'master_university.id', '=', 'mentor_university_applied_list.university_id')
+                    ->leftjoin('master_degree', 'mentors.degree_program_id', '=', 'master_degree.id')
+                     
+/*                    ->where(function($query) use ($degree_program_id) {
                         $query->where('mentors.degree_program_id',$degree_program_id);
                     })
                     ->orWhere(function($query) use ($student_course) {
@@ -157,14 +173,28 @@ class StudentDashboardController extends Controller
                     ->orWhere(function($query) use ($student_test_id,$student_test_score) {
                         $query->where('mentor_test_score.test_id',$student_test_id)
                         ->Where('mentor_test_score.score', '>' , $student_test_score);
+                    })*/
+                    ->where('mentors.status',1)
+                    ->when($university, function($query) use ($search_text_val) {
+                          $query->where('master_university.name', 'like', '%' . $search_text_val . '%');
+                          return $query;
                     })
-                    ->where('status',1)
+                    ->when($degree, function($query) use ($search_text_val) {
+                          $query->where('master_degree.name', 'like', '%' . $search_text_val . '%');
+                          return $query;
+                    })
                     ->distinct('mentors.id')
+                    ->limit($limit)
                     ->get();
+                    //->toSql();
             $data['mentors'] = $mentors;
             $data['student'] = $student_mentor_query['student'];
             $data['program_name'] = $student_mentor_query['program_name'];
-            return view('web.student.dashboard.student.all-mentors',$data);        
+            if($pageNumber>1){
+              return view('web.student.dashboard.student.all-mentors',$data);
+            } else{
+               return view('web.student.dashboard.student.all-mentors',$data);
+            }        
     }
     public function student_mentor_query(){
         $email = Auth::user()->email;
