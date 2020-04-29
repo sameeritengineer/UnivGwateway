@@ -63,7 +63,7 @@
                                                      <div class="form-group row">
                                                             <label class="col-md-4 label-control" for="userinput5">Category:</label>
                                                             <div class="col-md-8">
-                                                                <select id="projectinput5" name="category_id" class="form-control">
+                                                                <select id="projectinput5" name="category_id" class="form-control" required="">
                                                                 <option value="">Select Category</option>
                                                                 @foreach($master_category as $category)
                                                                 <option {{ (collect(old('university_id'))->contains($category->id)) ? 'selected':'' }} value="{{$category->id}}">{{$category->name}}</option>
@@ -149,7 +149,7 @@
                                                             <label class="col-md-3 label-control" for="userinput8"> Image</label>
                                                             <div class="col-md-9">
                                                                 <label id="projectinput8" class="file center-block">
-                                                                    <input type="file" name="image" id="file" onchange="loadFileImage(event)">
+                                                                    <input required type="file" name="image" id="file" onchange="loadFileImage(event)">
                                                                     <span class="file-custom"></span>
                                                                 </label>
                                                             </div>
