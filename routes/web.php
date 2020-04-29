@@ -52,7 +52,7 @@ Route::group([
    Route::post('get-institute', 'StudentController@institute')->name('get-institute');
    Route::post('get-course', 'StudentController@course')->name('get-course');
    Route::post('upload-resume', 'StudentController@upload_resume')->name('upload-resume');
-   // Route::post('student-employment', 'StudentController@student_employment')->name('student-employment');
+   Route::post('student-employment', 'StudentController@student_employment')->name('student-employment');
 
    /* Mentor */
    Route::get('mentor-profile', 'MentorController@profile')->name('mentor-profile');

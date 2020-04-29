@@ -329,7 +329,7 @@ $endTime = $given2->format("Y-m-d H:i:s");
     $diagnostic_call_count = count($session);
     $max_value_diagnostic_call =  Config::get('custom.max_value_diagnostic_call');
     if($diagnostic_call_count == $max_value_diagnostic_call){
-     return 'not support';
+     return redirect('/student_admin');
     }else{
 
      $email = Auth::user()->email;

@@ -36,7 +36,7 @@
              $i = 0;
 			@endphp
 			<label class="color-gray font-size-13">Course Type</label>
-			<div class="display-grid space-between">
+			<!-- <div class="display-grid space-between">
 				@foreach($course_type_array as $type)
 				<div class="">
 					<input type="radio" {{$detail->course_type==$i?'checked':''}} class="margin-right-15" value="{{$i}}" name="course_type"><span>{{$type}}</span>
@@ -45,7 +45,19 @@
                 $i++;
 			    @endphp
 				@endforeach
-			</div>
+			</div> -->
+
+			<div class="display-grid space-between">
+				<div class="">
+					<input type="radio" {{$detail->course_type=='Full Time'?'checked':''}} class="margin-right-15" value="Full Time" name="course_type"><span>Full Time</span>
+				</div>
+												<div class="">
+					<input type="radio" {{$detail->course_type=='Part Time'?'checked':''}} class="margin-right-15" value="Part Time" name="course_type"><span>Part Time</span>
+				</div>
+												<div class="">
+					<input type="radio" {{$detail->course_type=='Correspondence/Distance learning'?'checked':''}} class="margin-right-15" value="Correspondence/Distance learning" name="course_type"><span>Correspondence/Distance learning</span>
+				</div>
+											</div>
 		</div>
 
 		<div class="notice-period-section margin-bottom-30">
@@ -74,7 +86,7 @@
 			@php
              $i = 0;
 			@endphp
-			<select name="grading_system" class="select_field_work form-control notice_period">
+			<!-- <select name="grading_system" class="select_field_work form-control notice_period">
 				<option>Select grading system</option>
 				@foreach($grade_array as $grade)
 				<option {{$detail->grading_system==$i?'selected':''}} value="{{$i}}">{{$grade}}</option>
@@ -82,7 +94,13 @@
                 $i++;
 			    @endphp
 				@endforeach
-			</select>
+			</select> -->
+			<select name="grading_system" class="select_field_work form-control notice_period valid" aria-invalid="false">
+				<option>Select grading system</option>
+				<option {{$detail->grading_system=='Scale 10 Grading System'?'selected':''}} value="Scale 10 Grading System">Scale 10 Grading System</option>
+				<option {{$detail->grading_system=='Scale 4 Grading System'?'selected':''}} value="Scale 4 Grading System">Scale 4 Grading System</option>
+				<option {{$detail->grading_system=='% Marks of 100 Maximum'?'selected':''}} value="% Marks of 100 Maximum">% Marks of 100 Maximum</option>
+				</select>
 		</div>
 		<div class="notice-period-section margin-bottom-30">
 			<label class="color-gray font-size-13">Grade Value</label>

@@ -1,3 +1,56 @@
+<div class="custom-model employment-model">
+	<div class="crossLayer"><i class="fa fa-close"></i></div>
+	<form class="custom-popup-form" name="Add_Employment_Form">
+		<input type="hidden" value="{{$student->id}}" name="student_id">
+		<div class="editHeader">
+			<h3 class="font-size-20 font-weight-600 margin-top-none">Add Employment</h3>
+		</div>
+
+		<div class="width-100-per margin-bottom-30">
+			<label class="color-gray font-size-13">Company Name <span class="color-red font-size-16"> *</span></label>
+			<input type="text" class="form-control" id="company_name" name="company_name" placeholder="Company Name">
+		</div>
+
+		<div class="width-100-per margin-bottom-30">
+			<label class="color-gray font-size-13">Job Title <span class="color-red font-size-16"> *</span></label>
+			<input type="text" class="form-control" id="job_title" name="job_title" placeholder="Job Title" name="organization_type">
+		</div>
+
+		<div class="width-100-per margin-bottom-30">
+			<label class="color-gray font-size-13">City <span class="color-red font-size-16"> *</span></label>
+			<input type="text" class="form-control" id="city" name="city" placeholder="City" name="organization_type">
+		</div>
+		<div class="width-100-per margin-bottom-30">
+			<label class="color-gray font-size-13">Country <span class="color-red font-size-16"> *</span></label>
+			<select name="select_country" class="select_field_work width-100-per">
+					<option value="">Select Country</option>
+					@foreach($master_country as $country)
+					<option value="{{$country->id}}">{{$country->name}}</option>
+					@endforeach
+				</select>
+		</div>
+		<div class="width-100-per margin-bottom-30">
+			<label class="color-gray font-size-13">Job Start date <span class="color-red font-size-16"> *</span></label>
+			<input type="date" class="form-control" id="job_start_date" name="job_start_date" placeholder="Job Start date" name="organization_type">
+		</div>
+		<div class="width-100-per margin-bottom-30">
+			<label class="color-gray font-size-13">Job End date <span class="color-red font-size-16"> *</span></label>
+			<input type="date" class="form-control" id="job_end_date" name="job_end_date" placeholder="Job End date" name="organization_type">
+		</div>
+		<div class="width-100-per margin-bottom-30">
+			<label class="color-gray font-size-13">Description <span class="color-red font-size-16"> *</span></label>
+			<textarea name="outcome_description" class="form-control popup-text-area" placeholder="Type here..."></textarea>
+		</div>
+
+
+		<div class="display-grid margin-top-30 flex-content-right">
+			<div class="letter-uppercase margin-right-15 font-weight-600 font-size-16 text-color-second">Cancel</div>
+			<input type="Submit" value="SAVE" class="custom-btn-2 border-none" name="">
+		</div>
+	</form>
+</div>
+
+
 <!-- <div class="custom-model employment-model" id="employment">
 	<div class="crossLayer"><i class="fa fa-close"></i></div>
 	<form class="custom-popup-form" name="Add_Employment_Form">
