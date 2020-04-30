@@ -3830,3 +3830,9 @@ a.mentor_custom_req_btn {
 .card a:hover {
   opacity: 0.7;
 }
+.studentUniversity-model{
+    display: none;
+}
+.editstudentUniversity-model{
+    display: none;
+}

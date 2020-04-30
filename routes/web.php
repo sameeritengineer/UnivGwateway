@@ -83,7 +83,9 @@ Route::post('/slots', 'Web\StudentDashboardController@slots')->name('slots');
 Route::post('/student-mentor-session', 'Web\StudentDashboardController@student_mentor_session')->name('student-mentor-session');
 Route::get('schedule-session', 'Web\StudentDashboardController@schedule_session')->name('schedule-session');
 Route::post('session-dates', 'Web\StudentDashboardController@session_dates')->name('session-dates');
-
+Route::get('student-university', 'Web\StudentUniversityController@index')->name('student-university');
+Route::post('student-university', 'Web\StudentUniversityController@store')->name('student-university-submit');
+Route::post('student-university-edit', 'Web\StudentUniversityController@update_student_university')->name('student-university-edit');
 // Route::get('/student', function () {
 //     dd("student dashboard");
 // });
@@ -106,11 +108,11 @@ Route::prefix('ug_admin')->group(function () {
   Route::resource('category','Admin\CategoryController');
 });
 
-Route::prefix('myadmin')->group(function() {
-    Route::get('/login', 'Auth\AdminLoginController@showLoginForm')->name('admin.login');
-    Route::post('/login', 'Auth\AdminLoginController@login')->name('admin.login.submit');
-    Route::get('/home', 'AdminController@index')->name('admin.home');
-    Route::get('/logoutadmin', 'AdminController@logoutadmin');
-    Route::get('/sameer', 'AdminController@sameer')->name('admin.sameer');
+// Route::prefix('myadmin')->group(function() {
+//     Route::get('/login', 'Auth\AdminLoginController@showLoginForm')->name('admin.login');
+//     Route::post('/login', 'Auth\AdminLoginController@login')->name('admin.login.submit');
+//     Route::get('/home', 'AdminController@index')->name('admin.home');
+//     Route::get('/logoutadmin', 'AdminController@logoutadmin');
+//     Route::get('/sameer', 'AdminController@sameer')->name('admin.sameer');
 
-});
+// });

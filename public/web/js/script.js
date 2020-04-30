@@ -113,6 +113,11 @@ $('document').ready(function (){
         $('.Desired-Career-Profile').show('100');
         $('.popup-bg-img').show();
     });
+    $('.apply_student_university').click(function (){
+        $("html").animate({ scrollTop: 0 });
+        $('.studentUniversity-model').show('100');
+        $('.popup-bg-img').show();
+    });
     $(document).on("click", ".edit-profile-iocn" , function() {
          $("html").animate({ scrollTop: 0 });
         $('.Personal_details').show('100');
@@ -146,6 +151,7 @@ $('document').ready(function (){
         $('.Desired-Career-Profile').hide('100');
         $('.Personal_details').hide('100');
         $('.Student_Dashboard_detail').hide('100');
+        $('.studentUniversity-model').hide('100');
         $('.popup-bg-img').hide();
     });
     $('#scroll_resume_upload').click(function (){

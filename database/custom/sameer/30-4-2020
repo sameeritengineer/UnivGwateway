@@ -1,0 +1,1 @@
+ALTER TABLE `mentor_university_applied_list` CHANGE `application_status` `application_status` TINYINT(1) NULL;
