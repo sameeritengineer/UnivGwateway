@@ -259,7 +259,54 @@
 
                                             <div class="form-group col-12 mb-2 test-repeater">
                                             <div data-repeater-list="test_score_list">
-                                              
+@if($mentor_test_score->isEmpty())
+<div data-repeater-item>
+                                                        <div class="row mb-1">
+                                                            <div class="col-6 col-md-10">
+                                                              <div class="row">
+                                                    <div class="col-md-6">
+                                                        <div class="form-group row">
+                                                            <label class="col-md-3 label-control" for="userinput5">Test Name:</label>
+                                                            <div class="col-md-9">
+                                                                <select id="projectinput5" name="test_name" class="select_test_data form-control">
+                                                                <option value="">Select Test Name</option>
+                                                                @foreach($master_test as $test)
+                                                                <option data-max="{{$test->max_score}}" {{ (collect(old('test_name'))->contains($test->id)) ? 'selected':'' }} value="{{$test->id}}">{{$test->name}}</option>
+                                                                @endforeach
+                                                             </select>
+                                                            </div>
+                                                        </div>
+
+                                                        <div class="form-group row">
+                                                            <label class="col-md-3 label-control" for="userinput6">Test Year:</label>
+                                                            <div class="col-md-9">
+                                                               <input value="{{ old('test_year') }}" id="test_datepicker" class="test_datepicker form-control border-primary" type="date" placeholder="Test Year:" id="userinput5" name="test_year">
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-md-6">
+                                                        <div class="form-group row">
+                                                            <label class="col-md-3 label-control" for="userinput5">Score:</label>
+                                                            <div class="col-md-9">
+                                                                <input value="{{ old('test_score') }}" class="form-control border-primary" type="text" placeholder="Score:" id="userinput5" name="test_score">
+                                                            </div>
+                                                        </div>
+                                                        <div class="form-group row">
+                                                            <label class="col-md-3 label-control" for="userinput5">Max Score:</label>
+                                                            <div class="col-md-9">
+                                                                <input value="{{ old('test_max_score') }}" class="test_max_score form-control border-primary" type="text" placeholder="Max Score:" id="userinput5" name="test_max_score">
+                                                            </div>
+                                                        </div>
+                                                    </div>
+
+                                                </div>
+                                                            </div>
+                                                            <div class="col-2 col-xl-1">
+                                                                <button type="button" data-repeater-delete class="btn btn-icon btn-danger mr-1"><i class="feather icon-x"></i></button>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+@else
 @foreach($mentor_test_score as $test_score)
                                                     <div data-mentor_test_score="{{$test_score->id}}" data-repeater-item>
                                           <input type="hidden" name="mentor_test_score_id" value="{{$test_score->id}}">
@@ -273,7 +320,7 @@
                                                                 <select id="projectinput5" name="test_name" class="select_test_data form-control">
                                                                 <option value="">Select Test Name</option>
                                                                 @foreach($master_test as $test)
-                                                                <option data-max="{{$test->max_score}}" {{$test_score->id==$test->id?'selected':''}} value="{{$test->id}}">{{$test->name}}</option>
+                                                                <option data-max="{{$test->max_score}}" {{$test_score->test_id==$test->id?'selected':''}} value="{{$test->id}}">{{$test->name}}</option>
                                                                 @endforeach
                                                              </select>
                                                             </div>
@@ -282,7 +329,7 @@
                                                         <div class="form-group row">
                                                             <label class="col-md-3 label-control" for="userinput6">Test Year:</label>
                                                             <div class="col-md-9">
-                                                               <input value="{{ $test_score->test_year }}" id="test_datepicker" class="test_datepicker form-control border-primary" type="text" placeholder="Test Year:" id="userinput5" name="test_year">
+                                                               <input value="{{ $test_score->test_year }}" id="test_datepicker" class="test_datepicker form-control border-primary" type="date" placeholder="Test Year:" id="userinput5" name="test_year">
                                                             </div>
                                                         </div>
                                                     </div>
@@ -310,6 +357,8 @@
                                                         </div>
                                                     </div>
 @endforeach
+@endif                                             
+
 
                                                 </div>
 
@@ -335,7 +384,55 @@
                                     <div class="card-body">
 
                                             <div class="form-group col-12 mb-2 applied-university-repeater">
-                                                <div data-repeater-list="applied_university_list">
+                                             <div data-repeater-list="applied_university_list">
+@if($mentor_universities_applied_list->isEmpty())
+<div data-repeater-item>
+                                                        <div class="row mb-1">
+                                                            <div class="col-6 col-md-10">
+                                                              <div class="row">
+                                                    <div class="col-md-6">
+                                                        <div class="form-group row">
+                                                            <label class="col-md-3 label-control" for="userinput5">Univeristy Name:</label>
+                                                            <div class="col-md-9">
+                                                               <select id="projectinput5" name="applied_university_id" class="form-control">
+                                                                <option value="">Select University Attended</option>
+                                                                @foreach($master_universities as $universities)
+                                                                <option {{ (collect(old('university_id'))->contains($universities->id)) ? 'selected':'' }} value="{{$universities->id}}">{{$universities->name}}</option>
+                                                                @endforeach
+                                                             </select>
+                                                            </div>
+                                                        </div>
+
+                                                        <div class="form-group row">
+                                                            <label class="col-md-3 label-control" for="userinput6">Year Applied:</label>
+                                                            <div class="col-md-9">
+                                                               <input value="{{ old('test_year') }}" id="university_datepicker" class="university_datepicker form-control border-primary" type="date" placeholder="Year Applied:" id="userinput5" name="applied_university_year">
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-md-6">
+                                                        <div class="form-group row">
+                                                            <label class="col-md-3 label-control" for="userinput5">Status:</label>
+                                                            <div class="col-md-9">
+                                                                 <select id="projectinput5" name="applied_status" class="form-control">
+                                                                  <option value="">Select Status</option>
+                                                                  <option value="1">Intrested</option>
+                                                                  <option value="2">Applied</option>
+                                                                  <option value="3">Admitted</option>
+                                                                  <option value="4">Rejected</option>
+                                                                  </select>  
+                                                            </div>
+                                                        </div>
+                                                    </div>
+
+                                                </div>
+                                                            </div>
+                                                            <div class="col-2 col-xl-1">
+                                                                <button type="button" data-repeater-delete class="btn btn-icon btn-danger mr-1"><i class="feather icon-x"></i></button>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+@else
 @foreach($mentor_universities_applied_list as $applied_list)
                                                     <div data-mentor_applied_university="{{$applied_list->id}}" data-repeater-item>
                                                  <input type="hidden" name="mentor_applied_university_id" value="{{$applied_list->id}}">
@@ -358,7 +455,7 @@
                                                         <div class="form-group row">
                                                             <label class="col-md-3 label-control" for="userinput6">Year Applied:</label>
                                                             <div class="col-md-9">
-                                                               <input value="{{$applied_list->year_applied }}" id="university_datepicker" class="university_datepicker form-control border-primary" type="text" placeholder="Year Applied:" id="userinput5" name="applied_university_year">
+                                                               <input value="{{$applied_list->year_applied }}" id="university_datepicker" class="university_datepicker form-control border-primary" type="date" placeholder="Year Applied:" id="userinput5" name="applied_university_year">
                                                             </div>
                                                         </div>
                                                     </div>
@@ -386,6 +483,8 @@
                                                     </div>
 
 @endforeach
+@endif                                                 
+
 
                                                 </div>
 
@@ -485,16 +584,16 @@ $(document).ready(function(){
             uiLibrary: 'bootstrap4'
         });
 
-    $(document).on('focus', '.test_datepicker',function(){
-            $(this).datepicker({
-                uiLibrary: 'bootstrap4'
-            })
-        });
-    $(document).on('focus', '.university_datepicker',function(){
-            $(this).datepicker({
-                uiLibrary: 'bootstrap4'
-            })
-        });
+    // $(document).on('focus', '.test_datepicker',function(){
+    //         $(this).datepicker({
+    //             uiLibrary: 'bootstrap4'
+    //         })
+    //     });
+    // $(document).on('focus', '.university_datepicker',function(){
+    //         $(this).datepicker({
+    //             uiLibrary: 'bootstrap4'
+    //         })
+    //     });
    $(".multipleChosen").chosen({
       placeholder_text_multiple: "Enter your area of Expertise/Specialization" //placeholder
     });

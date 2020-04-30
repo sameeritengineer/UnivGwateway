@@ -289,7 +289,7 @@
                                                         <div class="form-group row">
                                                             <label class="col-md-3 label-control" for="userinput6">Test Year:</label>
                                                             <div class="col-md-9">
-                                                               <input value="{{ old('test_year') }}" id="test_datepicker" class="test_datepicker form-control border-primary" type="text" placeholder="Test Year:" id="userinput5" name="test_year">
+                                                               <input value="{{ old('test_year') }}" id="test_datepicker" class="test_datepicker form-control border-primary" type="date" placeholder="Test Year:" id="userinput5" name="test_year">
                                                             </div>
                                                         </div>
                                                     </div>
@@ -360,7 +360,7 @@
                                                         <div class="form-group row">
                                                             <label class="col-md-3 label-control" for="userinput6">Year Applied:</label>
                                                             <div class="col-md-9">
-                                                               <input value="{{ old('test_year') }}" id="university_datepicker" class="university_datepicker form-control border-primary" type="text" placeholder="Year Applied:" id="userinput5" name="applied_university_year">
+                                                               <input value="{{ old('test_year') }}" id="university_datepicker" class="university_datepicker form-control border-primary" type="date" placeholder="Year Applied:" id="userinput5" name="applied_university_year">
                                                             </div>
                                                         </div>
                                                     </div>
@@ -517,16 +517,16 @@ $(document).ready(function(){
             uiLibrary: 'bootstrap4'
         });
 
-    $(document).on('focus', '.test_datepicker',function(){
-            $(this).datepicker({
-                uiLibrary: 'bootstrap4'
-            })
-        });
-    $(document).on('focus', '.university_datepicker',function(){
-            $(this).datepicker({
-                uiLibrary: 'bootstrap4'
-            })
-        });
+    // $(document).on('focus', '.test_datepicker',function(){
+    //         $(this).datepicker({
+    //             uiLibrary: 'bootstrap4'
+    //         })
+    //     });
+    // $(document).on('focus', '.university_datepicker',function(){
+    //         $(this).datepicker({
+    //             uiLibrary: 'bootstrap4'
+    //         })
+    //     });
 
    
     $(".multipleChosen").chosen({
