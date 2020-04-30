@@ -100,7 +100,7 @@
             <span class="footer-banner-title">Let's Start an Interation</span>
         </div>
         <div class="col-md-6 col-sm-6 col-xs-12 contact_button_name">
-            <a href="/contact.php"><span class="contact_button">CALL US TODAY</span></a>
+            <a href="{{route('web.contact-us')}}"><span class="contact_button">CALL US TODAY</span></a>
         </div>  
     </div>
 </div>

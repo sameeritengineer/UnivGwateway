@@ -30,6 +30,8 @@
                 </ul>
                 </li>
 
+                <li class="{{ in_array(Route::currentRouteName(), ['lead.index']) ? 'active' : '' }}"><a href="{{route('lead.index')}}" class="menu-item"><i class="fa fa-flag"></i><span data-i18n="" class="menu-title">Lead</span></a></li>
+
                 <li class="nav-item"><a href="#"><i class="fa fa-flag"></i><span data-i18n="" class="menu-title">User Roles</span></a>
                   <ul class="menu-content">
                     <li class="{{ in_array(Route::currentRouteName(), ['user_role.index','user_role.edit']) ? 'active' : '' }}"><a href="{{route('user_role.index')}}" class="menu-item"><i class="fa fa-flag"></i><span data-i18n="" class="menu-title">User Roles</span></a></li>

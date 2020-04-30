@@ -10,6 +10,7 @@ use App\MasterDegree;
 use App\MasterService;
 use App\Master_category;
 use App\Master_service_price;
+use App\Lead;
 
 class HomeController extends BaseController
 {
@@ -21,5 +22,47 @@ class HomeController extends BaseController
       $data['mentors'] = $mentors; 	
       $data['category'] = $category; 	
       return view('web.home.index',$data);
+    }
+
+    public function contactus(){
+        $data = [];	
+     	return view('web.home.contactus',$data);
+    }
+
+    public function store(Request $request) {   
+        $validate = $request->validate([
+            'name' => 'required',
+            'email' => 'required|email',
+            'phone' => 'required',
+            'message' => 'required',
+        ]);
+
+       $success = true;
+       $dbError = [];
+       $params = $request->input();
+       try {
+
+              $lead = Lead::create([
+                'name' => trim($params['name']),
+                'email' => trim($params['email']),
+                'phone' => trim($params['phone']),
+                'type' => 'contact us',
+                'status' => '1',
+                'message' => trim($params['message'])
+            ]);
+
+         }catch (Throwable $e) {
+                $success = false;
+                $dbError = [
+                    'error' => $e->errorInfo,
+                    'msg' => 'There some error to contact with us.'
+                ];
+            }
+        if($success == true){
+          return redirect()->back()->with('success','Thanks for contact with us, our team will contact you soon.');
+        }else{
+          return redirect()->back()->with('error', $dbError['msg']);
+        }    
+
     }
 }
