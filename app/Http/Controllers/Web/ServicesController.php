@@ -24,10 +24,16 @@ class ServicesController extends Controller
     public function showallservices($slug = null)
     {
         $data = [];
-        $services = MasterService::select('id','service_name','image','description')->where('parent_id', 0)->orderByRaw('sort')->get();
+        if(empty($slug))
+            $services = MasterService::select('id','service_name','image','description')->where('parent_id', 0)->orderByRaw('sort')->get();
+        else
+           $services = MasterService::select('id','service_name','image','description')->where('parent_id', 0)->where('category_id', $slug)->orderByRaw('sort')->get(); 
         $data['services'] = $services;
         $data['slug'] = $slug;
-        return view('web.services.index',$data);
+        if(count($services)>0)
+           return view('web.services.index',$data);
+        else 
+           return view('web.services.coming',$data);
     }
 
 }

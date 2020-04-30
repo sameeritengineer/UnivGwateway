@@ -148,11 +148,13 @@ class StudentDashboardController extends Controller
          $pageNumber     = $request->pageNumber;
          $search     = $request->search;
          $search_text_val  = $request->search_text_val;
-         $university = "";$degree ="";
+         $university = "";$degree ="";$masterSearch='';
          if($search == "university" && !empty($search_text_val))
              $university = 'university';
          if($search == "degree"  && !empty($search_text_val))
              $degree = 'degree';
+         if($search == ""  && !empty($search_text_val))
+             $masterSearch = 'masterSearch';
          $limit = 4;
          if(!empty($pageNumber)){
            $limit = $pageNumber*4;
@@ -165,11 +167,12 @@ class StudentDashboardController extends Controller
          $student_test_id    =  $student_mentor_query['student_test_id'];
          $student_test_score    =  $student_mentor_query['student_test_score'];
          $mentors = DB::table('mentors')
-                    ->select('mentors.*')
+                    ->select('mentors.*','mu.name')
                     ->leftjoin('mentor_skill', 'mentors.id', '=', 'mentor_skill.mentor_id')
                     ->leftjoin('mentor_test_score', 'mentors.id', '=', 'mentor_test_score.mentor_id')
                     ->leftjoin('mentor_university_applied_list', 'mentors.id', '=', 'mentor_university_applied_list.mentor_id')
                     ->leftjoin('master_university', 'master_university.id', '=', 'mentor_university_applied_list.university_id')
+                    ->leftjoin('master_university as mu', 'mu.id', '=', 'mentors.university_attended_id')
                     ->leftjoin('master_degree', 'mentors.degree_program_id', '=', 'master_degree.id')
                      
 /*                    ->where(function($query) use ($degree_program_id) {
@@ -190,11 +193,17 @@ class StudentDashboardController extends Controller
                     })*/
                     ->where('mentors.status',1)
                     ->when($university, function($query) use ($search_text_val) {
-                          $query->where('master_university.name', 'like', '%' . $search_text_val . '%');
+                          $query->where('master_university.name', 'like', '%' . $search_text_val . '%')
+                              ->orWhere('mu.name', 'like', '%' . $search_text_val . '%');
+                          return $query;
                           return $query;
                     })
                     ->when($degree, function($query) use ($search_text_val) {
                           $query->where('master_degree.name', 'like', '%' . $search_text_val . '%');
+                          return $query;
+                    })
+                    ->when($masterSearch, function($query) use ($search_text_val) {
+                          $query->where('mentors.detailed_bio', 'like', '%' . $search_text_val . '%');
                           return $query;
                     })
                     ->distinct('mentors.id')

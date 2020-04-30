@@ -21,13 +21,22 @@
                 </div>
                 <div class="right-content padding-left-25">
                     <p class="color-gray font-size-18 line-height-30 text-align-justify">{!!$services->description!!}</p>
+                     <p class="consult">
+                        @if(Illuminate\Support\Facades\Auth::check())
+                          <a href="#">Consult Now</a>
+                        @else
+                          <a href="{{route('web.student-signin')}}">Consult Now</a>
+                        @endif
+                     </p>
+                      <p class="card">
+                         <a>Add to Cart</a>
+                     </p>
                 </div>
             </div>
             @endforeach
         </div>
     </div>
 </div>
-
 <script>
 $(document).ready(function() {
 $('html, body').animate({

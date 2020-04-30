@@ -29,7 +29,7 @@
 			 @php 
              $degree = App\Mentor::find($mentor->id)->degree;
             @endphp
-			<div class="row margin-bottom-30">
+			<div class="row margin-bottom-30 three_row_section">
 	            <div class="col-md-12 col-sm-12 col-xs-12 display-grid flex-item-end">
 	                <div class="col-xs-12 col-sm-3 col-md-3 box-shadow-gray text-center mob-margin-bottom-15">
 	                    <img src="{{asset('uploads/mentor/'.$mentor->image)}}" alt="" class="img-responsive center-block">
@@ -65,7 +65,7 @@
 
 	        @endforeach
                 @else
-				<div class="col-md-12 col-sm-12 col-xs-12 three_row_section text-center norecords">
+				<div class="col-md-12 col-sm-12 col-xs-12 text-center norecords">
 					<p>No records found</p>
 				</div>
                 @endif
@@ -82,6 +82,9 @@
 <script>
 var pageNumber = 2;
 var dataDiv = 4;
+if($('.three_row_section').length<4){
+   $(".load_more").hide();
+}
 var token = $('meta[name="csrf-token"]').attr('content');
 function filter_data(){
   pageNumber = 1;
@@ -106,6 +109,10 @@ function load_data(){
             if(norecords>0 || dataDiv1 == dataDiv){
             	$(".load_more").hide();
             }
+            var reminder = parseInt(dataDiv1) %  parseInt(4) ;
+            if( reminder <4 && reminder!=0){
+			   $(".load_more").hide();
+			}
             dataDiv = dataDiv1;
         },error: function(data){
 
