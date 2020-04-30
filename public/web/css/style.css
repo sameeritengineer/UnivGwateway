@@ -3841,6 +3841,7 @@ a.mentor_custom_req_btn {
   transition: opacity 500ms;
   visibility: hidden;
   opacity: 0;
+  z-index: 122;
 }
 .overlay:target {
   visibility: visible;

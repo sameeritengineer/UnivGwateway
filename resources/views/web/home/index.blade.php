@@ -86,8 +86,11 @@
 
         </div>
 
-
-       <div class="view-all-btn"><a class="view-all" href="mentors.php">View All</a></div>
+       @if(Illuminate\Support\Facades\Auth::check())
+            <div class="view-all-btn"><a class="view-all" href="{{route('web.mentors')}}">View All</a></div>
+        @else
+            <div class="view-all-btn"><a class="view-all" href="{{route('web.student-signin')}}">View All</a></div>
+        @endif  
     </div>
 </div>
 
