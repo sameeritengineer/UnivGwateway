@@ -32,8 +32,9 @@
         </div>
 
         <div class="row">
-            @foreach($mentors as $mentor)
-            <div class="col-md-3 col-sm-3 col-xs-12 three_row_section text-center">
+            @foreach($mentors as  $mentor)
+            <a href="#mentor{{$loop->iteration}}">
+            <div  class="col-md-3 col-sm-3 col-xs-12 three_row_section text-center">
                 <div class="col-xs-12 col-sm-12 col-md-12 box-shadow-gray">
                     <img src="{{asset('uploads/mentor/'.$mentor->image)}}" alt="" class="img-responsive center-block" />
                     <h3 class="title-color text-color-theme letter-uppercase">{{$mentor->first_name}} {{$mentor->last_name}}</h3>
@@ -47,16 +48,49 @@
 
                         @endif
                     </p>
-                    <a class="text-color-theme font-weight-600" href="#"><i class="fa fa-angle-right font-weight-900 font-size-18"></i> Consult Now</a>
+                    @if(Illuminate\Support\Facades\Auth::check())
+                        <a class="text-color-theme font-weight-600" href="#"><i class="fa fa-angle-right font-weight-900 font-size-18"></i> Consult Now</a>
+                    @else
+                       <a class="text-color-theme font-weight-600" href="{{route('web.student-signin')}}"><i class="fa fa-angle-right font-weight-900 font-size-18"></i> Consult Now</a>
+                    @endif                    
                 </div>
             </div>
+            </a>
+
+           <div id="mentor{{$loop->iteration}}" class="overlay">
+            <div class="popup">
+                <a class="close" href="#">&times;</a>
+                <div class="row">
+                    <div class="col-md-3">
+                        <img src="{{asset('uploads/mentor/'.$mentor->image)}}" alt="" class="img-responsive center-block" />
+                    </div>
+                    <div class="col-md-8">
+                        <h3 class="title-color text-color-theme letter-uppercase">{{$mentor->first_name}} {{$mentor->last_name}}</h3>
+                    @php 
+                     $degree = App\Mentor::find($mentor->id)->degree;
+                    @endphp
+                    <p class="date-font text-color-second">{{$mentor->job_title}}. {{$mentor->major_specialization}},
+                        @if(!empty($degree))
+                        {{$degree->name}}
+                        @else
+
+                        @endif
+                    </p>
+                        <p>{!!$mentor->detailed_bio!!}</p>
+                    </div>
+                </div>
+            </div>
+        </div>
             @endforeach
 
 
         </div>
 
-
-       <div class="view-all-btn"><a class="view-all" href="mentors.php">View All</a></div>
+       @if(Illuminate\Support\Facades\Auth::check())
+            <div class="view-all-btn"><a class="view-all" href="{{route('web.mentors')}}">View All</a></div>
+        @else
+            <div class="view-all-btn"><a class="view-all" href="{{route('web.student-signin')}}">View All</a></div>
+        @endif  
     </div>
 </div>
 
@@ -66,7 +100,7 @@
             <span class="footer-banner-title">Let's Start an Interation</span>
         </div>
         <div class="col-md-6 col-sm-6 col-xs-12 contact_button_name">
-            <a href="/contact.php"><span class="contact_button">CALL US TODAY</span></a>
+            <a href="{{route('web.contact-us')}}"><span class="contact_button">CALL US TODAY</span></a>
         </div>  
     </div>
 </div>
