@@ -120,6 +120,18 @@ class MentorController extends Controller
               }else{
                     $picture = $mentorToBeUpdated->image;
               }
+
+              if ($request->hasFile('image1'))
+              {
+                    $file1      = $request->file('image1');
+                    $filename1  = $file1->getClientOriginalName();
+                    $extension1 = $file1->getClientOriginalExtension();
+                    $picture1   = date('His').'-'.$filename1;
+                    $uploadSuccess1 = $file1->move(public_path('uploads/mentor'), $picture1);
+              }else{
+                   $picture1 = $mentorToBeUpdated->image_ui;
+              }
+
                 $updateFields = [
                 'first_name' => $request->name,
                 'last_name' => $request->lname,
@@ -136,6 +148,7 @@ class MentorController extends Controller
                 'linkedin_url'=>  $request->linkedin_url,
                 'picture_url'=>  $request->picture_url,
                 'image'=>  $picture,
+                'image_ui'=>  $picture1,
                 'featured'=>  $request->feature,
                 'status' =>  $request->status,
                     ];

@@ -25,7 +25,7 @@
                         @if(Illuminate\Support\Facades\Auth::check())
                           <a href="#">Consult Now</a>
                         @else
-                          <a href="{{route('web.student-signin')}}">Consult Now</a>
+                          <a href="{{route('web.student-signin')}}/2">Consult Now</a>
                         @endif
                      </p>
                       <p class="card">

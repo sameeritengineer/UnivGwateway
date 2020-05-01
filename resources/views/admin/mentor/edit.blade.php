@@ -237,7 +237,7 @@
                                                             <label class="col-md-3 label-control" for="userinput8"> Image</label>
                                                             <div class="col-md-9">
                                                                 <label id="projectinput8" class="file center-block">
-                                                                    <input type="file" name="image" id="file" onchange="loadFileImage(event)">
+                                                                    <input type="file" name="image" accept="image/*"  id="file" onchange="loadFileImage(event)">
                                                                     <span class="file-custom"></span>
                                                                 </label>
                                                             </div>
@@ -249,6 +249,28 @@
                                                         </div>
                                                     </div>
                                                 </div>
+
+                                               <div class="row">
+                                                    <div class="col-md-6">
+                                                        <div class="form-group row">
+                                                            <label class="col-md-3 label-control" for="userinput8">UI Image</label>
+                                                            <div class="col-md-9">
+                                                                <label id="projectinput8" class="file center-block">
+                                                                    <input type="file" accept="image/*"  name="image1" id="file1" onchange="loadFileImage1(event)">
+                                                                    <span class="file-custom"></span>
+                                                                </label>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-md-6">
+                                                        <div class="form-group row">
+                                                            <img src="{{asset('uploads/mentor/'.$mentor->image_ui)}}" id="image1output"/>
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+
+
                                                 <h4 class="form-section"><i class="fa fa-image"></i></i>Mentor Test Score</h4>
         <section id="form-control-repeater">
                     <div class="row">
@@ -607,6 +629,10 @@ $('.keyskillsInput').val(numbers).trigger('chosen:updated');
   });
 var loadFileImage = function(event) {
     var output = document.getElementById('Imageoutput');
+    output.src = URL.createObjectURL(event.target.files[0]);
+};
+var loadFileImage1= function(event) {
+    var output = document.getElementById('Image1output');
     output.src = URL.createObjectURL(event.target.files[0]);
 };
 </script>    

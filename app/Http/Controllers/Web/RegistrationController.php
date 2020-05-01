@@ -281,17 +281,26 @@ class RegistrationController extends BaseController
 		return  $ip_address;
 
     }
-    public function signin()
+    public function signin($slug=null)
     {  
-      $user = auth()->user();
-      if($user == null){
-      	return view('web.home.signin');
-      }elseif($user->role_id == 1){
-      	return redirect()->route('student-home');
-            //$this->redirectTo = '/student_admin';
+      if(empty($slug)){
+        $user = auth()->user();
+        if($user == null){
+          $data['type'] = $slug;
+        	return view('web.home.signin',$data);
+        }elseif($user->role_id == 1){
+        	return redirect()->route('student-home');
+              //$this->redirectTo = '/student_admin';
         }else{
-        	return redirect()->route('mentor-home');
+          	return redirect()->route('mentor-home');
         }
+      } else{
+          $user = auth()->user();
+          if($user == null){
+            $data['type'] = $slug;
+            return view('web.home.signin',$data);
+          } 
+      }
 
     }
   

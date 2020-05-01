@@ -35,7 +35,7 @@ Route::group([
    Route::get('/', 'HomeController@index')->name('home');
    Route::get('student-signup', 'RegistrationController@signup')->name('student-signup');
    Route::post('student-signup','RegistrationController@store')->name('student-signup');
-   Route::get('student-signin', 'RegistrationController@signin')->name('student-signin');
+   Route::get('student-signin/{slug?}', 'RegistrationController@signin')->name('student-signin');
    Route::get('verifyotp', 'RegistrationController@verifyotp')->name('verifyotp');
    Route::post('verifyotp', 'RegistrationController@verifyotpcheck')->name('verifyotp');
    Route::get('resendotp', 'RegistrationController@resendotp')->name('resendotp');

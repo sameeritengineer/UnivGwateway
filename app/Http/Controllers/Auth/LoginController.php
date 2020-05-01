@@ -46,12 +46,18 @@ class LoginController extends Controller
         if (\Auth::attempt(['email' => $request->email,'password' => $request->password,'status' => 1])){
             $user = DB::table('users')->where('email',$request->email)->first();
             $role = DB::table('user_roles')->where('id',$user->role_id)->first();
-            if($role->id == 1 && $role->status == 1){
-                return redirect('/student-profile');
-            }if($role->id == 2 && $role->status == 1){
-                return redirect('/mentor-profile');
-            }else{
-                return redirect('/newhome');
+            if( $request->type == 1){
+                return redirect('mentors');
+            } else if( $request->type == 2){
+                return redirect('services');
+            } else {
+                if($role->id == 1 && $role->status == 1){
+                    return redirect('/student-profile');
+                }if($role->id == 2 && $role->status == 1){
+                    return redirect('/mentor-profile');
+                }else{
+                    return redirect('/newhome');
+                }
             }
           }else{
             return redirect('/student-signin')->with('error', 'Invalid Email address or Password or User Not Active');

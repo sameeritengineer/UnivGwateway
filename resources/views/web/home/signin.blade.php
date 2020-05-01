@@ -43,6 +43,7 @@
 
 
 						</div>
+						<input type="hidden" name="type" value="{{$type}}">
 						<div class="form_field_row display-grid-center">
 							<img class="margin-right-15" src="{{asset('web/images/Lock_passwordicon.png')}}" alt="" />
 							<!-- <input class="width-100-per form_field" type="password" name="login_password" placeholder="Password"> -->

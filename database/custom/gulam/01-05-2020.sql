@@ -1,0 +1,1 @@
+ALTER TABLE `mentors` ADD `image_ui` VARCHAR(255) NOT NULL AFTER `image`;

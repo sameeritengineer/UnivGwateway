@@ -39,7 +39,7 @@
           @endphp
       <div class="display-grid display-grid-order-define three_row_section">
         <div class="mentor-img-row width-50-per order-define" >
-          <img class="width-100-per mentor-img" src="{{asset('uploads/mentor/'.$mentor->image)}}" alt="" />
+          <img class="width-100-per mentor-img" src="{{asset('uploads/mentor/'.$mentor->image_ui)}}" alt="" />
         </div>
         <div class="mentors-content-row mentors-content-position width-50-per order-define">
           <h3 class="text-color-theme font-weight-600">{{$mentor->first_name}} {{$mentor->last_name}}</h3>
