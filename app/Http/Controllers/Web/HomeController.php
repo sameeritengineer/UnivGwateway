@@ -11,7 +11,7 @@ use App\MasterService;
 use App\Master_category;
 use App\Master_service_price;
 use App\Lead;
-use App\master_content;
+use App\Master_content;
 
 class HomeController extends BaseController
 {
@@ -74,7 +74,7 @@ class HomeController extends BaseController
 
     public function aboutus(){
         $data = []; 
-        $master_content = master_content::where('content_type','about-us')->get();
+        $master_content = Master_content::where('content_type','about-us')->get();
         $data['about'] = $master_content;
       return view('web.home.about-us',$data);
     }
