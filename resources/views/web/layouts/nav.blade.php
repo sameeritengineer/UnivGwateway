@@ -3,9 +3,9 @@
     <div class="mob-nav">
         <p class="close-btn"><i class="fa fa-close"></i></p>
         <ul>
-            <li><a href="index.php">Home</a></li>
-            <li><a href="about-us.php" target="top">About Us</a></li>
-            <li><a href="how-it-works.php">How it works</a></li>
+            <li><a href="{{route('web.home')}}">Home</a></li>
+            <li><a href="{{route('web.about-us')}}" target="top">About Us</a></li>
+            <li><a href="{{route('web.how-it-works')}}">How it works</a></li>
             <li><a href="mentors.php">Mentors</a></li>
             <li><a href="#">Services</a></li>
             <li><a href="contact.php" target="top">Contact Us</a></li>
@@ -19,13 +19,13 @@
         <div class="row">
             <div class="menu-nav col-xs-12 col-sm-12 col-md-12">
                 <div class="col-md-2 col-sm-2 col-xs-4 logo">
-                    <a href="index.php" alt=""><img src="{{asset('web/images/MAinlogo.png')}}" alt="logo" /></a>
+                    <a href="{{route('web.home')}}" alt=""><img src="{{asset('web/images/MAinlogo.png')}}" alt="logo" /></a>
                 </div>
                 <div class="col-md-8 col-sm-8 hidden-xs menu">
                     <ul class="navigation">
-                        <li style="border-left:0px;"><a href="index.php">Home</a></li>
-                        <li><a href="about-us.php">About Us</a></li>
-                        <li><a href="how-it-works.php">How it works</a></li>
+                        <li style="border-left:0px;"><a href="{{route('web.home')}}">Home</a></li>
+                        <li><a href="{{route('web.about-us')}}">About Us</a></li>
+                        <li><a href="{{route('web.how-it-works')}}">How it works</a></li>
                         <li><a href="#">Team</a></li>
                         <li class="about-menu"><a href="#">Services <i class="fa fa-angle-down"></i></a>
                             <ul class="sub-ul">

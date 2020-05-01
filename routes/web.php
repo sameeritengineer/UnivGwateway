@@ -61,7 +61,8 @@ Route::group([
    Route::get('mentors', 'MentorsController@showallmentors')->name('mentors');
    Route::get('contact-us', 'HomeController@contactus')->name('contact-us');
    Route::post('contact-us', 'HomeController@store')->name('contact-submit');
-
+   Route::get('how-it-works', 'HomeController@howitworks')->name('how-it-works');
+   Route::get('about-us', 'HomeController@aboutus')->name('about-us');
 });
 
 
@@ -110,6 +111,7 @@ Route::prefix('ug_admin')->group(function () {
   Route::post('delete-service-price', 'Admin\ServicesController@delete_service_price')->name('delete-service-price');
   Route::resource('category','Admin\CategoryController');
   Route::resource('lead','Admin\LeadController');
+  Route::resource('about-us','Admin\ContentController');
 });
 
 // Route::prefix('myadmin')->group(function() {
